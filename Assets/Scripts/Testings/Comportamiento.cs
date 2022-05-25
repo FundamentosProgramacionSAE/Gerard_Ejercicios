@@ -14,10 +14,12 @@ public class Comportamiento : MonoBehaviour
 
     public bool UseScale;
     public bool UseMove;
+    public bool UserRotation;
     public bool UseColor;
 
     private Vector3 _startPosition;
     private Vector3 _startScale;
+    private Vector3 _startRotation;
     private Material _material;
     private Transform Cube;
 
@@ -30,6 +32,7 @@ public class Comportamiento : MonoBehaviour
         
         _startPosition = Cube.position;
         _startScale = Cube.localScale;
+        _startRotation = Cube.localEulerAngles;
     }
 
     // Update is called once per frame
@@ -49,6 +52,12 @@ public class Comportamiento : MonoBehaviour
         if (UseMove)
         {
             Cube.position = _startPosition + Vector3.up * Extensions.BobbingAnimation(BobFrequency, BobbingAmount);
+        }
+
+        if (UserRotation)
+        {
+            Cube.localEulerAngles =
+                _startRotation + Vector3.up * Extensions.BobbingAnimation(BobFrequency, BobbingAmount);
         }
 
     }
