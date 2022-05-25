@@ -6,7 +6,7 @@ using UnityEngine;
 public class SphereAnimation : MonoBehaviour
 {
     public bool FinishAnimation;
-    
+
     private Animator _animator;
     private int _state;
     private void Start()
