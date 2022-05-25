@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 9b7ed3fc4a0883845acbfacc72d56d79
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - ItemData: {instanceID: 0}
+  - OnShowErrorFeedback: {instanceID: 0}
+  - TruequeButton: {instanceID: 0}
+  - ImageIcon: {instanceID: 0}
+  - SFXItem: {fileID: 8300000, guid: b0f9fbbd7b9d3f94b8c96f71de2d12ea, type: 3}
+  - SFXFull: {fileID: 8300000, guid: 351f0cc2b23e932458885364465d0615, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
