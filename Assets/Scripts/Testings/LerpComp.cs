@@ -9,9 +9,10 @@ public class LerpComp : MonoBehaviour
     public Transform EndPosition;
     public float Speed;
     
-    private bool Return = true;
+    private bool _return = true;
     private Vector3 _StartPosition;
-
+    private float _timer;
+    private float _curveTime;
 
     private void Start()
     {
@@ -25,19 +26,30 @@ public class LerpComp : MonoBehaviour
 
     private void LerpMovement()
     {
-        if (Return)
+        _timer += Time.deltaTime;
+        _curveTime = AnimationCurve.Evaluate(_timer * Speed);
+        
+        if (_return)
         {
             transform.position =
-                Vector3.Lerp(transform.position, EndPosition.position, AnimationCurve.Evaluate(Time.deltaTime * Speed));
+                Vector3.Lerp(transform.position, EndPosition.position, 1 * _curveTime);
 
-            if (Vector3.Distance(transform.position, EndPosition.position) < 0.5f) Return = false;
+            if (Vector3.Distance(transform.position, EndPosition.position) < 0.1f)
+            {
+                _timer = 0;
+                _return = false;
+            }
         }
         else
         {
             transform.position =
-                Vector3.Lerp(transform.position, _StartPosition, AnimationCurve.Evaluate(Time.deltaTime * Speed));
+                Vector3.Lerp(transform.position, _StartPosition, 1 * _curveTime);
 
-            if (Vector3.Distance(transform.position, _StartPosition) < 0.5f) Return = true;
+            if (Vector3.Distance(transform.position, _StartPosition) < 0.1f)
+            {
+                _timer = 0;
+                _return = true;
+            }
         }
     }
 }

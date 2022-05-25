@@ -45,13 +45,12 @@ public class Comportamiento : MonoBehaviour
 
         if (UseColor)
         {
-            //_material.color = Color.Lerp(StartColor, FinishColor, Extensions.BobbingAnimation(BobFrequency, BobbingAmount));
             _material.color = ColorFade.GetValueFromRatio(Extensions.BobbingAnimation(BobFrequency, BobbingAmount));
         }
 
         if (UseMove)
         {
-            Cube.position = _startPosition + Vector3.up * Extensions.BobbingAnimation(BobFrequency, BobbingAmount);
+            Cube.position = _startPosition + Vector3.forward * Extensions.BobbingAnimation(BobFrequency, BobbingAmount);
         }
 
         if (UserRotation)
