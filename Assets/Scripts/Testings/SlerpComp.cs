@@ -7,12 +7,12 @@ public class SlerpComp : MonoBehaviour
 {
     public AnimationCurve AnimationCurve;
     public Transform EndPosition;
-    public float Speed;
+    public float Duration;
     
     private bool _return = true;
     private Vector3 _startPosition;
-    private float _timer;
-    private float _curveTime;
+    private float _evaluate;
+
 
     private void Start()
     {
@@ -26,30 +26,30 @@ public class SlerpComp : MonoBehaviour
 
     private void LerpMovement()
     {
-        _timer += Time.deltaTime;
-        _curveTime = AnimationCurve.Evaluate(_timer * Speed);
-        
+        _evaluate += Time.deltaTime / Duration;
         if (_return)
         {
             transform.position =
-                Vector3.Slerp(transform.position, EndPosition.position, Mathf.InverseLerp(0,1,_curveTime));
+                Vector3.Slerp(_startPosition, EndPosition.position, AnimationCurve.Evaluate(_evaluate));
 
-            if (Vector3.Distance(transform.position, EndPosition.position) < 0.1f)
-            {
-                _timer = 0;
-                _return = false;
-            }
+            CompareEvaluation(false);
         }
         else
         {
             transform.position =
-                Vector3.Slerp(transform.position, _startPosition, Mathf.InverseLerp(0,1,_curveTime));
+                Vector3.Slerp(EndPosition.position, _startPosition, AnimationCurve.Evaluate(_evaluate));
 
-            if (Vector3.Distance(transform.position, _startPosition) < 0.1f)
-            {
-                _timer = 0;
-                _return = true;
-            }
+            CompareEvaluation(true);
+        }
+    }
+
+
+    private void CompareEvaluation(bool _isReturn)
+    {
+        if (_evaluate > 1f)
+        {
+            _evaluate = 0;
+            _return = _isReturn;
         }
     }
 }
