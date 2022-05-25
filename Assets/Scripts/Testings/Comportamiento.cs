@@ -10,10 +10,8 @@ public class Comportamiento : MonoBehaviour
     [Header("BOBBING ANIMATION")]
     public float BobFrequency; //Velocidad
     public float BobbingAmount; //Unidades para mover
+    public MinMaxColor ColorFade;
 
-    public Color StartColor;
-    public Color FinishColor;
-    public Transform Cube;
     public bool UseScale;
     public bool UseMove;
     public bool UseColor;
@@ -21,7 +19,7 @@ public class Comportamiento : MonoBehaviour
     private Vector3 _startPosition;
     private Vector3 _startScale;
     private Material _material;
-
+    private Transform Cube;
 
     private void Start()
     {
@@ -44,7 +42,8 @@ public class Comportamiento : MonoBehaviour
 
         if (UseColor)
         {
-            _material.color = Color.Lerp(StartColor, FinishColor, Extensions.BobbingAnimation(BobFrequency, BobbingAmount));
+            //_material.color = Color.Lerp(StartColor, FinishColor, Extensions.BobbingAnimation(BobFrequency, BobbingAmount));
+            _material.color = ColorFade.GetValueFromRatio(Extensions.BobbingAnimation(BobFrequency, BobbingAmount));
         }
 
         if (UseMove)

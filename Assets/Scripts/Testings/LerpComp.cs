@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlerpComp : MonoBehaviour
+public class LerpComp : MonoBehaviour
 {
     public AnimationCurve AnimationCurve;
     public Transform EndPosition;
@@ -20,22 +20,22 @@ public class SlerpComp : MonoBehaviour
 
     private void Update()
     {
-        SlerpMovement();
+        LerpMovement();
     }
 
-    private void SlerpMovement()
+    private void LerpMovement()
     {
         if (Return)
         {
             transform.position =
-                Vector3.Slerp(transform.position, EndPosition.position, AnimationCurve.Evaluate(Time.deltaTime * Speed));
+                Vector3.Lerp(transform.position, EndPosition.position, AnimationCurve.Evaluate(Time.deltaTime * Speed));
 
             if (Vector3.Distance(transform.position, EndPosition.position) < 0.5f) Return = false;
         }
         else
         {
             transform.position =
-                Vector3.Slerp(transform.position, _StartPosition, AnimationCurve.Evaluate(Time.deltaTime * Speed));
+                Vector3.Lerp(transform.position, _StartPosition, AnimationCurve.Evaluate(Time.deltaTime * Speed));
 
             if (Vector3.Distance(transform.position, _StartPosition) < 0.5f) Return = true;
         }
