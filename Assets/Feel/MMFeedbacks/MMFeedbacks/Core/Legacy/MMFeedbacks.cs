@@ -56,14 +56,6 @@ namespace MoreMountains.Feedbacks
         /// whether or not to play this feedbacks automatically on Enable
         [Tooltip("whether or not to play this feedbacks automatically on Enable")]
         public bool AutoPlayOnEnable = false;
-
-        /// if this is true, all feedbacks within that player will work on the specified ForcedTimescaleMode, regardless of their individual settings 
-        [Tooltip("if this is true, all feedbacks within that player will work on the specified ForcedTimescaleMode, regardless of their individual settings")] 
-        public bool ForceTimescaleMode = false;
-        /// the time scale mode all feedbacks on this player should work on, if ForceTimescaleMode is true
-        [Tooltip("the time scale mode all feedbacks on this player should work on, if ForceTimescaleMode is true")] 
-        [MMFCondition("ForceTimescaleMode", true)]
-        public TimescaleModes ForcedTimescaleMode = TimescaleModes.Unscaled;
         /// a time multiplier that will be applied to all feedback durations (initial delay, duration, delay between repeats...)
         [Tooltip("a time multiplier that will be applied to all feedback durations (initial delay, duration, delay between repeats...)")]
         public float DurationMultiplier = 1f;

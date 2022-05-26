@@ -247,17 +247,6 @@ namespace MoreMountains.Tools
         {
             return a = a - (a % 0.5f);
         }
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="direction"></param>
-        /// <returns></returns>
-        public static Quaternion LookAt2D(Vector2 direction)
-        {
-	        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-	        return Quaternion.AngleAxis(angle, Vector3.forward);
-        }
 
         /// <summary>
         /// Takes a Vector3 and turns it into a Vector2

@@ -94,6 +94,15 @@ namespace MoreMountains.Feel
 
         protected virtual void SetTrails(bool status)
         {
+            /*if (!status)
+            {
+                _trailTime = Trails[0].time;
+            }
+            foreach (TrailRenderer trail in Trails)
+            {
+                trail.time = status ? _trailTime : 0f;
+                MMDebug.DebugLogTime("setting time to "+trail.time);
+            }*/
             foreach (TrailRenderer trail in Trails)
             {
                 trail.Clear();

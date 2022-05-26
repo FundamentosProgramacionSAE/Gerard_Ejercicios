@@ -26,10 +26,9 @@ namespace MoreMountains.Feedbacks
 
         /// the possible ways to load a new scene :
         /// - direct : uses Unity's SceneManager API
-        /// - direct additive : uses Unity's SceneManager API, but with additive mode (so loading the scene on top of the current one)
         /// - MMSceneLoadingManager : the simple, original MM way of loading scenes
         /// - MMAdditiveSceneLoadingManager : a more advanced way of loading scenes, with (way) more options
-        public enum LoadingModes { Direct, MMSceneLoadingManager, MMAdditiveSceneLoadingManager, DirectAdditive }
+        public enum LoadingModes { Direct, MMSceneLoadingManager, MMAdditiveSceneLoadingManager }
 
         [MMFInspectorGroup("Scene Loading", true, 57, true)]
         /// the name of the loading screen scene to use
@@ -105,9 +104,6 @@ namespace MoreMountains.Feedbacks
                 case LoadingModes.Direct:
                     SceneManager.LoadScene(DestinationSceneName);
                     break;
-                case LoadingModes.DirectAdditive:
-					SceneManager.LoadScene(DestinationSceneName, LoadSceneMode.Additive);
-					break;
                 case LoadingModes.MMSceneLoadingManager:
                     MMSceneLoadingManager.LoadScene(DestinationSceneName, LoadingSceneName);
                     break;

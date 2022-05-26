@@ -64,9 +64,6 @@ namespace MoreMountains.Feedbacks
         [Tooltip("the alpha to aim towards when in ToDestination mode")]
         [MMFEnumCondition("Mode", (int)Modes.ToDestination)]
         public float DestinationAlpha = 1f;
-        /// if this is true, the target will be disabled when this feedbacks is stopped
-        [Tooltip("if this is true, the target will be disabled when this feedbacks is stopped")] 
-        public bool DisableOnStop = true;
 
         /// the duration of this feedback is the duration of the Image, or 0 if instant
         public override float FeedbackDuration { get { return (Mode == Modes.Instant) ? 0f : ApplyTimeMultiplier(Duration); } set { Duration = value; } }
@@ -173,11 +170,7 @@ namespace MoreMountains.Feedbacks
             }
             IsPlaying = false;
             base.CustomStopFeedback(position, feedbacksIntensity);
-            if (Active && DisableOnStop)
-            {
-	            Turn(false);    
-            }
-            _coroutine = null;
+            Turn(false);
         }
 
         /// <summary>

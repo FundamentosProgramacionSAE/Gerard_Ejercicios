@@ -43,28 +43,5 @@ namespace MoreMountains.Tools
 
 			return false;
 		}
-		
-		/// <summary>
-		/// Creates a texture of the specified size and color
-		/// </summary>
-		/// <param name="width"></param>
-		/// <param name="height"></param>
-		/// <param name="color"></param>
-		/// <returns></returns>
-		public static Texture2D MakeTex(int width, int height, Color color)
-		{
-			Color[] pixelColors = new Color[width * height];
-
-			for (int i = 0; i < pixelColors.Length; i++)
-			{
-				pixelColors[i] = color;
-			}
-
-			Texture2D newTexture = new Texture2D(width, height);
-			newTexture.SetPixels(pixelColors);
-			newTexture.Apply();
- 
-			return newTexture;
-		}
 	}
 }

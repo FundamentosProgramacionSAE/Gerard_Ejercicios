@@ -105,12 +105,8 @@ namespace MoreMountains.Feedbacks
 	    /// the channel to broadcast this shake on
 	    [Tooltip("the channel to broadcast this shake on")]
         public int Channel = 0;
-	    /// a cooldown, in seconds, after a shake, during which no other shake can start
-	    [Tooltip("a cooldown, in seconds, after a shake, during which no other shake can start")]
-	    public float CooldownBetweenShakes = 0f;
 	    
         protected MMWiggle _wiggle;
-        protected float _shakeStartedTimestamp = -Single.MaxValue;
 
 		/// <summary>
 		/// On Awake, grabs the MMShaker component
@@ -128,11 +124,6 @@ namespace MoreMountains.Feedbacks
 		/// <param name="frequency">Frequency.</param>
 		public virtual void ShakeCamera(float duration, float amplitude, float frequency, float amplitudeX, float amplitudeY, float amplitudeZ, bool useUnscaledTime)
 		{
-			if (Time.time - _shakeStartedTimestamp < CooldownBetweenShakes)
-			{
-				return;
-			}
-			
             if ((amplitudeX != 0f) || (amplitudeY != 0f) || (amplitudeZ != 0f))
             {
                 _wiggle.PositionWiggleProperties.AmplitudeMin.x = -amplitudeX;
@@ -148,8 +139,7 @@ namespace MoreMountains.Feedbacks
                 _wiggle.PositionWiggleProperties.AmplitudeMin = Vector3.one * -amplitude;
                 _wiggle.PositionWiggleProperties.AmplitudeMax = Vector3.one * amplitude;
             }
-
-            _shakeStartedTimestamp = Time.time;
+            
             _wiggle.PositionWiggleProperties.UseUnscaledTime = useUnscaledTime;
             _wiggle.PositionWiggleProperties.FrequencyMin = frequency;
             _wiggle.PositionWiggleProperties.FrequencyMax = frequency;

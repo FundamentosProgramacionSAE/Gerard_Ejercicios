@@ -1,8 +1,7 @@
-﻿using UnityEngine;
+﻿#if MOREMOUNTAINS_NICEVIBRATIONS_INSTALLED
+using UnityEngine;
 using MoreMountains.Feedbacks;
-#if MOREMOUNTAINS_NICEVIBRATIONS_INSTALLED
 using Lofelt.NiceVibrations;
-#endif
 
 namespace MoreMountains.FeedbacksForThirdParty
 {
@@ -10,13 +9,10 @@ namespace MoreMountains.FeedbacksForThirdParty
     /// Add this feedback to interact with haptics at a global level, stopping them all, enabling or disabling them, adjusting their global level or initializing/release the haptic engine
     /// </summary>
     [AddComponentMenu("")]
-	#if MOREMOUNTAINS_NICEVIBRATIONS_INSTALLED
     [FeedbackPath("Haptics/Haptic Control")]
-	#endif
     [FeedbackHelp("Add this feedback to interact with haptics at a global level, stopping them all, enabling or disabling them, adjusting their global level or initializing/release the haptic engine.")]
     public class MMFeedbackNVControl : MMFeedback
     {
-		#if MOREMOUNTAINS_NICEVIBRATIONS_INSTALLED
         /// a static bool used to disable all feedbacks of this type at once
         public static bool FeedbackTypeAuthorized = true;
         #if UNITY_EDITOR
@@ -69,8 +65,6 @@ namespace MoreMountains.FeedbacksForThirdParty
                     break;
             }
         }
-		#else
-		protected override void CustomPlayFeedback(Vector3 position, float feedbacksIntensity = 1.0f) { }
-		#endif
     }    
 }
+#endif

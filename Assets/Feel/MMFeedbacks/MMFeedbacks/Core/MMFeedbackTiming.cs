@@ -51,8 +51,8 @@ namespace MoreMountains.Feedbacks
         /// if this is true, the feedback will be repeated forever
         [Tooltip("if this is true, the feedback will be repeated forever")]
         public bool RepeatForever = false;
-        /// the delay (in seconds) between two firings of this feedback. This doesn't include the duration of the feedback. 
-        [Tooltip("the delay (in seconds) between two firings of this feedback. This doesn't include the duration of the feedback.")]
+        /// the delay (in seconds) between repeats
+        [Tooltip("the delay (in seconds) between repeats")]
         public float DelayBetweenRepeats = 1f;
 
         [Header("Play Direction")]

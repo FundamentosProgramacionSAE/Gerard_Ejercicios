@@ -28,26 +28,4 @@ namespace MoreMountains.Tools
             MMEventManager.TriggerEvent(e);
         }
     }
-	
-	public struct MMAchievementChangedEvent
-	{
-		/// the achievement that has been unlocked
-		public MMAchievement Achievement;
-
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="newAchievement">New achievement.</param>
-		public MMAchievementChangedEvent(MMAchievement newAchievement)
-		{
-			Achievement = newAchievement;
-        }
-
-        static MMAchievementChangedEvent e;
-        public static void Trigger(MMAchievement newAchievement)
-        {
-            e.Achievement = newAchievement;
-            MMEventManager.TriggerEvent(e);
-        }
-    }
 }

@@ -133,7 +133,7 @@ namespace MoreMountains.Feedbacks
         /// <param name="feedbacksIntensity"></param>
         protected override void CustomPlayFeedback(Vector3 position, float feedbacksIntensity = 1.0f)
         {
-	        if (!Active || !FeedbackTypeAuthorized || (AnimateRotationTarget == null))
+            if (!Active || !FeedbackTypeAuthorized || (AnimateRotationTarget == null))
             {
                 return;
             }
@@ -349,7 +349,7 @@ namespace MoreMountains.Feedbacks
         /// <summary>
         /// On disable we reset our coroutine
         /// </summary>
-        public override void OnDisable()
+        protected virtual void OnDisable()
         {
             _coroutine = null;
         }

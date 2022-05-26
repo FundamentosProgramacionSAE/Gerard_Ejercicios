@@ -20,25 +20,16 @@ namespace MoreMountains.Tools
 
 	    /// the actual object pool
 		protected List<GameObject> _pooledGameObjects;
-	    
-	    public List<MMSimpleObjectPooler> Owner { get; set; }
-	    private void OnDestroy() { Owner?.Remove(this); }
 
 	    /// <summary>
 	    /// Fills the object pool with the gameobject type you've specified in the inspector
 	    /// </summary>
 	    public override void FillObjectPool()
 	    {
-		    if (GameObjectToPool == null)
+            if (GameObjectToPool == null)
             {
                 return;
             }
-
-		    // if we've already created a pool, we exit
-		    if ((_objectPool != null) && (_objectPool.PooledGameObjects.Count > PoolSize))
-		    {
-			    return;
-		    }
 
 			CreateWaitingPool ();
 
@@ -104,9 +95,9 @@ namespace MoreMountains.Tools
 				Debug.LogWarning("The "+gameObject.name+" ObjectPooler doesn't have any GameObjectToPool defined.", gameObject);
 				return null;
 			}
-			GameObjectToPool.SetActive(false);
 			GameObject newGameObject = (GameObject)Instantiate(GameObjectToPool);
 			SceneManager.MoveGameObjectToScene(newGameObject, this.gameObject.scene);
+			newGameObject.gameObject.SetActive(false);
 			if (NestWaitingPool)
 			{
 				newGameObject.transform.SetParent(_waitingPool.transform);	

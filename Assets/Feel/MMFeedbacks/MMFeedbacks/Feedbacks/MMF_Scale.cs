@@ -77,9 +77,6 @@ namespace MoreMountains.Feedbacks
         [Tooltip("the z scale animation definition")]
         [MMFCondition("AnimateZ", true)]
         public AnimationCurve AnimateScaleZ = new AnimationCurve(new Keyframe(0, 0), new Keyframe(0.3f, 1.5f), new Keyframe(1, 0));
-        /// if this is true, the AnimateX curve only will be used, and applied to all axis
-        [Tooltip("if this is true, the AnimateX curve only will be used, and applied to all axis")] 
-        public bool UniformScaling = false;
         /// if this is true, calling that feedback will trigger it, even if it's in progress. If it's false, it'll prevent any new Play until the current one is over
         [Tooltip("if this is true, calling that feedback will trigger it, even if it's in progress. If it's false, it'll prevent any new Play until the current one is over")] 
         public bool AllowAdditivePlays = false;
@@ -205,12 +202,6 @@ namespace MoreMountains.Feedbacks
                     _newScale.z = Mathf.LerpUnclamped(_initialScale.z, DestinationScale.z, AnimateScaleZ.Evaluate(percent) + Offset);
                     _newScale.z = MMFeedbacksHelpers.Remap(_newScale.z, 0f, 1f, RemapCurveZero, RemapCurveOne);    
                 }
-
-                if (UniformScaling)
-                {
-	                _newScale.y = _newScale.x;
-	                _newScale.z = _newScale.x;
-                }
                 
                 AnimateScaleTarget.localScale = _newScale;
 
@@ -302,13 +293,6 @@ namespace MoreMountains.Feedbacks
                 {
                     vector.z = targetTransform.localScale.z;
                 }
-
-                if (UniformScaling)
-                {
-	                vector.y = vector.x;
-	                vector.z = vector.x;
-                }
-                
                 targetTransform.localScale = vector;
 
                 journey += NormalPlayDirection ? FeedbackDeltaTime : -FeedbackDeltaTime;
@@ -359,12 +343,6 @@ namespace MoreMountains.Feedbacks
             {
                 vector.z = targetTransform.localScale.z;
             }
-
-            if (UniformScaling)
-            {
-	            vector.y = vector.x;
-	            vector.z = vector.x;
-            }
             
             targetTransform.localScale = vector;
             _coroutine = null;
@@ -391,7 +369,7 @@ namespace MoreMountains.Feedbacks
         /// <summary>
         /// On disable we reset our coroutine
         /// </summary>
-        public override void OnDisable()
+        protected virtual void OnDisable()
         {
             _coroutine = null;
         }

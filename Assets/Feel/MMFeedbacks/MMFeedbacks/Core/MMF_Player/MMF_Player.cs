@@ -301,12 +301,6 @@ namespace MoreMountains.Feedbacks
             _lastStartAt = _startTime;
             _totalDuration = TotalDuration;
             
-            if (Time.frameCount < 2)
-            {
-	            StartCoroutine(FrameOnePlayCo(position, feedbacksIntensity, forceRevert));
-	            return;
-            }
-
             if (InitialDelay > 0f)
             {
                 StartCoroutine(HandleInitialDelayCo(position, feedbacksIntensity, forceRevert));
@@ -315,16 +309,6 @@ namespace MoreMountains.Feedbacks
             {
                 PreparePlay(position, feedbacksIntensity, forceRevert);
             }
-        }
-        
-        protected virtual IEnumerator FrameOnePlayCo(Vector3 position, float feedbacksIntensity, bool forceRevert = false)
-        {
-	        yield return null;
-	        _startTime = Time.unscaledTime;
-	        _lastStartAt = _startTime;
-	        IsPlaying = true;
-	        yield return MMFeedbacksCoroutine.WaitForUnscaled(InitialDelay);
-	        PreparePlay(position, feedbacksIntensity, forceRevert);
         }
 
         protected override void PreparePlay(Vector3 position, float feedbacksIntensity, bool forceRevert = false)
@@ -378,7 +362,7 @@ namespace MoreMountains.Feedbacks
         protected override IEnumerator HandleInitialDelayCo(Vector3 position, float feedbacksIntensity, bool forceRevert = false)
         {
             IsPlaying = true;
-            yield return MMFeedbacksCoroutine.WaitForUnscaled(InitialDelay);
+            yield return MMFeedbacksCoroutine.WaitFor(InitialDelay);
             PreparePlay(position, feedbacksIntensity, forceRevert);
         }
         
@@ -514,11 +498,6 @@ namespace MoreMountains.Feedbacks
                     && (FeedbacksList[i].ShouldPlayInThisSequenceDirection)
                     && (((FeedbacksList[i] as MMF_Looper).NumberOfLoopsLeft > 0) || (FeedbacksList[i] as MMF_Looper).InInfiniteLoop))
                 {
-	                while (HasFeedbackStillPlaying())
-	                {
-		                yield return null;
-	                }
-	                
                     // we determine the index we should start again at
                     bool loopAtLastPause = (FeedbacksList[i] as MMF_Looper).LoopAtLastPause;
                     bool loopAtLastLoopStart = (FeedbacksList[i] as MMF_Looper).LoopAtLastLoopStart;
@@ -752,7 +731,7 @@ namespace MoreMountains.Feedbacks
             int count = FeedbacksList.Count;
             for (int i = 0; i < count; i++)
             {
-                if (FeedbacksList[i].IsPlaying && !FeedbacksList[i].Timing.ExcludeFromHoldingPauses)
+                if (FeedbacksList[i].IsPlaying)
                 {
                     return true;
                 }
@@ -935,15 +914,11 @@ namespace MoreMountains.Feedbacks
         /// </summary>
         protected override void OnDisable()
         {
-            if (IsPlaying)
+            /*if (IsPlaying)
             {
                 StopFeedbacks();
                 StopAllCoroutines();
-                for (int i = FeedbacksList.Count - 1; i >= 0; i--)
-                {
-	                FeedbacksList[i].OnDisable();
-                }
-            }
+            }*/
         }
 
         /// <summary>
@@ -966,18 +941,10 @@ namespace MoreMountains.Feedbacks
             
             DurationMultiplier = Mathf.Clamp(DurationMultiplier, 0f, Single.MaxValue);
             
-            for (int i = FeedbacksList.Count - 1; i >= 0; i--)
+            foreach (MMF_Feedback feedback in FeedbacksList)
             {
-	            if (FeedbacksList[i] == null)
-	            {
-		            FeedbacksList.RemoveAt(i);
-	            }
-	            else
-	            {
-		            FeedbacksList[i].Owner = this;
-		            FeedbacksList[i].CacheRequiresSetup();
-		            FeedbacksList[i].OnValidate();	
-	            }
+                feedback.CacheRequiresSetup();
+                feedback.OnValidate();
             }
         }
 

@@ -11,21 +11,15 @@ namespace MoreMountains.FeedbacksForThirdParty
     /// <summary>
     /// Add this feedback to be able to trigger haptic feedbacks via the NiceVibration library.
     /// It'll let you create transient or continuous vibrations, play presets or advanced patterns via AHAP files, and stop any vibration at any time
-    /// This feedback has been deprecated, and is just here to avoid errors in case you were to update from an old version. Use the new haptic feedbacks instead.
     /// </summary>
     [AddComponentMenu("")]
-    [FeedbackPath("Haptics/Haptics DEPRECATED!")]
+    [FeedbackPath("Haptics")]
     [FeedbackHelp("This feedback has been deprecated, and is just here to avoid errors in case you were to update from an old version. Use the new haptic feedbacks instead.")]
     public class MMFeedbackHaptics : MMFeedback
     {
         /// a static bool used to disable all feedbacks of this type at once
         public static bool FeedbackTypeAuthorized = true;
-        #if UNITY_EDITOR
-        public override Color FeedbackColor { get { return MMFeedbacksInspectorColors.HapticsColor; } }
-        #endif
-        
-        public enum HapticTypes { Selection, Success, Warning, Failure, LightImpact, MediumImpact, HeavyImpact, RigidImpact, SoftImpact, None }
-        
+        /*
         /// the possible haptic methods for this feedback
         public enum HapticMethods { NativePreset, Transient, Continuous, AdvancedPattern, Stop, AdvancedTransient, AdvancedContinuous }
         /// the timescale to operate on
@@ -139,25 +133,25 @@ namespace MoreMountains.FeedbacksForThirdParty
         [MMFEnumCondition("HapticMethod", (int)HapticMethods.AdvancedPattern)]
         public bool APVibrateAndroidIfNoSupport = false;
         /// the WaveFormFile to use to trigger a pattern on Android
-        //[Tooltip("the WaveFormFile to use to trigger a pattern on Android")]
-        //[MMFEnumCondition("HapticMethod", (int)HapticMethods.AdvancedPattern)]
-        //public MMNVAndroidWaveFormAsset AndroidWaveFormFile;
+        [Tooltip("the WaveFormFile to use to trigger a pattern on Android")]
+        [MMFEnumCondition("HapticMethod", (int)HapticMethods.AdvancedPattern)]
+        public MMNVAndroidWaveFormAsset AndroidWaveFormFile;
 
         /// whether or not to trigger advanced patterns on rumble
         [Tooltip("whether or not to trigger advanced patterns on rumble")]
         [MMFEnumCondition("HapticMethod", (int)HapticMethods.AdvancedPattern)]
         public bool APRumble = true;
         /// the file to use to trigger a rumble on gamepad
-        //[Tooltip("the file to use to trigger a rumble on gamepad")]
-        //[MMNVEnumCondition("HapticMethod", (int)HapticMethods.AdvancedPattern)]
-        //public MMNVRumbleWaveFormAsset RumbleWaveFormFile;
+        [Tooltip("the file to use to trigger a rumble on gamepad")]
+        [MMNVEnumCondition("HapticMethod", (int)HapticMethods.AdvancedPattern)]
+        public MMNVRumbleWaveFormAsset RumbleWaveFormFile;
         /// the amount of times this should repeat on Android (-1 : zero, 0 : infinite, 1 : one time, 2 : twice, etc)
         [Tooltip("the amount of times this should repeat on Android (-1 : zero, 0 : infinite, 1 : one time, 2 : twice, etc)")]
         [MMFEnumCondition("HapticMethod", (int)HapticMethods.AdvancedPattern)]
         public int AndroidRepeat = -1;
         /// the amount of times this should repeat on gamepad
-        //[Tooltip("the amount of times this should repeat on gamepad")]
-        //[MMNVEnumCondition("HapticMethod", (int)HapticMethods.AdvancedPattern)]
+        [Tooltip("the amount of times this should repeat on gamepad")]
+        [MMNVEnumCondition("HapticMethod", (int)HapticMethods.AdvancedPattern)]
         public int RumbleRepeat = -1;
         /// a haptic type to play on older iOS APIs (prior to iOS 13)
         [Tooltip("a haptic type to play on older iOS APIs (prior to iOS 13)")]
@@ -177,12 +171,8 @@ namespace MoreMountains.FeedbacksForThirdParty
         [Tooltip("the ID of the controller to rumble (-1 : auto/current, 0 : first controller, 1 : second controller, etc)")]
         public int ControllerID = -1;
 
-        [Header("Deprecated Feedback")] 
-        /// if this is true, this feedback will output a warning when played
-        public bool OutputDeprecationWarning = true;
-
         protected static bool _continuousPlaying = false;
-        protected static float _continuousStartedAt = 0f;
+        protected static float _continuousStartedAt = 0f;*/
 
         /// <summary>
         /// When this feedback gets played
@@ -194,11 +184,6 @@ namespace MoreMountains.FeedbacksForThirdParty
             if (!Active || !FeedbackTypeAuthorized)
             {
                 return;
-            }
-
-            if (OutputDeprecationWarning)
-            {
-	            Debug.LogWarning(this.name + " : the haptic feedback on this object is using the old version of Nice Vibrations, and won't work anymore. Replace it with any of the new haptic feedbacks.");
             }
 
             /*switch (HapticMethod)

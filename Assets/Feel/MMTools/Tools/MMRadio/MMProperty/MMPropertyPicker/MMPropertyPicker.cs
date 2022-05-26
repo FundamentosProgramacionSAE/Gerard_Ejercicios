@@ -117,14 +117,5 @@ namespace MoreMountains.Tools
                 return;
             }
         }
-
-        /// <summary>
-        /// Returns the raw value of the target property
-        /// </summary>
-        /// <returns></returns>
-        public virtual object GetRawValue()
-        {
-	        return _propertySetter.GetPropertyValue(_targetMMProperty);
-        }
     }
 }

@@ -78,9 +78,6 @@ namespace MoreMountains.Feedbacks
         [Tooltip("the color to move to in instant mode")]
         [MMFEnumCondition("Mode", (int)Modes.Instant, (int)Modes.ShakerEvent)]
         public Color InstantColor;
-        /// if this is true, the target will be disabled when this feedbacks is stopped
-        [Tooltip("if this is true, the target will be disabled when this feedbacks is stopped")] 
-        public bool DisableOnStop = true;
 
         protected Coroutine _coroutine;
 
@@ -196,11 +193,7 @@ namespace MoreMountains.Feedbacks
             }
             IsPlaying = false;
             base.CustomStopFeedback(position, feedbacksIntensity);
-            if (Active && DisableOnStop)
-            {
-	            Turn(false);    
-            }
-            _coroutine = null;
+            Turn(false);
         }
 
         /// <summary>

@@ -520,7 +520,7 @@ namespace MoreMountains.Tools
             }
         }
 
-        public virtual void PlayAtIndex(int songIndex)
+        public virtual void Play(int songIndex)
         {
 	        _coroutine = StartCoroutine(PlaySong(songIndex));
         }
@@ -577,7 +577,7 @@ namespace MoreMountains.Tools
         protected virtual void PlayTargetSong()
         {
 	        int newIndex = Mathf.Clamp(TargetSongIndex, 0, Songs.Count - 1);
-	        PlayAtIndex(newIndex);
+	        Play(newIndex);
         }
 
         protected virtual void OnPlayEvent(int channel)

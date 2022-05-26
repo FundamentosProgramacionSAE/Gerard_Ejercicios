@@ -43,9 +43,6 @@ namespace MoreMountains.Feedbacks
         /// if this is true, the particle system's object will be set active on play
         [Tooltip("if this is true, the particle system's object will be set active on play")]
         public bool ActivateOnPlay = false;
-        /// if this is true, the particle system will be stopped on initialization
-        [Tooltip("if this is true, the particle system will be stopped on initialization")]
-        public bool StopSystemOnInit = true;
 
         /// <summary>
         /// On init we stop our particle system
@@ -54,10 +51,7 @@ namespace MoreMountains.Feedbacks
         protected override void CustomInitialization(MMF_Player owner)
         {
             base.CustomInitialization(owner);
-            if (StopSystemOnInit)
-            {
-	            StopParticles();
-            }
+            StopParticles();
         }
 
         /// <summary>

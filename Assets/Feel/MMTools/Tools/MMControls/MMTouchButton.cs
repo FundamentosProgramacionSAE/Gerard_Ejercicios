@@ -15,11 +15,7 @@ namespace MoreMountains.Tools
     [RequireComponent(typeof(CanvasGroup))]
     [AddComponentMenu("More Mountains/Tools/Controls/MMTouchButton")]
     public class MMTouchButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler, IPointerEnterHandler, ISubmitHandler
-    {
-	    [Header("Interaction")] 
-	    /// whether or not this button can be interacted with
-	    public bool Interactable = true;
-		
+	{
 		/// The different possible states for the button : 
 		/// Off (default idle state), ButtonDown (button pressed for the first time), ButtonPressed (button being pressed), ButtonUp (button being released), Disabled (unclickable but still present on screen)
 		/// ButtonDown and ButtonUp will only last one frame, the others will last however long you press them / disable them / do nothing
@@ -222,11 +218,6 @@ namespace MoreMountains.Tools
 		/// </summary>
 		public virtual void OnPointerDown(PointerEventData data)
 		{
-			if (!Interactable)
-			{
-				return;
-			}
-			
 			if (Time.time - _lastClickTimestamp < BufferDuration)
 			{
 				return;
@@ -262,10 +253,6 @@ namespace MoreMountains.Tools
 		/// </summary>
 		public virtual void OnPointerUp(PointerEventData data)
 		{
-			if (!Interactable)
-			{
-				return;
-			}
 			if (CurrentState != ButtonStates.ButtonPressed && CurrentState != ButtonStates.ButtonDown)
 			{
 				return;
@@ -296,10 +283,6 @@ namespace MoreMountains.Tools
 		/// </summary>
 		public virtual void OnPointerPressed()
 		{
-			if (!Interactable)
-			{
-				return;
-			}
 			CurrentState = ButtonStates.ButtonPressed;
 			if (ButtonPressed != null)
 			{
@@ -321,10 +304,6 @@ namespace MoreMountains.Tools
 		/// </summary>
 		public virtual void OnPointerEnter(PointerEventData data)
 		{
-			if (!Interactable)
-			{
-				return;
-			}
 			if (!MouseMode)
 			{
 				OnPointerDown (data);
@@ -336,10 +315,6 @@ namespace MoreMountains.Tools
 		/// </summary>
 		public virtual void OnPointerExit(PointerEventData data)
 		{
-			if (!Interactable)
-			{
-				return;
-			}
 			if (!MouseMode)
 			{
 				OnPointerUp(data);	

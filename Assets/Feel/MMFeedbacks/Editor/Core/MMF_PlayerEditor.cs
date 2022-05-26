@@ -30,8 +30,6 @@ namespace MoreMountains.Feedbacks
         protected SerializedProperty _mmfeedbacksFeedbacksIntensity;
         protected SerializedProperty _mmfeedbacksAutoChangeDirectionOnEnd;
         protected SerializedProperty _mmfeedbacksDurationMultiplier;
-        protected SerializedProperty _mmfeedbacksForceTimescaleMode;
-        protected SerializedProperty _mmfeedbacksForcedTimescaleMode;
         protected SerializedProperty _mmfeedbacksDisplayFullDurationDetails;
         protected SerializedProperty _mmfeedbacksCooldownDuration;
         protected SerializedProperty _mmfeedbacksInitialDelay;
@@ -165,8 +163,6 @@ namespace MoreMountains.Feedbacks
             _mmfeedbacksDirection = serializedObject.FindProperty("Direction");
             _mmfeedbacksAutoChangeDirectionOnEnd = serializedObject.FindProperty("AutoChangeDirectionOnEnd");
             _mmfeedbacksDurationMultiplier = serializedObject.FindProperty("DurationMultiplier");
-            _mmfeedbacksForceTimescaleMode = serializedObject.FindProperty("ForceTimescaleMode");
-            _mmfeedbacksForcedTimescaleMode = serializedObject.FindProperty("ForcedTimescaleMode");
             _mmfeedbacksDisplayFullDurationDetails = serializedObject.FindProperty("DisplayFullDurationDetails");
             _mmfeedbacksCooldownDuration = serializedObject.FindProperty("CooldownDuration");
             _mmfeedbacksInitialDelay = serializedObject.FindProperty("InitialDelay");
@@ -215,7 +211,7 @@ namespace MoreMountains.Feedbacks
 		        FeedbackTypePair _newType = new FeedbackTypePair();
 		        _newType.FeedbackType = types[i];
 		        _newType.FeedbackName = FeedbackPathAttribute.GetFeedbackDefaultPath(types[i]);
-		        if ((_newType.FeedbackName == "MMF_FeedbackBase") || (_newType.FeedbackName == null))
+		        if (_newType.FeedbackName == "MMF_FeedbackBase")
 		        {
 			        continue;
 		        }
@@ -347,8 +343,6 @@ namespace MoreMountains.Feedbacks
                 
                 EditorGUILayout.Space(10);
                 EditorGUILayout.LabelField(_timingText, EditorStyles.boldLabel);
-                EditorGUILayout.PropertyField(_mmfeedbacksForceTimescaleMode);
-                EditorGUILayout.PropertyField(_mmfeedbacksForcedTimescaleMode);
                 EditorGUILayout.PropertyField(_mmfeedbacksDurationMultiplier);
                 EditorGUILayout.PropertyField(_mmfeedbacksDisplayFullDurationDetails);
                 EditorGUILayout.PropertyField(_mmfeedbacksCooldownDuration);
@@ -530,7 +524,6 @@ namespace MoreMountains.Feedbacks
                     Undo.RecordObject(target, "Add new feedback");
                     AddFeedback(_typesAndNames[newItem].FeedbackType);
                     serializedObject.ApplyModifiedProperties();
-                    PrefabUtility.RecordPrefabInstancePropertyModifications(TargetMmfPlayer);
                 }
 
                 // Paste feedback copy as new
@@ -683,11 +676,6 @@ namespace MoreMountains.Feedbacks
 
             // Retrieve feedback
             _feedbackListFeedback = TargetMmfPlayer.FeedbacksList[i];
-
-            if (_feedbackListFeedback == null)
-            {
-	            return;
-            }
             
             // Draw header
             _feedbackListIsExpanded = _feedbackListProperty.isExpanded;
@@ -859,8 +847,6 @@ namespace MoreMountains.Feedbacks
         {
 	        MMF_FeedbackInspectors.Remove(TargetMmfPlayer.FeedbacksList[id].UniqueID);
             (target as MMF_Player).RemoveFeedback(id);
-            serializedObject.ApplyModifiedProperties();
-            ForceRepaint();
         }
 
         /// <summary>

@@ -9,7 +9,7 @@ namespace MoreMountains.Tools
     [CanEditMultipleObjects]
     public class MMRadioSignalGeneratorEditor : MMRadioSignalEditor
     {
-        protected MMReorderableList _list;
+        protected ReorderableList _list;
         protected SerializedProperty _globalMultiplier;
         protected SerializedProperty _clamp;
         protected SerializedProperty _clamps;
@@ -49,15 +49,15 @@ namespace MoreMountains.Tools
             _clamps = serializedObject.FindProperty("Clamps");
             _bias = serializedObject.FindProperty("Bias");
 
-            _list = new MMReorderableList(serializedObject.FindProperty("SignalList"));
+            _list = new ReorderableList(serializedObject.FindProperty("SignalList"));
             _driverTime = serializedObject.FindProperty("DriverTime");
             _animatedPreview = serializedObject.FindProperty("AnimatedPreview");
             _list.elementNameProperty = "SignalList";
-            _list.elementDisplayType = MMReorderableList.ElementDisplayType.Expandable;
+            _list.elementDisplayType = ReorderableList.ElementDisplayType.Expandable;
             _list.onAddCallback += OnListAdd;
         }
 
-        private void OnListAdd(MMReorderableList list)
+        private void OnListAdd(ReorderableList list)
         {
             SerializedProperty property = list.AddItem();
 

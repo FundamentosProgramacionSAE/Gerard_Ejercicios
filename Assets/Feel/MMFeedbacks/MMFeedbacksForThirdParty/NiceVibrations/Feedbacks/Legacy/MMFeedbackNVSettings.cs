@@ -1,7 +1,6 @@
-﻿using UnityEngine;
-#if MOREMOUNTAINS_NICEVIBRATIONS_INSTALLED
+﻿#if MOREMOUNTAINS_NICEVIBRATIONS_INSTALLED
+using UnityEngine;
 using Lofelt.NiceVibrations;
-#endif
 
 namespace MoreMountains.FeedbacksForThirdParty
 {
@@ -11,7 +10,6 @@ namespace MoreMountains.FeedbacksForThirdParty
     [System.Serializable]
     public class MMFeedbackNVSettings
     {
-		#if MOREMOUNTAINS_NICEVIBRATIONS_INSTALLED
         /// whether or not to force this haptic to play on a specific gamepad
         [Tooltip("whether or not to force this haptic to play on a specific gamepad")]
         public bool ForceGamepadID = false;
@@ -70,6 +68,6 @@ namespace MoreMountains.FeedbacksForThirdParty
 
             return true;
         }
-		#endif
     }
 }
+#endif

@@ -179,16 +179,12 @@ namespace MoreMountains.Feedbacks
         {
             float thisTime = timing.TimescaleMode == TimescaleModes.Scaled ? Time.time : Time.unscaledTime;
             float thisDeltaTime = timing.TimescaleMode == TimescaleModes.Scaled ? Time.deltaTime : Time.unscaledDeltaTime;
-            if (host.ForceTimescaleMode)
-            {
-	            thisTime = host.ForcedTimescaleMode == TimescaleModes.Scaled ? Time.time : Time.unscaledTime;
-	            thisDeltaTime = host.ForcedTimescaleMode == TimescaleModes.Scaled ? Time.deltaTime : Time.unscaledDeltaTime;
-            }
             
             var e = Event.current;
 
             // Initialize Rects
             _backgroundRect = GUILayoutUtility.GetRect(1f, 17f);
+
             _progressRect = GUILayoutUtility.GetRect(1f, 2f);
 
             var offset = 4f;

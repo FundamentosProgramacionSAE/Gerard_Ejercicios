@@ -58,18 +58,6 @@ namespace MoreMountains.Feedbacks
         [FormerlySerializedAs("VfxPositionOffset")]
         public Vector3 PositionOffset;
 
-        /// if this is true, instantiation position will be randomized between RandomizeMin and RandomizeMax 
-        [Tooltip("if this is true, instantiation position will be randomized between RandomizeMin and RandomizeMax")]
-        public bool RandomizePosition = false;
-        /// the minimum value we'll randomize our position with
-        [Tooltip("the minimum value we'll randomize our position with")]
-        [MMFCondition("RandomizePosition", true)]
-        public Vector3 RandomizedPositionMin = Vector3.zero;
-        /// the maximum value we'll randomize our position with
-        [Tooltip("the maximum value we'll randomize our position with")]
-        [MMFCondition("RandomizePosition", true)]
-        public Vector3 RandomizedPositionMax = Vector3.one;
-
         [MMFInspectorGroup("Object Pool", true, 40)]
         /// whether or not we should create automatically an object pool for this object
         [Tooltip("whether or not we should create automatically an object pool for this object")]
@@ -88,7 +76,6 @@ namespace MoreMountains.Feedbacks
         protected MMMiniObjectPooler _objectPooler; 
         protected GameObject _newGameObject;
         protected bool _poolCreatedOrFound = false;
-        protected Vector3 _randomizedPosition = Vector3.zero;
 
         /// <summary>
         /// On init we create an object pool if needed
@@ -174,25 +161,18 @@ namespace MoreMountains.Feedbacks
         /// <returns></returns>
         protected virtual Vector3 GetPosition(Vector3 position)
         {
-	        if (RandomizePosition)
-	        {
-		        _randomizedPosition.x = UnityEngine.Random.Range(RandomizedPositionMin.x, RandomizedPositionMax.x);
-		        _randomizedPosition.y = UnityEngine.Random.Range(RandomizedPositionMin.y, RandomizedPositionMax.y);
-		        _randomizedPosition.z = UnityEngine.Random.Range(RandomizedPositionMin.z, RandomizedPositionMax.z);
-	        }
-	        
             switch (PositionMode)
             {
                 case PositionModes.FeedbackPosition:
-                    return Owner.transform.position + PositionOffset + _randomizedPosition;
+                    return Owner.transform.position + PositionOffset;
                 case PositionModes.Transform:
-                    return TargetTransform.position + PositionOffset + _randomizedPosition;
+                    return TargetTransform.position + PositionOffset;
                 case PositionModes.WorldPosition:
-                    return TargetPosition + PositionOffset + _randomizedPosition;
+                    return TargetPosition + PositionOffset;
                 case PositionModes.Script:
-                    return position + PositionOffset + _randomizedPosition;
+                    return position + PositionOffset;
                 default:
-                    return position + PositionOffset + _randomizedPosition;
+                    return position + PositionOffset;
             }
         }
 

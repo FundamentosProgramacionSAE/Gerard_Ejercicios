@@ -84,26 +84,6 @@ namespace MoreMountains.Tools
                 CooldownState = CooldownStates.PauseOnEmpty;
             }
         }
-        
-        public float Progress 
-        {
-            get
-            {
-                if (Unlimited)
-                {
-                    return 1f;
-                }
-                
-                if (CooldownState == CooldownStates.Consuming || CooldownState == CooldownStates.PauseOnEmpty)
-                {
-                    return 0f;
-                }
-                
-                if (CooldownState == CooldownStates.Refilling) return /*Mathf.Clamp01(*/CurrentDurationLeft / RefillDuration/*)*/;
-                
-                return 1f; // refilled
-            }
-        }
 
         /// <summary>
         /// Processes the object's state machine

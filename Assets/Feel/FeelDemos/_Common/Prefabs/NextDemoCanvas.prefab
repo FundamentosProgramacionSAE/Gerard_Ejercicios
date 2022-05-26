@@ -261,7 +261,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: v3.3.1
+  m_Text: v3.0
 --- !u!1 &8516721323258378253
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,7 +376,7 @@ GameObject:
   - component: {fileID: 8516721323668150468}
   - component: {fileID: 8516721323668150470}
   - component: {fileID: 8516721323668150469}
-  - component: {fileID: 5195390090112612529}
+  - component: {fileID: 5302044224137463943}
   m_Layer: 5
   m_Name: ButtonFeedback
   m_TagString: Untagged
@@ -418,15 +418,13 @@ MonoBehaviour:
   Feedbacks:
   - {fileID: 8516721323668150470}
   - {fileID: 8516721323668150469}
-  - {fileID: 5195390090112612529}
+  - {fileID: 5302044224137463943}
   InitializationMode: 2
   SafeMode: 3
   Direction: 0
   AutoChangeDirectionOnEnd: 0
   AutoPlayOnStart: 0
   AutoPlayOnEnable: 0
-  ForceTimescaleMode: 0
-  ForcedTimescaleMode: 1
   DurationMultiplier: 1
   DisplayFullDurationDetails: 0
   CooldownDuration: 0
@@ -603,7 +601,7 @@ MonoBehaviour:
   MinPitch: 1
   MaxPitch: 1
   SfxAudioMixerGroup: {fileID: 0}
---- !u!114 &5195390090112612529
+--- !u!114 &5302044224137463943
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -612,11 +610,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8516721323668150474}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69e14417fec82fd45a6ccb78d3868d40, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f1326a5f4dbb874f9c42effa0befa36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Active: 1
-  Label: Haptic Preset
+  Label: Haptics
   Chance: 100
   Timing:
     TimescaleMode: 0
@@ -639,14 +637,6 @@ MonoBehaviour:
     Quantized: 0
     TargetBPM: 120
   DebugActive: 0
-  Preset: 4
-  HapticSettings:
-    ForceGamepadID: 0
-    GamepadID: 0
-    OnlyPlayIfHapticsSupported: 1
-    OnlyPlayIfAdvancedRequirementsMet: 0
-    OnlyPlayIfAmplitudeModulationSupported: 0
-    OnlyPlayIfFrequencyModulationSupported: 0
 --- !u!1 &8516721323920118021
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,7 +733,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8516721325208926033
 RectTransform:
   m_ObjectHideFlags: 0

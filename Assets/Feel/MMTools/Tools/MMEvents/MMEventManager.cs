@@ -86,15 +86,11 @@ namespace MoreMountains.Tools
 	    {
 	        Type eventType = typeof( MMEvent );
 
-	        if (!_subscribersList.ContainsKey(eventType))
-	        {
-		        _subscribersList[eventType] = new List<MMEventListenerBase>();
-	        }
+	        if( !_subscribersList.ContainsKey( eventType ) )
+	            _subscribersList[eventType] = new List<MMEventListenerBase>();
 
-	        if (!SubscriptionExists(eventType, listener))
-	        {
-		        _subscribersList[eventType].Add( listener );
-	        }
+	        if( !SubscriptionExists( eventType, listener ) )
+	            _subscribersList[eventType].Add( listener );
 	    }
 
 	    /// <summary>
@@ -121,7 +117,7 @@ namespace MoreMountains.Tools
 	            bool listenerFound = false;
             #endif
 
-		    for (int i = subscriberList.Count-1; i >= 0; i--)
+            for (int i = 0; i<subscriberList.Count; i++)
 			{
 				if( subscriberList[i] == listener )
 				{
@@ -156,13 +152,13 @@ namespace MoreMountains.Tools
 	    {
 	        List<MMEventListenerBase> list;
 	        if( !_subscribersList.TryGetValue( typeof( MMEvent ), out list ) )
-			#if EVENTROUTER_REQUIRELISTENER
+#if EVENTROUTER_REQUIRELISTENER
 			            throw new ArgumentException( string.Format( "Attempting to send event of type \"{0}\", but no listener for this type has been found. Make sure this.Subscribe<{0}>(EventRouter) has been called, or that all listeners to this event haven't been unsubscribed.", typeof( MMEvent ).ToString() ) );
-			#else
+#else
 			                return;
-			#endif
+#endif
 			
-		    for (int i=list.Count-1; i >= 0; i--)
+			for (int i=0; i<list.Count; i++)
 			{
 				( list[i] as MMEventListener<MMEvent> ).OnMMEvent( newEvent );
 			}
@@ -182,7 +178,7 @@ namespace MoreMountains.Tools
 
 	        bool exists = false;
 
-	        for (int i = receivers.Count-1; i >= 0; i--)
+			for (int i=0; i<receivers.Count; i++)
 			{
 				if( receivers[i] == receiver )
 				{

@@ -26,38 +26,6 @@ namespace MoreMountains.Tools
         }
         
         /// <summary>
-        /// Returns the length of a rich text, excluding its tags
-        /// </summary>
-        /// <param name="richText"></param>
-        /// <returns></returns>
-        public static int RichTextLength(string richText)
-        {
-	        int richTextLength = 0;
-	        bool insideTag = false;
-
-	        richText = richText.Replace("<br>", "-");
-	        
-	        foreach (char character in richText)
-	        {
-		        if (character == '<')
-		        {
-			        insideTag = true;
-			        continue;
-		        }
-		        else if (character == '>')
-		        {
-			        insideTag = false;
-		        }
-		        else if (!insideTag)
-		        {
-			        richTextLength++;
-		        }
-	        }
- 
-	        return richTextLength;
-        }
-        
-        /// <summary>
         /// Elegantly uppercases the first letter of every word in a string
         /// </summary>
         /// <param name="title"></param>

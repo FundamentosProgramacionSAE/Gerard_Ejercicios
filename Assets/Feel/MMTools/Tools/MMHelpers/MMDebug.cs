@@ -1001,47 +1001,6 @@ namespace MoreMountains.Tools
 			Debug.DrawLine (points[5], points[2], color ); 
 			Debug.DrawLine (points[5], points[3], color ); 
 		}
-        
-        /// <summary>
-        /// Draws a line of the specified color and size using gizmos
-        /// </summary>
-        /// <param name="position"></param>
-        /// <param name="color"></param>
-        /// <param name="size"></param>
-        public static void DrawGizmoPoint (Vector3 position, Color color, float size)
-        {
-	        if (!DebugDrawEnabled)
-	        {
-		        return;
-	        }
-
-	        Vector3[] points = new Vector3[] 
-	        {
-		        position + (Vector3.up * size), 
-		        position - (Vector3.up * size), 
-		        position + (Vector3.right * size), 
-		        position - (Vector3.right * size), 
-		        position + (Vector3.forward * size), 
-		        position - (Vector3.forward * size)
-	        }; 		
-
-	        Gizmos.color = color;
-	        Gizmos.DrawLine (points[0], points[1]); 
-	        Gizmos.DrawLine (points[2], points[3]); 
-	        Gizmos.DrawLine (points[4], points[5]); 
-	        Gizmos.DrawLine (points[0], points[2]); 
-	        Gizmos.DrawLine (points[0], points[3]); 
-	        Gizmos.DrawLine (points[0], points[4]); 
-	        Gizmos.DrawLine (points[0], points[5]); 
-	        Gizmos.DrawLine (points[1], points[2]); 
-	        Gizmos.DrawLine (points[1], points[3]); 
-	        Gizmos.DrawLine (points[1], points[4]); 
-	        Gizmos.DrawLine (points[1], points[5]); 
-	        Gizmos.DrawLine (points[4], points[2]); 
-	        Gizmos.DrawLine (points[4], points[3]); 
-	        Gizmos.DrawLine (points[5], points[2]); 
-	        Gizmos.DrawLine (points[5], points[3]); 
-        }
 
         #endregion
 

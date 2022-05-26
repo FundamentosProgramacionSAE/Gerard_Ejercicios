@@ -561,27 +561,7 @@ namespace MoreMountains.Tools
         /// Sets the volume of the Master track to the specified value, QoL method, ready to bind to a UnityEvent
         /// </summary>
         public virtual void SetVolumeMaster(float newVolume) { SetTrackVolume(MMSoundManagerTracks.Master, newVolume);}
-
-        /// <summary>
-        /// Returns true if the specified track is muted, false otherwise
-        /// </summary>
-        /// <param name="track"></param>
-        /// <returns></returns>
-        public virtual bool IsMuted(MMSoundManagerTracks track)
-        {
-			switch (track)
-            {
-                case MMSoundManagerTracks.Master:
-                    return settingsSo.Settings.MasterOn; 
-                case MMSoundManagerTracks.Music:
-	                return settingsSo.Settings.MusicOn;
-                case MMSoundManagerTracks.Sfx:
-	                return settingsSo.Settings.SfxOn;
-                case MMSoundManagerTracks.UI:
-	                return settingsSo.Settings.UIOn;
-            }
-			return false;
-        }
+        
         
         /// <summary>
         /// A method that will let you mute/unmute a track, or set it to a specified volume

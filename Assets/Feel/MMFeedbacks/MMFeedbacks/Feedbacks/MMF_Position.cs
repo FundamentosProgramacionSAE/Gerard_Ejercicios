@@ -380,7 +380,7 @@ namespace MoreMountains.Feedbacks
         /// <summary>
         /// On disable we reset our coroutine
         /// </summary>
-        public override void OnDisable()
+        protected virtual void OnDisable()
         {
             _coroutine = null;
         }

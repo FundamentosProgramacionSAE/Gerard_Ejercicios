@@ -320,7 +320,7 @@ namespace MoreMountains.Feedbacks
         /// <summary>
         /// On disable, 
         /// </summary>
-        public override void OnDisable()
+        protected virtual void OnDisable()
         {
             _coroutine = null;
         }

@@ -251,7 +251,6 @@ namespace MoreMountains.Feedbacks
             if (StopSoundOnFeedbackStop && (_playedAudioSource != null))
             {
                 _playedAudioSource.Stop();
-                MMSoundManager.Instance.FreeSound(_playedAudioSource);
             }
         }
 

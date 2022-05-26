@@ -40,7 +40,7 @@ namespace MoreMountains.Feedbacks
                     switch (RevealMode)
                     {
                         case RevealModes.Character:
-	                        return RichTextLength(TargetTMPText.text) * IntervalBetweenReveals;
+                            return TargetTMPText.text.Length * IntervalBetweenReveals;
                         case RevealModes.Lines:
                             return TargetTMPText.textInfo.lineCount * IntervalBetweenReveals;
                         case RevealModes.Words:
@@ -62,7 +62,7 @@ namespace MoreMountains.Feedbacks
                         switch (RevealMode)
                         {
                             case RevealModes.Character:
-	                            IntervalBetweenReveals = value / RichTextLength(TargetTMPText.text);
+                                IntervalBetweenReveals = value / TargetTMPText.text.Length;
                                 break;
                             case RevealModes.Lines:
                                 IntervalBetweenReveals = value / TargetTMPText.textInfo.lineCount;
@@ -114,7 +114,6 @@ namespace MoreMountains.Feedbacks
 
         protected float _delay;
         protected Coroutine _coroutine;
-        protected int _richTextLength;
         
         /// <summary>
         /// On play we change the text of our target TMPText
@@ -138,11 +137,11 @@ namespace MoreMountains.Feedbacks
                 TargetTMPText.text = NewText;
                 TargetTMPText.ForceMeshUpdate();
             }
-            _richTextLength = RichTextLength(TargetTMPText.text);
+
             switch (RevealMode)
             {
                 case RevealModes.Character:
-                    _delay = (DurationMode == DurationModes.Interval) ? IntervalBetweenReveals : RevealDuration / _richTextLength;
+                    _delay = (DurationMode == DurationModes.Interval) ? IntervalBetweenReveals : RevealDuration / TargetTMPText.text.Length;
                     TargetTMPText.maxVisibleCharacters = 0;
                     _coroutine = Owner.StartCoroutine(RevealCharacters());
                     break;
@@ -165,56 +164,24 @@ namespace MoreMountains.Feedbacks
         /// <returns></returns>
         protected virtual IEnumerator RevealCharacters()
         {
-	        float startTime = (Timing.TimescaleMode == TimescaleModes.Scaled) ? Time.time : Time.unscaledTime;
-            int totalCharacters = _richTextLength;
+            int totalCharacters = TargetTMPText.text.Length;
             int visibleCharacters = 0;
-            float lastCharAt = 0f;
-            
+
             IsPlaying = true;
             while (visibleCharacters <= totalCharacters)
             {
-	            float deltaTime = (Timing.TimescaleMode == TimescaleModes.Scaled) ? Time.deltaTime : Time.unscaledDeltaTime;
-	            float time = (Timing.TimescaleMode == TimescaleModes.Scaled) ? Time.time : Time.unscaledTime;
+                TargetTMPText.maxVisibleCharacters = visibleCharacters;
+                visibleCharacters++;
 
-	            if (time - lastCharAt < IntervalBetweenReveals)
-	            {
-		            yield return null;
-	            }
-	            
-	            TargetTMPText.maxVisibleCharacters = visibleCharacters;
-                visibleCharacters++;                
-                lastCharAt = time;
-
-                // we adjust our delay
-                
-                float delay = 0f;
-                
-                if (DurationMode == DurationModes.Interval)
-                {
-	                _delay = Mathf.Max(IntervalBetweenReveals, deltaTime);
-	                delay = _delay - deltaTime;
-                }
-                else
-                {
-	                int remainingCharacters = totalCharacters - visibleCharacters;
-	                float elapsedTime = time - startTime;
-	                if (remainingCharacters != 0)
-	                {
-		                _delay = (RevealDuration - elapsedTime) / remainingCharacters;   
-	                }
-	                delay = _delay - deltaTime;
-                }
-                
                 if (Timing.TimescaleMode == TimescaleModes.Scaled)
                 {
-                    yield return MMFeedbacksCoroutine.WaitFor(delay);    
+                    yield return MMFeedbacksCoroutine.WaitFor(_delay);    
                 }
                 else
                 {
-                    yield return MMFeedbacksCoroutine.WaitForUnscaled(delay);
+                    yield return MMFeedbacksCoroutine.WaitForUnscaled(_delay);
                 }
             }
-            TargetTMPText.maxVisibleCharacters = _richTextLength;
             IsPlaying = false;
         }
 
@@ -290,38 +257,6 @@ namespace MoreMountains.Feedbacks
                 Owner.StopCoroutine(_coroutine);
                 _coroutine = null;
             }
-        }
-        
-        /// <summary>
-        /// Returns the length of a rich text, excluding its tags
-        /// </summary>
-        /// <param name="richText"></param>
-        /// <returns></returns>
-        protected int RichTextLength(string richText)
-        {
-	        int richTextLength = 0;
-	        bool insideTag = false;
-
-	        richText = richText.Replace("<br>", "-");
-	        
-	        foreach (char character in richText)
-	        {
-		        if (character == '<')
-		        {
-			        insideTag = true;
-			        continue;
-		        }
-		        else if (character == '>')
-		        {
-			        insideTag = false;
-		        }
-		        else if (!insideTag)
-		        {
-			        richTextLength++;
-		        }
-	        }
- 
-	        return richTextLength;
         }
     }
 }

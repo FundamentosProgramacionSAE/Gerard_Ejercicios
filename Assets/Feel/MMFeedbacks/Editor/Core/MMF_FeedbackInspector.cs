@@ -267,11 +267,6 @@ namespace MoreMountains.Feedbacks
 
             void DrawChild(int i)
             {
-	            if (i > groupData.PropertiesList.Count - 1)
-	            {
-		            return;
-	            }
-	            
                 if ((_hasMMHiddenProperties) && (_mmHiddenPropertiesToHide.Contains(groupData.PropertiesList[i].name)))
                 {
                     return;

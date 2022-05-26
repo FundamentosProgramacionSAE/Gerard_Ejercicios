@@ -36,7 +36,8 @@ namespace MoreMountains.Tools
 
         protected virtual void OnEnable()
         {
-	        _CollisionLayerMask = serializedObject.FindProperty("CollisionLayerMask");
+
+            _CollisionLayerMask = serializedObject.FindProperty("CollisionLayerMask");
             _OnCollisionEnterEvent = serializedObject.FindProperty("OnCollisionEnterEvent");
             _OnCollisionExitEvent = serializedObject.FindProperty("OnCollisionExitEvent");
             _OnCollisionStayEvent = serializedObject.FindProperty("OnCollisionStayEvent");

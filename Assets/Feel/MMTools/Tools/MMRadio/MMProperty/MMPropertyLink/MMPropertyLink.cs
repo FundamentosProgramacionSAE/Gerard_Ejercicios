@@ -76,7 +76,7 @@ namespace MoreMountains.Tools
         /// Returns the value of the selected property
         /// </summary>
         /// <returns></returns>
-        public virtual object GetPropertyValue(MMProperty property)
+        protected virtual object GetPropertyValue(MMProperty property)
         {
             object target = (property.TargetScriptableObject == null) ? (object)property.TargetComponent : (object)property.TargetScriptableObject;
 

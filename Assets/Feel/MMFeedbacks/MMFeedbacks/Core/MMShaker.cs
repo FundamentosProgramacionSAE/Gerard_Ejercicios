@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MoreMountains.Feedbacks;
@@ -24,9 +23,6 @@ namespace MoreMountains.Feedbacks
         /// if this is true, this shaker will always reset target values, regardless of how it was called
         [Tooltip("if this is true, this shaker will always reset target values, regardless of how it was called")]
         public bool AlwaysResetTargetValuesAfterShake = false;
-        /// a cooldown, in seconds, after a shake, during which no other shake can start
-        [Tooltip("a cooldown, in seconds, after a shake, during which no other shake can start")]
-        public float CooldownBetweenShakes = 0f;
         /// whether or not this shaker is shaking right now
         [Tooltip("whether or not this shaker is shaking right now")]
         [MMFReadOnly]
@@ -46,7 +42,7 @@ namespace MoreMountains.Feedbacks
 
         [HideInInspector]
         internal bool _listeningToEvents = false;
-        protected float _shakeStartedTimestamp = -Single.MaxValue;
+        protected float _shakeStartedTimestamp;
         protected float _remappedTimeSinceStart;
         protected bool _resetShakerValuesAfterShake;
         protected bool _resetTargetValuesAfterShake;
@@ -80,11 +76,6 @@ namespace MoreMountains.Feedbacks
         public virtual void StartShaking()
         {
             _journey = ForwardDirection ? 0f : ShakeDuration;
-
-            if (GetTime() - _shakeStartedTimestamp < CooldownBetweenShakes)
-            {
-	            return;
-            }
             
             if (Shaking)
             {
@@ -230,10 +221,6 @@ namespace MoreMountains.Feedbacks
         /// </summary>
         public virtual void Play()
         {
-	        if (Time.time - _shakeStartedTimestamp < CooldownBetweenShakes)
-	        {
-		        return;
-	        }
             this.enabled = true;
         }
 

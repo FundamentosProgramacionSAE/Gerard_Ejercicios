@@ -44,12 +44,11 @@ namespace MoreMountains.Feedbacks
         /// if this is true, calling that feedback will trigger it, even if it's in progress. If it's false, it'll prevent any new Play until the current one is over
         [Tooltip("if this is true, calling that feedback will trigger it, even if it's in progress. If it's false, it'll prevent any new Play until the current one is over")] 
         public bool AllowAdditivePlays = false;
+
         /// if this is true, the target object will be disabled on stop
         [Tooltip("if this is true, the target object will be disabled on stop")]
         public bool DisableOnStop = false;
-        /// if this is true, this feedback will only play if its target is active in hierarchy
-        [Tooltip("if this is true, this feedback will only play if its target is active in hierarchy")]
-        public bool OnlyPlayIfTargetIsActive = false;
+        
         /// the duration of this feedback is the duration of the target property, or 0 if instant
         public override float FeedbackDuration { get { return (Mode == Modes.Instant) ? 0f : ApplyTimeMultiplier(Duration); } set { if (Mode != Modes.Instant) { Duration = value; } } }
 
@@ -123,16 +122,10 @@ namespace MoreMountains.Feedbacks
         /// <param name="feedbacksIntensity"></param>
         protected override void CustomPlayFeedback(Vector3 position, float feedbacksIntensity = 1.0f)
         {
-	        if (Active)
+            if (Active)
             {
-	            if (!CanPlay())
-	            {
-		            return;
-	            }
-	            
-	            Turn(true);    
-	            
-	            switch (Mode)
+                Turn(true);
+                switch (Mode)
                 {
                     case Modes.Instant:
                         Instant();
@@ -207,7 +200,7 @@ namespace MoreMountains.Feedbacks
             
             foreach (MMF_FeedbackBaseTarget target in _targets)
             {
-	            float intensity = MMTween.Tween(time, 0f, 1f, target.RemapLevelZero, target.RemapLevelOne, target.LevelCurve);
+                float intensity = MMTween.Tween(time, 0f, 1f, target.RemapLevelZero, target.RemapLevelOne, target.LevelCurve);
                 if (RelativeValues)
                 {
                     intensity += target.InitialLevel;
@@ -256,30 +249,6 @@ namespace MoreMountains.Feedbacks
                     target.Target.TargetComponent.gameObject.SetActive(status);
                 }
             }
-        }
-
-        /// <summary>
-        /// Checks whether or not this feedback should play according to the defined settings
-        /// </summary>
-        /// <returns></returns>
-        protected virtual bool CanPlay()
-        {
-	        if (_targets.Count == 0)
-	        {
-		        return false;
-	        }
-	        foreach (MMF_FeedbackBaseTarget target in _targets)
-	        {
-		        if (OnlyPlayIfTargetIsActive)
-		        {
-			        if (!target.Target.TargetComponent.gameObject.activeInHierarchy)
-			        {
-				        return false;
-			        }    
-		        }
-	        }
-
-	        return true;
         }
     }
 }

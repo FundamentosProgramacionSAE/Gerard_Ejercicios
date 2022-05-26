@@ -205,8 +205,8 @@ namespace MoreMountains.Feedbacks
                 Debug.LogWarning("The " + gameObject.name + " ObjectPooler doesn't have any GameObjectToPool defined.", gameObject);
                 return null;
             }
-            GameObjectToPool.gameObject.SetActive(false);
             GameObject newGameObject = (GameObject)Instantiate(GameObjectToPool);
+            newGameObject.gameObject.SetActive(false);
             SceneManager.MoveGameObjectToScene(newGameObject, this.gameObject.scene);
             if (NestWaitingPool)
             {

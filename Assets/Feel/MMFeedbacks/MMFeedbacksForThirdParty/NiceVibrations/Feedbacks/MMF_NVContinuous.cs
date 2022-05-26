@@ -1,9 +1,8 @@
-﻿using UnityEngine;
+﻿#if MOREMOUNTAINS_NICEVIBRATIONS_INSTALLED
+using UnityEngine;
 using System.Collections;
 using MoreMountains.Feedbacks;
-#if MOREMOUNTAINS_NICEVIBRATIONS_INSTALLED
 using Lofelt.NiceVibrations;
-#endif
 
 namespace MoreMountains.FeedbacksForThirdParty
 {
@@ -11,13 +10,10 @@ namespace MoreMountains.FeedbacksForThirdParty
     /// Add this feedback to play a continuous haptic of the specified amplitude and frequency over a certain duration. This feedback will also let you randomize these, and modulate them over time.
     /// </summary>
     [AddComponentMenu("")]
-	#if MOREMOUNTAINS_NICEVIBRATIONS_INSTALLED
     [FeedbackPath("Haptics/Haptic Continuous")]
-    #endif
-	[FeedbackHelp("Add this feedback to play a continuous haptic of the specified amplitude and frequency over a certain duration. This feedback will also let you randomize these, and modulate them over time.")]
+    [FeedbackHelp("Add this feedback to play a continuous haptic of the specified amplitude and frequency over a certain duration. This feedback will also let you randomize these, and modulate them over time.")]
     public class MMF_NVContinuous : MMF_Feedback
     {
-		#if MOREMOUNTAINS_NICEVIBRATIONS_INSTALLED
         /// a static bool used to disable all feedbacks of this type at once
         public static bool FeedbackTypeAuthorized = true;
         #if UNITY_EDITOR
@@ -145,8 +141,6 @@ namespace MoreMountains.FeedbacksForThirdParty
                 _coroutine = null;
             }
         }
-		#else
-		protected override void CustomPlayFeedback(Vector3 position, float feedbacksIntensity = 1.0f) { }
-		#endif
     }    
 }
+#endif

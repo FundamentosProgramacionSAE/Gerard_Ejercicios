@@ -1,8 +1,7 @@
-﻿using UnityEngine;
+﻿#if MOREMOUNTAINS_NICEVIBRATIONS_INSTALLED
+using UnityEngine;
 using MoreMountains.Feedbacks;
-#if MOREMOUNTAINS_NICEVIBRATIONS_INSTALLED
 using Lofelt.NiceVibrations;
-#endif
 
 namespace MoreMountains.FeedbacksForThirdParty
 {
@@ -10,13 +9,10 @@ namespace MoreMountains.FeedbacksForThirdParty
     /// Use this feedback to play a preset haptic, limited but super simple predifined haptic patterns
     /// </summary>
     [AddComponentMenu("")]
-	#if MOREMOUNTAINS_NICEVIBRATIONS_INSTALLED
     [FeedbackPath("Haptics/Haptic Preset")]
-	#endif
     [FeedbackHelp("Use this feedback to play a preset haptic, limited but super simple predifined haptic patterns")]
     public class MMFeedbackNVPreset : MMFeedback
     {
-		#if MOREMOUNTAINS_NICEVIBRATIONS_INSTALLED
         /// a static bool used to disable all feedbacks of this type at once
         public static bool FeedbackTypeAuthorized = true;
         #if UNITY_EDITOR
@@ -48,8 +44,6 @@ namespace MoreMountains.FeedbacksForThirdParty
             HapticSettings.SetGamepad();
             HapticPatterns.PlayPreset(Preset);
         }
-		#else
-		protected override void CustomPlayFeedback(Vector3 position, float feedbacksIntensity = 1.0f) { }
-		#endif
     }    
 }
+#endif

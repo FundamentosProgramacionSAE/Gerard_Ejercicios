@@ -42,9 +42,6 @@ namespace MoreMountains.Tools
 		[MMCondition("MutualizeWaitingPools", true)]
 		public string MutualizedPoolName = "";
 		
-		public List<MMMultipleObjectPooler> Owner { get; set; }
-		private void OnDestroy() { Owner?.Remove(this); }
-		
 		/// the actual object pool
 		protected GameObject _lastPooledObject;
 		protected int _currentIndex = 0;
@@ -154,13 +151,9 @@ namespace MoreMountains.Tools
 		/// <param name="typeOfObject">The type of object to add to the pool.</param>
 		protected virtual GameObject AddOneObjectToThePool(GameObject typeOfObject)
 		{
-			if (typeOfObject == null)
-			{
-				return null;
-			}
-			typeOfObject.SetActive(false);
 			GameObject newGameObject = (GameObject)Instantiate(typeOfObject);
 			SceneManager.MoveGameObjectToScene(newGameObject, this.gameObject.scene);
+			newGameObject.gameObject.SetActive(false);
 			if (NestWaitingPool)
 			{
 				newGameObject.transform.SetParent(_waitingPool.transform);	

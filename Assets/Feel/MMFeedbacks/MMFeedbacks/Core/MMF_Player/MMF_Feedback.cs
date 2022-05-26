@@ -68,18 +68,6 @@ namespace MoreMountains.Feedbacks
         { 
             get 
             {
-	            if (Owner.ForceTimescaleMode)
-	            {
-		            if (Owner.ForcedTimescaleMode == TimescaleModes.Scaled)
-		            {
-			            return Time.time;
-		            }
-		            else
-		            {
-			            return Time.unscaledTime;
-		            } 
-	            }
-	            
                 if (Timing.TimescaleMode == TimescaleModes.Scaled)
                 {
                     return Time.time;
@@ -96,17 +84,6 @@ namespace MoreMountains.Feedbacks
         {
             get
             {
-	            if (Owner.ForceTimescaleMode)
-	            {
-		            if (Owner.ForcedTimescaleMode == TimescaleModes.Scaled)
-		            {
-			            return Time.deltaTime;
-		            }
-		            else
-		            {
-			            return Time.unscaledDeltaTime;
-		            } 
-	            }
                 if (Owner.SkippingToTheEnd)
                 {
                     return float.MaxValue;
@@ -702,14 +679,6 @@ namespace MoreMountains.Feedbacks
         public virtual void OnDestroy()
         {
             
-        }
-
-        /// <summary>
-        /// Triggered when the host MMF Player gets disabled
-        /// </summary>
-        public virtual void OnDisable()
-        {
-	        
         }
 
         #endregion

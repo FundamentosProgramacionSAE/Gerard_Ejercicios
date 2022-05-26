@@ -352,7 +352,7 @@ namespace MoreMountains.Feedbacks
         static public string GetFeedbackDefaultPath(System.Type type)
         {
             FeedbackPathAttribute attribute = type.GetCustomAttributes(false).OfType<FeedbackPathAttribute>().FirstOrDefault();
-            return attribute != null ? attribute.Path : null;
+            return attribute != null ? attribute.Path : type.Name;
         }
     }
 

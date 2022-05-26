@@ -1020,14 +1020,6 @@ namespace MoreMountains.Feedbacks
                 finalPlayer.FeedbacksIntensity = newPlayer.FeedbacksIntensity;
                 finalPlayer.Events = newPlayer.Events;
                 finalPlayer.FeedbacksList = newPlayer.FeedbacksList;
-                if (finalPlayer.FeedbacksList != null && finalPlayer.FeedbacksList.Count > 0)
-                {
-                    foreach (MMF_Feedback feedback in finalPlayer.FeedbacksList)
-                    {
-                        feedback.Owner = finalPlayer;
-                        feedback.UniqueID = Guid.NewGuid().GetHashCode();
-                    }
-                }
             }
             else
             {
@@ -1036,6 +1028,7 @@ namespace MoreMountains.Feedbacks
                 serializedObject.Update();
                 serializedObject.ApplyModifiedProperties();
                 DestroyImmediate(_targetMMFeedbacks);
+                
             }
 
             // we remove all remaining feedbacks

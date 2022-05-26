@@ -179,7 +179,6 @@ namespace MoreMountains.Feedbacks
             IsPlaying = false;
             base.CustomStopFeedback(position, feedbacksIntensity);
             Turn(false);
-            _coroutine = null;
         }
 
         /// <summary>
