@@ -49,6 +49,7 @@ namespace Player.Manager
             inputHandler.ThirdAbilityInput = false;
             inputHandler.FourthAbilityInput = false;
             inputHandler.UnarmedInput = false;
+            inputHandler.InventoryInput = false;
         }
     }
 }

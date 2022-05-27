@@ -5,6 +5,7 @@ using Ability.Manager;
 using MoreMountains.Feedbacks;
 using Player.Stats;
 using Sirenix.OdinInspector;
+using TooltipManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,6 +28,7 @@ namespace Player.Canvas
         public Image CooldownAbility4;
 
         [Title("Inventory Panel")] 
+        public GameObject PanelInventory;
         public GameObject PrefabItemInventory;
         public Transform PanelItems;
         public int SizeInventory;
@@ -73,6 +75,8 @@ namespace Player.Canvas
                     Instantiate(PrefabItemInventory, Vector3.zero, Quaternion.identity, PanelItems);
                 }
             }
+            
+            CloseInventory();
         }
         
         private void Update()
@@ -136,6 +140,19 @@ namespace Player.Canvas
         public void SetCurrentHealth(int value)
         {
             HPSlider.value = value;
+        }
+
+        public void OpenInventory()
+        {
+            PanelInventory.GetComponent<CanvasGroup>().alpha = 1;
+            Extensions.ShowCursor();
+        }
+
+        public void CloseInventory()
+        {
+            PanelInventory.GetComponent<CanvasGroup>().alpha = 0;
+            Extensions.HideCursor();
+            TooltipSystem.Hide();
         }
     }
 }

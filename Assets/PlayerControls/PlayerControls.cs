@@ -229,6 +229,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""04f7500f-3a67-4ecc-9302-1b969f4ef190"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -319,6 +327,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Ability4"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4bb56001-024e-4cc5-9eac-66809721faac"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -338,6 +357,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_PlayerActions_Ability2 = m_PlayerActions.FindAction("Ability2", throwIfNotFound: true);
         m_PlayerActions_Ability3 = m_PlayerActions.FindAction("Ability3", throwIfNotFound: true);
         m_PlayerActions_Ability4 = m_PlayerActions.FindAction("Ability4", throwIfNotFound: true);
+        m_PlayerActions_Inventory = m_PlayerActions.FindAction("Inventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -435,6 +455,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerActions_Ability2;
     private readonly InputAction m_PlayerActions_Ability3;
     private readonly InputAction m_PlayerActions_Ability4;
+    private readonly InputAction m_PlayerActions_Inventory;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -446,6 +467,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Ability2 => m_Wrapper.m_PlayerActions_Ability2;
         public InputAction @Ability3 => m_Wrapper.m_PlayerActions_Ability3;
         public InputAction @Ability4 => m_Wrapper.m_PlayerActions_Ability4;
+        public InputAction @Inventory => m_Wrapper.m_PlayerActions_Inventory;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -476,6 +498,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Ability4.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnAbility4;
                 @Ability4.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnAbility4;
                 @Ability4.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnAbility4;
+                @Inventory.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInventory;
+                @Inventory.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInventory;
+                @Inventory.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInventory;
             }
             m_Wrapper.m_PlayerActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -501,6 +526,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Ability4.started += instance.OnAbility4;
                 @Ability4.performed += instance.OnAbility4;
                 @Ability4.canceled += instance.OnAbility4;
+                @Inventory.started += instance.OnInventory;
+                @Inventory.performed += instance.OnInventory;
+                @Inventory.canceled += instance.OnInventory;
             }
         }
     }
@@ -519,5 +547,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnAbility2(InputAction.CallbackContext context);
         void OnAbility3(InputAction.CallbackContext context);
         void OnAbility4(InputAction.CallbackContext context);
+        void OnInventory(InputAction.CallbackContext context);
     }
 }

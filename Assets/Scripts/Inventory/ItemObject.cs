@@ -10,9 +10,12 @@ public class ItemObject : MonoBehaviour
         public List<ItemRequirement> Requirements;
         public bool RemoveRequirementsOnPickup;
 
-        private void Update()
+        private void OnTriggerEnter(Collider other)
         {
-            if(Input.GetKeyDown(KeyCode.E)) OnPickUpItem();
+            if (other.CompareTag("Player"))
+            {
+                OnPickUpItem();
+            }
         }
 
         public void OnPickUpItem()

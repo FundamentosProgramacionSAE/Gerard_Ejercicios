@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Inventory.Item;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,12 +12,14 @@ public class SlotItem : MonoBehaviour
     public TextMeshProUGUI NameItem;
     public GameObject StackObj;
     public TextMeshProUGUI StackLabel;
+    public ItemData ItemData;
 
 
     public void Set(InventoryItem item)
     {
+        ItemData = item.Data;
         IconItem.sprite = item.Data.Icon;
-        NameItem.SetText(item.Data.DisplayName);
+        if(NameItem != null) NameItem.SetText(item.Data.DisplayName);
 
         if (item.StackSize <= 1)
         {

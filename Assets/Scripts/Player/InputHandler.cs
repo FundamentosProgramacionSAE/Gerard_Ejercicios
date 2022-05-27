@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Ability.Manager;
 using Inventory;
+using Player.Canvas;
 using Player.Locomotion;
 using Player.Manager;
 using Player.Stats;
@@ -22,6 +23,7 @@ namespace Player.Input
         [BoxGroup("Flags")] public bool RollFlag;
         [BoxGroup("Flags")] public bool SprintFlag;
         [BoxGroup("Flags")] public bool ComboFlag;
+        [BoxGroup("Flags")] public bool InventoryFlag;
 
         [BoxGroup("Inputs")] public bool input;
         [BoxGroup("Inputs")] public bool Rb_Input;
@@ -29,6 +31,7 @@ namespace Player.Input
         [BoxGroup("Inputs")] public bool SecondAbilityInput;
         [BoxGroup("Inputs")] public bool ThirdAbilityInput;
         [BoxGroup("Inputs")] public bool FourthAbilityInput;
+        [BoxGroup("Inputs")] public bool InventoryInput;
         
 
 
@@ -40,6 +43,7 @@ namespace Player.Input
         private PlayerManager playerManager;
         private AnimatorHandler animatorHandler;
         private AbilityManager abilityManager;
+        private PlayerCanvas playerCanvas;
 
         private Vector2 movementInput;
         private Vector2 cameraInput;
@@ -53,6 +57,7 @@ namespace Player.Input
             playerManager = GetComponent<PlayerManager>();
             abilityManager = GetComponent<AbilityManager>();
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            playerCanvas = GetComponentInChildren<PlayerCanvas>();
         }
 
         private void OnEnable()
@@ -80,6 +85,7 @@ namespace Player.Input
             HandleRollInput();
             HandleSprintInput();
             AttackInputs();
+            HandleInventoryInput();
         }
 
         public void AttackInputs()
@@ -184,6 +190,25 @@ namespace Player.Input
                     animatorHandler.Animator.SetBool("isUnarmed", true);
                     animatorHandler.PlayTargetAnimation("Unequip", false);
                     playerManager.IsUnarmed = true;
+                }
+            }
+        }
+
+        private void HandleInventoryInput()
+        {
+            inputActions.PlayerActions.Inventory.performed += i => InventoryInput = true;
+
+            if (InventoryInput)
+            {
+                InventoryFlag = !InventoryFlag;
+                
+                if (InventoryFlag)
+                {
+                    playerCanvas.OpenInventory();
+                }
+                else
+                {
+                    playerCanvas.CloseInventory();
                 }
             }
         }
