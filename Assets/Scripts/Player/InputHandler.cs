@@ -80,12 +80,14 @@ namespace Player.Input
         public void TickInput()
         {
             if(playerStats.healthSystem.IsDead()) return;
+            HandleInventoryInput();
+            if(InventoryFlag) return;
 
             MoveInput();
             HandleRollInput();
             HandleSprintInput();
             AttackInputs();
-            HandleInventoryInput();
+
         }
 
         public void AttackInputs()

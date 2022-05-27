@@ -7,8 +7,13 @@ using UnityEngine.UI;
 public class InventorySystem : MonoBehaviour ,IDataPersistence
     {
 
-        public event Action OnInventoryChanged;
+        public event Action<InventoryItem> OnAddItem;
+        public event Action<InventoryItem> OnAddStackItem;
+        public event Action<InventoryItem> OnRemoveItem;
+        public event Action<InventoryItem> OnRemoveStackItem;
+        public event Action OnStartInventory;
         public static InventorySystem Instance { get; private set; }
+        public List<GameObject> InventoryItems = new List<GameObject>();
         public SerializableDictionary<ItemData, InventoryItem> ItemsDictionary;
 
 
@@ -34,21 +39,27 @@ public class InventorySystem : MonoBehaviour ,IDataPersistence
             if (ItemsDictionary.TryGetValue(referenceData, out InventoryItem value))
             {
                 value.AddToStack();
+                OnAddStackItem?.Invoke(value);
                 
             }
             else
             {
                 InventoryItem newItem = new InventoryItem(referenceData);
                 ItemsDictionary.Add(referenceData,newItem);
+                OnAddItem?.Invoke(newItem);
             }
-
-            OnInventoryChanged?.Invoke();
+            
         }
 
         public void RestartInventory()
         {
             ItemsDictionary.Clear();
-            OnInventoryChanged?.Invoke();
+            OnStartInventory?.Invoke();
+        }
+
+        public void StartInventory()
+        {
+            OnStartInventory?.Invoke();
         }
 
         public void Remove(ItemData referenceData)
@@ -56,14 +67,14 @@ public class InventorySystem : MonoBehaviour ,IDataPersistence
             if (ItemsDictionary.TryGetValue(referenceData, out InventoryItem value))
             {
                 value.RemoveFromStack();
+                OnRemoveStackItem?.Invoke(value);
 
                 if (value.StackSize == 0)
                 {
                     ItemsDictionary.Remove(referenceData);
+                    OnRemoveItem?.Invoke(value);
                 }
             }
-
-            OnInventoryChanged?.Invoke();
         }
 
         public void LoadData(GameData data)
@@ -84,7 +95,6 @@ public class InventorySystem : MonoBehaviour ,IDataPersistence
                 }
 
             }
-            OnInventoryChanged?.Invoke();
         }
 
         public void SaveData(GameData data)

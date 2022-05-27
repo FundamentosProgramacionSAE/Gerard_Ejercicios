@@ -46,14 +46,14 @@ namespace TooltipManager
 
         private void Update()
         {
-            Vector2 position = Mouse.current.position.ReadValue();
+            //Vector2 position = Mouse.current.position.ReadValue();
 
             // float pivotX = position.x / Screen.width;
             // float pivotY = position.y / Screen.height;
             //
             //
             // _rectTransform.pivot = new Vector2(pivotX, pivotY);
-            transform.position = position;
+            //transform.position = position;
         }
     }
 }

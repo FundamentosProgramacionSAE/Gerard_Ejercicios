@@ -13,6 +13,7 @@ public class SlotItem : MonoBehaviour
     public GameObject StackObj;
     public TextMeshProUGUI StackLabel;
     public ItemData ItemData;
+    public InventoryLayout InventoryLayout;
 
 
     public void Set(InventoryItem item)

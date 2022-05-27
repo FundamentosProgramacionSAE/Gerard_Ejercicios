@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9630dba1810916345ac97541424f1722, type: 3}
-  m_Name: Pocion
+  m_Name: Pocion 2
   m_EditorClassIdentifier: 
-  ID: Pocion
-  DisplayName: Pocion
+  ID: Pocion12
+  DisplayName: Pocion12
   InfoItem: "Poci\xF3n de los dioses, te puede curar entre 50-80 de vida."
   Icon: {fileID: 21300000, guid: 74dda245e5deb9e46bc615714e05cb49, type: 3}
   RandomAmounts:
-    Min: 4
-    Max: 4
+    Min: 1
+    Max: 2
   MaxAmount: 10

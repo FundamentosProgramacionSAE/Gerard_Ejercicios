@@ -11,6 +11,7 @@ namespace TooltipManager
         public string Content;
         public string Header;
         public SlotItem SlotItem;
+        public Vector3 Offset;
 
         private void Start()
         {
@@ -20,7 +21,12 @@ namespace TooltipManager
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            TooltipSystem.Show(Content, Header);
+            TooltipSystem.Show(GetComponent<RectTransform>().position + Offset,Content, Header);
+        }
+
+        public void OnFinishDrop()
+        {
+            TooltipSystem.Show(GetComponent<RectTransform>().position + Offset,Content, Header);
         }
 
         public void OnPointerExit(PointerEventData eventData)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using Player.Input;
 using Player.Locomotion;
 using Player.Stats;
@@ -19,10 +20,14 @@ namespace Player.Manager
         [BoxGroup("Inputs")] public bool IsJumping;
         [BoxGroup("Inputs")] public bool CanCombo;
         [BoxGroup("Inputs")] public bool IsUnarmed;
+
+        public CinemachineBrain CinemachineBrain;
         
         private InputHandler inputHandler;
         private AnimatorHandler animatorHandler;
         private PlayerLocomotion playerLocomotion;
+        
+
 
         private void Start()
         {
@@ -38,7 +43,6 @@ namespace Player.Manager
             inputHandler.TickInput();
             playerLocomotion.Handles();
         }
-        
 
         private void LateUpdate()
         {

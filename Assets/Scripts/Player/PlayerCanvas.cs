@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Ability.Manager;
 using MoreMountains.Feedbacks;
+using Player.Manager;
 using Player.Stats;
 using Sirenix.OdinInspector;
 using TooltipManager;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace Player.Canvas
@@ -31,6 +33,7 @@ namespace Player.Canvas
         public GameObject PanelInventory;
         public GameObject PrefabItemInventory;
         public Transform PanelItems;
+        public List<InventoryLayout> Layouts = new List<InventoryLayout>();
         public int SizeInventory;
 
         [Title("Feedbacks")] 
@@ -41,11 +44,13 @@ namespace Player.Canvas
         
         
         private AbilityManager AbilityManager;
+        private PlayerManager _playerManager;
 
 
         private void Awake()
         {
             AbilityManager = GetComponentInParent<AbilityManager>();
+            _playerManager = GetComponentInParent<PlayerManager>();
 
             if (AbilityManager != null)
             {
@@ -57,6 +62,15 @@ namespace Player.Canvas
             CooldownAbility2.fillAmount = 1;
             CooldownAbility3.fillAmount = 1;
             CooldownAbility4.fillAmount = 1;
+            
+            // if (SizeInventory > 0)
+            // {
+            //     for (int i = 1; i <= SizeInventory; i++)
+            //     {
+            //         var _layout = Instantiate(PrefabItemInventory, Vector3.zero, Quaternion.identity, PanelItems);
+            //         Layouts.Add(_layout.GetComponent<InventoryLayout>());
+            //     }
+            // }
         }
 
         private void Start()
@@ -68,14 +82,8 @@ namespace Player.Canvas
                 if (AbilityManager.Ability4) AbilityManager.OnActivateAbility4 += AbilityManagerOnOnActivateAbility4;
             }
 
-            if (SizeInventory > 0)
-            {
-                for (int i = 1; i <= SizeInventory; i++)
-                {
-                    Instantiate(PrefabItemInventory, Vector3.zero, Quaternion.identity, PanelItems);
-                }
-            }
-            
+
+            InventorySystem.Instance.StartInventory();
             CloseInventory();
         }
         
@@ -146,11 +154,14 @@ namespace Player.Canvas
         {
             PanelInventory.GetComponent<CanvasGroup>().alpha = 1;
             Extensions.ShowCursor();
+            _playerManager.CinemachineBrain.enabled = false;
+
         }
 
         public void CloseInventory()
         {
             PanelInventory.GetComponent<CanvasGroup>().alpha = 0;
+            _playerManager.CinemachineBrain.enabled = true;
             Extensions.HideCursor();
             TooltipSystem.Hide();
         }

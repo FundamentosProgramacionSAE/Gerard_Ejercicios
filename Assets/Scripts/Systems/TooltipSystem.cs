@@ -19,9 +19,16 @@ namespace TooltipManager
         }
 
 
-        public static void Show(string content, string header = "")
+        public static void Show(Vector2 position,string content, string header = "")
         {
             Instance.Tooltip.SetText(content, header);
+            Instance.Tooltip.transform.position = position;
+            Instance.Tooltip.gameObject.SetActive(true);
+        }
+
+        public static void Show(Vector2 position)
+        {
+            Instance.Tooltip.transform.position = position;
             Instance.Tooltip.gameObject.SetActive(true);
         }
 

@@ -145,7 +145,6 @@ GameObject:
   - component: {fileID: 4784207743940660555}
   - component: {fileID: 555120905774780356}
   - component: {fileID: 393282236778020405}
-  - component: {fileID: 3719988853813652987}
   m_Layer: 0
   m_Name: ImageItem
   m_TagString: Untagged
@@ -194,9 +193,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -210,21 +209,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3719988853813652987
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7603450387000820119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adf2f685d48deb24c8642a47ddc16f2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Content: 
-  Header: 
-  SlotItem: {fileID: 5124625611847134034}
 --- !u!1 &8350049343256557650
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,6 +219,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5188905660300384970}
   - component: {fileID: 5124625611847134034}
+  - component: {fileID: 4574506909522838204}
+  - component: {fileID: 3760308696962884557}
+  - component: {fileID: 7512572856574060921}
+  - component: {fileID: 3780709692487072133}
+  - component: {fileID: 8247949447634086191}
   m_Layer: 0
   m_Name: ItemSlotTemplate
   m_TagString: Untagged
@@ -258,10 +247,10 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 960, y: -540}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5124625611847134034
 MonoBehaviour:
@@ -280,3 +269,81 @@ MonoBehaviour:
   StackObj: {fileID: 1087945555898400982}
   StackLabel: {fileID: 3172163073813268071}
   ItemData: {fileID: 0}
+--- !u!222 &4574506909522838204
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8350049343256557650}
+  m_CullTransparentMesh: 1
+--- !u!114 &3760308696962884557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8350049343256557650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7512572856574060921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8350049343256557650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e6372719209bce4e9dfa075cc1048af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3780709692487072133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8350049343256557650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adf2f685d48deb24c8642a47ddc16f2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Content: 
+  Header: 
+  SlotItem: {fileID: 5124625611847134034}
+  Offset: {x: 0, y: -125, z: 0}
+--- !u!225 &8247949447634086191
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8350049343256557650}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

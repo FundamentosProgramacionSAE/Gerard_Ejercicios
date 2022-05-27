@@ -93,7 +93,7 @@ namespace Player.Locomotion
             
             if(inputHandler.RollFlag) return;
             if(playerManager.IsInteracting) return;
-            
+
             moveDirection = camera.forward * inputHandler.Vertical;
             moveDirection += camera.right * inputHandler.Horizontal;
             moveDirection.Normalize();
