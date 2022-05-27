@@ -45,11 +45,11 @@ namespace Inventory.Item
             
             if (collider.CompareTag("Enemy"))
             {
-                EnemyStats playerStats = collider.GetComponent<EnemyStats>();
+                EnemyStats enemyStats = collider.GetComponent<EnemyStats>();
                 
-                if(playerStats == null) return;
+                if(enemyStats == null) return;
                 
-                playerStats.TakeDamage(WeaponDamage);
+                enemyStats.TakeDamage(WeaponDamage);
             }
         }
     }

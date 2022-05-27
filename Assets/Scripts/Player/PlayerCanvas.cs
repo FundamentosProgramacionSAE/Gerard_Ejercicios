@@ -26,6 +26,11 @@ namespace Player.Canvas
         public Image CooldownAbility3;
         public Image CooldownAbility4;
 
+        [Title("Inventory Panel")] 
+        public GameObject PrefabItemInventory;
+        public Transform PanelItems;
+        public int SizeInventory;
+
         [Title("Feedbacks")] 
         public MMF_Player FeedbackActivateAbility2;
         public MMF_Player FeedbackActivateAbility3;
@@ -59,6 +64,14 @@ namespace Player.Canvas
                 if (AbilityManager.Ability2) AbilityManager.OnActivateAbility2 += AbilityManagerOnOnActivateAbility2;
                 if (AbilityManager.Ability3) AbilityManager.OnActivateAbility3 += AbilityManagerOnOnActivateAbility3;
                 if (AbilityManager.Ability4) AbilityManager.OnActivateAbility4 += AbilityManagerOnOnActivateAbility4;
+            }
+
+            if (SizeInventory > 0)
+            {
+                for (int i = 1; i <= SizeInventory; i++)
+                {
+                    Instantiate(PrefabItemInventory, Vector3.zero, Quaternion.identity, PanelItems);
+                }
             }
         }
         
