@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Inventory
 {
-    public class PlayerInventory : MonoBehaviour
+    public class PlayerWeaponInventory : MonoBehaviour
     {
         public WeaponItem RightWeapon;
         public WeaponItem LeftWeapon;

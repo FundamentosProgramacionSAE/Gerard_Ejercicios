@@ -27,7 +27,7 @@ namespace Player.Input
 
         [BoxGroup("Inputs")] public bool input;
         [BoxGroup("Inputs")] public bool Rb_Input;
-        [BoxGroup("Inputs")] public bool UnarmedInput;
+        [BoxGroup("Inputs")] public bool ReposeInput;
         [BoxGroup("Inputs")] public bool SecondAbilityInput;
         [BoxGroup("Inputs")] public bool ThirdAbilityInput;
         [BoxGroup("Inputs")] public bool FourthAbilityInput;
@@ -38,12 +38,13 @@ namespace Player.Input
 
         private PlayerControls inputActions;
         private PlayerAttacker playerAttacker;
-        private PlayerInventory playerInventory;
+        private PlayerWeaponInventory _playerWeaponInventory;
         private PlayerStats playerStats;
         private PlayerManager playerManager;
         private AnimatorHandler animatorHandler;
         private AbilityManager abilityManager;
         private PlayerCanvas playerCanvas;
+        private WeaponSlotManager _weaponSlotManager;
 
         private Vector2 movementInput;
         private Vector2 cameraInput;
@@ -52,12 +53,13 @@ namespace Player.Input
         private void Awake()
         {
             playerAttacker = GetComponent<PlayerAttacker>();
-            playerInventory = GetComponent<PlayerInventory>();
+            _playerWeaponInventory = GetComponent<PlayerWeaponInventory>();
             playerStats = GetComponent<PlayerStats>();
             playerManager = GetComponent<PlayerManager>();
             abilityManager = GetComponent<AbilityManager>();
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
             playerCanvas = GetComponentInChildren<PlayerCanvas>();
+            _weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
         }
 
         private void OnEnable()
@@ -81,7 +83,14 @@ namespace Player.Input
         {
             if(playerStats.healthSystem.IsDead()) return;
             HandleInventoryInput();
-            if(InventoryFlag) return;
+            if (InventoryFlag)
+            {
+                Horizontal = 0;
+                Vertical = 0;
+                MoveAmount = 0;
+                movementInput = Vector2.zero;
+                return;
+            }
 
             MoveInput();
             HandleRollInput();
@@ -93,7 +102,7 @@ namespace Player.Input
         public void AttackInputs()
         {
             HandleAttackInput();
-            HandleUnarmedInput();
+            HandleReposeInput();
         }
 
         private void MoveInput()
@@ -126,9 +135,7 @@ namespace Player.Input
 
         private void HandleAttackInput()
         {
-
-            if(playerManager.IsUnarmed) return;
-            
+            if(_playerWeaponInventory.RightWeapon.IsUnarmed) return;
             
             inputActions.PlayerActions.RB.performed += i => Rb_Input = true;
             inputActions.PlayerActions.Ability2.performed += i => SecondAbilityInput = true;
@@ -138,10 +145,12 @@ namespace Player.Input
             // RB input handles the RIGHT hand weapon's light attack
             if (Rb_Input)
             {
+                UnReposeWeapon();
+                
                 if (playerManager.CanCombo)
                 {
                     ComboFlag = true;
-                    playerAttacker.HandleWeaponCombo(playerInventory.RightWeapon);
+                    playerAttacker.HandleWeaponCombo(_playerWeaponInventory.RightWeapon);
                     ComboFlag = false;
                 }
                 else
@@ -149,49 +158,53 @@ namespace Player.Input
                     if(playerManager.IsInteracting) return;
                     if(playerManager.CanCombo) return;
                     
-                    playerAttacker.HandleLightAttack(playerInventory.RightWeapon);
+                    playerAttacker.HandleLightAttack(_playerWeaponInventory.RightWeapon);
                 }
 
             }
             
-            if(playerManager.IsInteracting) return;
+            if(playerManager.IsInteracting || abilityManager.HasAbilities != true) return;
             if (SecondAbilityInput && abilityManager.CanUseAbility2)
             {
-                playerAttacker.HandleAbilityAttack2(playerInventory.RightWeapon);
+                UnReposeWeapon();
+                playerAttacker.HandleAbilityAttack2(_playerWeaponInventory.RightWeapon);
                 abilityManager.RestartCooldownAbility2();
                 abilityManager.CanUseAbility2 = false;
             }
             
             if (ThirdAbilityInput && abilityManager.CanUseAbility3)
             {
-                playerAttacker.HandleAbilityAttack3(playerInventory.RightWeapon);
+                UnReposeWeapon();
+                playerAttacker.HandleAbilityAttack3(_playerWeaponInventory.RightWeapon);
                 abilityManager.RestartCooldownAbility3();
                 abilityManager.CanUseAbility3 = false;
             }
             if (FourthAbilityInput && abilityManager.CanUseAbility4)
             {
-                playerAttacker.HandleAbilityAttack4(playerInventory.RightWeapon);
+                UnReposeWeapon();
+                playerAttacker.HandleAbilityAttack4(_playerWeaponInventory.RightWeapon);
                 abilityManager.RestartCooldownAbility4();
                 abilityManager.CanUseAbility4 = false;
             }
         }
-        private void HandleUnarmedInput()
+        private void HandleReposeInput()
         {
-            inputActions.PlayerActions.Unarmed.performed += i => UnarmedInput = true;
+            if(_playerWeaponInventory.RightWeapon.IsUnarmed) return;
+            inputActions.PlayerActions.ReposeWeapon.performed += i => ReposeInput = true;
 
-            if (UnarmedInput)
+            if (ReposeInput)
             {
-                if (playerManager.IsUnarmed)
+                if (playerManager.IsReposeWeapon)
                 {
-                    animatorHandler.Animator.SetBool("isUnarmed", false);
+                    animatorHandler.Animator.SetBool("isReposeWeapon", false);
                     animatorHandler.PlayTargetAnimation("Equip", false);
-                    playerManager.IsUnarmed = false;
+                    playerManager.IsReposeWeapon = false;
                 }
                 else
                 {
-                    animatorHandler.Animator.SetBool("isUnarmed", true);
+                    animatorHandler.Animator.SetBool("isReposeWeapon", true);
                     animatorHandler.PlayTargetAnimation("Unequip", false);
-                    playerManager.IsUnarmed = true;
+                    playerManager.IsReposeWeapon = true;
                 }
             }
         }
@@ -212,6 +225,17 @@ namespace Player.Input
                 {
                     playerCanvas.CloseInventory();
                 }
+            }
+        }
+
+        private void UnReposeWeapon()
+        {
+            if (playerManager.IsReposeWeapon)
+            {
+                _weaponSlotManager.OnEquipWeapon();
+                playerManager.IsReposeWeapon = false;
+                animatorHandler.Animator.SetBool("isReposeWeapon", false);
+                    
             }
         }
     }

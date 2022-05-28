@@ -28,13 +28,11 @@ namespace Player.Canvas
         public Image CooldownAbility2;
         public Image CooldownAbility3;
         public Image CooldownAbility4;
+        public Sprite DefaultAbilityImage;
 
         [Title("Inventory Panel")] 
         public GameObject PanelInventory;
-        public GameObject PrefabItemInventory;
-        public Transform PanelItems;
         public List<InventoryLayout> Layouts = new List<InventoryLayout>();
-        public int SizeInventory;
 
         [Title("Feedbacks")] 
         public MMF_Player FeedbackActivateAbility2;
@@ -51,42 +49,29 @@ namespace Player.Canvas
         {
             AbilityManager = GetComponentInParent<AbilityManager>();
             _playerManager = GetComponentInParent<PlayerManager>();
-
-            if (AbilityManager != null)
-            {
-                Ability2Image.sprite = (AbilityManager.Ability2) ? AbilityManager.Ability2.SpriteImage : null;
-                Ability3Image.sprite = (AbilityManager.Ability3) ? AbilityManager.Ability3.SpriteImage : null;
-                Ability4Image.sprite = (AbilityManager.Ability4) ? AbilityManager.Ability4.SpriteImage : null;
-            }
-
-            CooldownAbility2.fillAmount = 1;
-            CooldownAbility3.fillAmount = 1;
-            CooldownAbility4.fillAmount = 1;
-            
-            // if (SizeInventory > 0)
-            // {
-            //     for (int i = 1; i <= SizeInventory; i++)
-            //     {
-            //         var _layout = Instantiate(PrefabItemInventory, Vector3.zero, Quaternion.identity, PanelItems);
-            //         Layouts.Add(_layout.GetComponent<InventoryLayout>());
-            //     }
-            // }
         }
 
         private void Start()
         {
             if (AbilityManager != null)
             {
+                Ability2Image.sprite = (AbilityManager.Ability2) ? AbilityManager.Ability2.SpriteImage : DefaultAbilityImage;
+                Ability3Image.sprite = (AbilityManager.Ability3) ? AbilityManager.Ability3.SpriteImage : DefaultAbilityImage;
+                Ability4Image.sprite = (AbilityManager.Ability4) ? AbilityManager.Ability4.SpriteImage : DefaultAbilityImage;
+
+                CooldownAbility2.fillAmount = AbilityManager.Ability2 ? 1 : 0;
+                CooldownAbility3.fillAmount = AbilityManager.Ability3 ? 1 : 0;
+                CooldownAbility4.fillAmount = AbilityManager.Ability4 ? 1 : 0;
+                
                 if (AbilityManager.Ability2) AbilityManager.OnActivateAbility2 += AbilityManagerOnOnActivateAbility2;
                 if (AbilityManager.Ability3) AbilityManager.OnActivateAbility3 += AbilityManagerOnOnActivateAbility3;
                 if (AbilityManager.Ability4) AbilityManager.OnActivateAbility4 += AbilityManagerOnOnActivateAbility4;
             }
-
-
+            
             InventorySystem.Instance.StartInventory();
             CloseInventory();
         }
-        
+
         private void Update()
         {
             if(AbilityManager == null) return;
@@ -164,6 +149,22 @@ namespace Player.Canvas
             _playerManager.CinemachineBrain.enabled = true;
             Extensions.HideCursor();
             TooltipSystem.Hide();
+        }
+
+        public void SetPositionsInventory()
+        {
+            for (int i = 0; i < Layouts.Count; i++)
+            {
+                Layouts[i].Position = i;
+            }
+        }
+
+        public void SetDefaultLayouts()
+        {
+            foreach (var layout in Layouts)
+            {
+                layout.RemoveSlot();
+            }
         }
     }
 }

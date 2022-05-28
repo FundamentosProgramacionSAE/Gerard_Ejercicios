@@ -19,7 +19,7 @@ namespace Player.Manager
         [BoxGroup("Inputs")] public bool IsGrounded;
         [BoxGroup("Inputs")] public bool IsJumping;
         [BoxGroup("Inputs")] public bool CanCombo;
-        [BoxGroup("Inputs")] public bool IsUnarmed;
+        [BoxGroup("Inputs")] public bool IsReposeWeapon;
 
         public CinemachineBrain CinemachineBrain;
         
@@ -52,7 +52,7 @@ namespace Player.Manager
             inputHandler.SecondAbilityInput = false;
             inputHandler.ThirdAbilityInput = false;
             inputHandler.FourthAbilityInput = false;
-            inputHandler.UnarmedInput = false;
+            inputHandler.ReposeInput = false;
             inputHandler.InventoryInput = false;
         }
     }

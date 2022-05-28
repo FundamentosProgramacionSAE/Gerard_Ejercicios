@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Ability.Type;
+using Inventory;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ namespace Ability.Manager
 	    public event Action OnActivateAbility2;
 	    public event Action OnActivateAbility3;
 	    public event Action OnActivateAbility4;
+
+	    public PlayerWeaponInventory PlayerWeaponInventory;
 	    
 	    [TitleGroup("Abilities","Type Abilities", TitleAlignments.Centered)]
 	    public AbilityType Ability2;
@@ -22,6 +25,8 @@ namespace Ability.Manager
 	    public bool CanUseAbility2;
 	    public bool CanUseAbility3;
 	    public bool CanUseAbility4;
+	    public bool HasAbilities;
+
 
 	    internal float cooldownAbility2;
 	    internal float cooldownAbility3;
@@ -29,7 +34,23 @@ namespace Ability.Manager
 
 
 	    private void Awake()
-	    { 
+	    {
+		    PlayerWeaponInventory = GetComponent<PlayerWeaponInventory>();
+
+		    Ability2 = PlayerWeaponInventory.RightWeapon.AbilityType2;
+		    Ability3 = PlayerWeaponInventory.RightWeapon.AbilityType3;
+		    Ability4 = PlayerWeaponInventory.RightWeapon.AbilityType4;
+
+	    }
+
+	    private void Start()
+	    {
+		    if (Ability2 == null || Ability3 == null || Ability4 == null)
+		    {
+			    HasAbilities = false;
+			    return;
+		    }
+		    
 		    RestartAllCooldownsAbilities();
 	    }
 
@@ -37,6 +58,17 @@ namespace Ability.Manager
 
 	    private void Update()
 	    {
+		    if (Ability2 == null || Ability3 == null || Ability4 == null)
+		    {
+			    HasAbilities = false;
+		    }
+		    else
+		    {
+			    HasAbilities = true;
+		    }
+		    
+		    if(HasAbilities != true) return;
+		    
 		    if (Ability2) CooldownAbility2();
 		    if (Ability3) CooldownAbility3();
 		    if (Ability4) CooldownAbility4();

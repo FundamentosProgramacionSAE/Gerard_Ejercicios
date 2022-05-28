@@ -14,6 +14,7 @@ public class InventoryUI : MonoBehaviour
         private void Awake()
         {
             PlayerCanvas = GetComponentInParent<PlayerCanvas>();
+            PlayerCanvas.SetPositionsInventory();
         }
 
         private void OnEnable()
@@ -23,6 +24,8 @@ public class InventoryUI : MonoBehaviour
             InventorySystem.Instance.OnRemoveItem += OnRemoveItem;
             InventorySystem.Instance.OnRemoveStackItem += OnRemoveStackItem;
             InventorySystem.Instance.OnStartInventory += OnStartInventory;
+            InventorySystem.Instance.OnRestartInventory += OnRestartInventory;
+
         }
 
         private void OnDisable()
@@ -32,6 +35,7 @@ public class InventoryUI : MonoBehaviour
             InventorySystem.Instance.OnRemoveItem -= OnRemoveItem;
             InventorySystem.Instance.OnRemoveStackItem -= OnRemoveStackItem;
             InventorySystem.Instance.OnStartInventory -= OnStartInventory;
+            InventorySystem.Instance.OnRestartInventory -= OnRestartInventory;
 
         }
 
@@ -49,35 +53,18 @@ public class InventoryUI : MonoBehaviour
                 }
             }
         }
+        
 
         private void OnRemoveItem(InventoryItem item)
         {
-            for (int i = 0; i < Items.Count; i++)
-            {
-                if (Items[i].ItemData == item.Data)
-                {
-                    foreach (var layout in PlayerCanvas.Layouts)
-                    {
-                        if (layout.SlotItem == Items[i])
-                        {
-                            layout.RemoveSlot();
-                        }
-                    }
-                    Destroy(Items[i].gameObject);
-                    if(Items[i] == null) Items.RemoveAt(i);
-                }
-            }
+            RemoveInventorySlot(item);
         }
+
+
 
         private void OnRemoveStackItem(InventoryItem item)
         {
-            foreach (var slotItem in Items)
-            {
-                if (slotItem.ItemData == item.Data)
-                {
-                    slotItem.Set(item);
-                }
-            }
+            SetSlotItem(item);
         }
         
 
@@ -91,7 +78,26 @@ public class InventoryUI : MonoBehaviour
             DrawInventory();
         }
 
-        public void DrawInventory()
+        private void OnRestartInventory()
+        {
+            print("AS");
+            var inventorySystem = InventorySystem.Instance;
+            foreach (var item in inventorySystem.ItemsDictionary)
+            {
+                item.Key.Position = -1;
+            }
+            
+            inventorySystem.ItemsDictionary.Clear();
+            Items.Clear();
+            PlayerCanvas.SetDefaultLayouts();
+            
+            foreach (Transform t in transform)
+            {
+                Destroy(t.gameObject);
+            }
+        }
+
+        private void DrawInventory()
         {
             foreach (var item in InventorySystem.Instance.ItemsDictionary)
             {
@@ -109,15 +115,60 @@ public class InventoryUI : MonoBehaviour
             slot.Set(item);
             Items.Add(slot);
             
-            foreach (var layout in PlayerCanvas.Layouts)
+            if (slot.ItemData.Position == -1)
             {
-                if (layout.HasOccupied) continue;
-                obj.transform.localPosition = layout.GetComponent<RectTransform>().localPosition;
-                layout.SetSlot(slot);
-                slot.InventoryLayout = layout;
+                foreach (var layout in PlayerCanvas.Layouts)
+                {
+                    if (layout.HasOccupied) continue;
+                
+                    obj.transform.localPosition = layout.GetComponent<RectTransform>().localPosition;
+                    layout.SetSlot(slot);
+                    slot.InventoryLayout = layout;
+                    slot.ItemData.Position = layout.Position;
+                    return;
+
+
+                }
+            }
+            else
+            {
+                obj.transform.localPosition = PlayerCanvas.Layouts[slot.ItemData.Position].GetComponent<RectTransform>().localPosition;
+                PlayerCanvas.Layouts[slot.ItemData.Position].SetSlot(slot);
+                slot.InventoryLayout = PlayerCanvas.Layouts[slot.ItemData.Position];
                 return;
+            }
 
+        }
+        
+        private void RemoveInventorySlot(InventoryItem item)
+        {
+            for (int i = 0; i < Items.Count; i++)
+            {
+                if (Items[i].ItemData == item.Data)
+                {
+                    foreach (var layout in PlayerCanvas.Layouts)
+                    {
+                        if (layout.SlotItem == Items[i])
+                        {
+                            layout.RemoveSlot();
+                        }
+                    }
 
+                    item.Data.Position = -1;
+                    Destroy(Items[i].gameObject);
+                    Items.RemoveAt(i);
+                }
+            }
+        }
+        
+        private void SetSlotItem(InventoryItem item)
+        {
+            foreach (var slotItem in Items)
+            {
+                if (slotItem.ItemData == item.Data)
+                {
+                    slotItem.Set(item);
+                }
             }
         }
 

@@ -183,7 +183,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Unarmed"",
+                    ""name"": ""ReposeWeapon"",
                     ""type"": ""Button"",
                     ""id"": ""8bee3f3a-1881-41f9-99a3-9e6a15bbb65e"",
                     ""expectedControlType"": ""Button"",
@@ -302,7 +302,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Unarmed"",
+                    ""action"": ""ReposeWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -351,7 +351,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         // Player Actions
         m_PlayerActions = asset.FindActionMap("Player Actions", throwIfNotFound: true);
         m_PlayerActions_Sprint = m_PlayerActions.FindAction("Sprint", throwIfNotFound: true);
-        m_PlayerActions_Unarmed = m_PlayerActions.FindAction("Unarmed", throwIfNotFound: true);
+        m_PlayerActions_ReposeWeapon = m_PlayerActions.FindAction("ReposeWeapon", throwIfNotFound: true);
         m_PlayerActions_Roll = m_PlayerActions.FindAction("Roll", throwIfNotFound: true);
         m_PlayerActions_RB = m_PlayerActions.FindAction("RB", throwIfNotFound: true);
         m_PlayerActions_Ability2 = m_PlayerActions.FindAction("Ability2", throwIfNotFound: true);
@@ -449,7 +449,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputActionMap m_PlayerActions;
     private IPlayerActionsActions m_PlayerActionsActionsCallbackInterface;
     private readonly InputAction m_PlayerActions_Sprint;
-    private readonly InputAction m_PlayerActions_Unarmed;
+    private readonly InputAction m_PlayerActions_ReposeWeapon;
     private readonly InputAction m_PlayerActions_Roll;
     private readonly InputAction m_PlayerActions_RB;
     private readonly InputAction m_PlayerActions_Ability2;
@@ -461,7 +461,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         private @PlayerControls m_Wrapper;
         public PlayerActionsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Sprint => m_Wrapper.m_PlayerActions_Sprint;
-        public InputAction @Unarmed => m_Wrapper.m_PlayerActions_Unarmed;
+        public InputAction @ReposeWeapon => m_Wrapper.m_PlayerActions_ReposeWeapon;
         public InputAction @Roll => m_Wrapper.m_PlayerActions_Roll;
         public InputAction @RB => m_Wrapper.m_PlayerActions_RB;
         public InputAction @Ability2 => m_Wrapper.m_PlayerActions_Ability2;
@@ -480,9 +480,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Sprint.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSprint;
                 @Sprint.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSprint;
                 @Sprint.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSprint;
-                @Unarmed.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnUnarmed;
-                @Unarmed.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnUnarmed;
-                @Unarmed.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnUnarmed;
+                @ReposeWeapon.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnReposeWeapon;
+                @ReposeWeapon.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnReposeWeapon;
+                @ReposeWeapon.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnReposeWeapon;
                 @Roll.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRoll;
                 @Roll.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRoll;
                 @Roll.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRoll;
@@ -508,9 +508,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Sprint.started += instance.OnSprint;
                 @Sprint.performed += instance.OnSprint;
                 @Sprint.canceled += instance.OnSprint;
-                @Unarmed.started += instance.OnUnarmed;
-                @Unarmed.performed += instance.OnUnarmed;
-                @Unarmed.canceled += instance.OnUnarmed;
+                @ReposeWeapon.started += instance.OnReposeWeapon;
+                @ReposeWeapon.performed += instance.OnReposeWeapon;
+                @ReposeWeapon.canceled += instance.OnReposeWeapon;
                 @Roll.started += instance.OnRoll;
                 @Roll.performed += instance.OnRoll;
                 @Roll.canceled += instance.OnRoll;
@@ -541,7 +541,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     public interface IPlayerActionsActions
     {
         void OnSprint(InputAction.CallbackContext context);
-        void OnUnarmed(InputAction.CallbackContext context);
+        void OnReposeWeapon(InputAction.CallbackContext context);
         void OnRoll(InputAction.CallbackContext context);
         void OnRB(InputAction.CallbackContext context);
         void OnAbility2(InputAction.CallbackContext context);

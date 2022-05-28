@@ -146302,7 +146302,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.28333333
-    functionName: OnUnequipWeapon
+    functionName: OnRestWeapon
     data: 
     objectReferenceParameter: {fileID: 11400000, guid: ec6a2bcea23e6324bbb4e6d5bbcc6e8e, type: 2}
     floatParameter: 0

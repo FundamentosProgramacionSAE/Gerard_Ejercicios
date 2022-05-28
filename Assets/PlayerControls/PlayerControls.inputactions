@@ -170,7 +170,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Unarmed",
+                    "name": "ReposeWeapon",
                     "type": "Button",
                     "id": "8bee3f3a-1881-41f9-99a3-9e6a15bbb65e",
                     "expectedControlType": "Button",
@@ -289,7 +289,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Unarmed",
+                    "action": "ReposeWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

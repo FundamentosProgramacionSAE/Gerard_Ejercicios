@@ -6,6 +6,7 @@ using UnityEngine;
     {
         public bool HasOccupied;
         public SlotItem SlotItem;
+        public int Position;
         
         public void RemoveSlot()
         {
@@ -18,6 +19,6 @@ using UnityEngine;
             HasOccupied = true;
             SlotItem = slotItem;
         }
-
+        
     }
 

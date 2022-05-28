@@ -13096,7 +13096,7 @@ MonoBehaviour:
   InventoryFlag: 0
   input: 0
   Rb_Input: 0
-  UnarmedInput: 0
+  ReposeInput: 0
   SecondAbilityInput: 0
   ThirdAbilityInput: 0
   FourthAbilityInput: 0
@@ -13144,7 +13144,7 @@ MonoBehaviour:
   IsGrounded: 1
   IsJumping: 0
   CanCombo: 0
-  IsUnarmed: 0
+  IsReposeWeapon: 0
   CinemachineBrain: {fileID: 6688260510904366103}
 --- !u!114 &6688260510486698103
 MonoBehaviour:
@@ -13201,12 +13201,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b8b2f441a363944aba336f461f63107, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Ability2: {fileID: 11400000, guid: 046143c3edc3dd547be10ce7f34b84f8, type: 2}
-  Ability3: {fileID: 11400000, guid: d6642c5306d522642bfa5730c534e94d, type: 2}
-  Ability4: {fileID: 11400000, guid: f66d4197eb4ecfb4983558f82f71ba51, type: 2}
+  PlayerWeaponInventory: {fileID: 0}
+  Ability2: {fileID: 0}
+  Ability3: {fileID: 0}
+  Ability4: {fileID: 0}
   CanUseAbility2: 0
   CanUseAbility3: 0
   CanUseAbility4: 0
+  HasAbilities: 0
 --- !u!1 &6688260510488863484
 GameObject:
   m_ObjectHideFlags: 0
@@ -51411,9 +51413,8 @@ MonoBehaviour:
   CooldownAbility2: {fileID: 6688260511922336669}
   CooldownAbility3: {fileID: 6688260510212425722}
   CooldownAbility4: {fileID: 6688260510366843624}
+  DefaultAbilityImage: {fileID: 21300000, guid: a8c722629fa1ff24baee63fa885237ca, type: 3}
   PanelInventory: {fileID: 4488966101178025551}
-  PrefabItemInventory: {fileID: 6755096106505613045, guid: 0ecf291d9aa9b60419fa4a48eff3c96d, type: 3}
-  PanelItems: {fileID: 2048059232795073500}
   Layouts:
   - {fileID: 4759057671932996070}
   - {fileID: 3280802211934286565}
@@ -51435,7 +51436,6 @@ MonoBehaviour:
   - {fileID: 8823360128894638254}
   - {fileID: 351219401297724546}
   - {fileID: 5524370905175791756}
-  SizeInventory: 20
   FeedbackActivateAbility2: {fileID: 6688260510967503687}
   FeedbackActivateAbility3: {fileID: 6688260512039283797}
   FeedbackActivateAbility4: {fileID: 6688260512228297753}

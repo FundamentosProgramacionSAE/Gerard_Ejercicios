@@ -24,3 +24,6 @@ MonoBehaviour:
   AbilityAttack2: Ability2
   AbilityAttack3: Ability3
   AbilityAttack4: Ability4
+  AbilityType2: {fileID: 11400000, guid: 046143c3edc3dd547be10ce7f34b84f8, type: 2}
+  AbilityType3: {fileID: 11400000, guid: d6642c5306d522642bfa5730c534e94d, type: 2}
+  AbilityType4: {fileID: 11400000, guid: f66d4197eb4ecfb4983558f82f71ba51, type: 2}

@@ -22,10 +22,15 @@ public class SlotItem : MonoBehaviour
         IconItem.sprite = item.Data.Icon;
         if(NameItem != null) NameItem.SetText(item.Data.DisplayName);
 
+        print(item.StackSize);
         if (item.StackSize <= 1)
         {
             StackObj.SetActive(false);
             return;
+        }
+        else
+        {
+            StackObj.SetActive(true);
         }
         
         StackLabel.SetText(item.StackSize.ToString());

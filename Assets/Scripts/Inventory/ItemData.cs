@@ -12,6 +12,7 @@ public class ItemData : ScriptableObject
     public Sprite Icon;
     public MinMaxInt RandomAmounts = new MinMaxInt{Min = 1, Max = 2};
     public int MaxAmount = 10;
+    public int Position;
 
 }
 

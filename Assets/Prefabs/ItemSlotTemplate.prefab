@@ -224,6 +224,7 @@ GameObject:
   - component: {fileID: 7512572856574060921}
   - component: {fileID: 3780709692487072133}
   - component: {fileID: 8247949447634086191}
+  - component: {fileID: 4447469021363686182}
   m_Layer: 0
   m_Name: ItemSlotTemplate
   m_TagString: Untagged
@@ -269,6 +270,7 @@ MonoBehaviour:
   StackObj: {fileID: 1087945555898400982}
   StackLabel: {fileID: 3172163073813268071}
   ItemData: {fileID: 0}
+  InventoryLayout: {fileID: 0}
 --- !u!222 &4574506909522838204
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -319,6 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e6372719209bce4e9dfa075cc1048af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startPosition: {x: 0, y: 0}
 --- !u!114 &3780709692487072133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,3 +350,16 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &4447469021363686182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8350049343256557650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6e8ed1619a23e3459eaaafa21e01770, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsItem: 1

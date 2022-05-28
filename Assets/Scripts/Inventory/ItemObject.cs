@@ -23,13 +23,15 @@ public class ItemObject : MonoBehaviour
 
             if (MeetsRequirements())
             {
+                //if (ExceedItems()) return;
+                
                 if (RemoveRequirementsOnPickup)
                 {
                     RemoveRequirements();
                 }
                 InventorySystem.Instance.Add(ItemData);
 
-                Destroy(gameObject);
+                //Destroy(gameObject);
 
             }
 
@@ -49,14 +51,28 @@ public class ItemObject : MonoBehaviour
 
             return true;
         }
+        
+        private bool ExceedItems()
+        {
+            foreach (var item in InventorySystem.Instance.ItemsDictionary)
+            {
+                if (item.Key == ItemData)
+                {
+                    if (item.Value.StackSize >= item.Key.MaxAmount) return true;
+                }
+
+            }
+
+            return false;
+        }
 
         private void RemoveRequirements()
         {
             foreach (var requirement in Requirements)
             {
-                for (int i = 1; i <= requirement.Amount; i++)
+                for (int i = 0; i < requirement.Amount; i++)
                 {
-                    InventorySystem.Instance.Remove(requirement.ItemData);
+                        InventorySystem.Instance.Remove(requirement.ItemData);
                 }
             }
         }

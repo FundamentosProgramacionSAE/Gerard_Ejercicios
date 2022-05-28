@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class InventorySystem : MonoBehaviour ,IDataPersistence
@@ -12,6 +13,7 @@ public class InventorySystem : MonoBehaviour ,IDataPersistence
         public event Action<InventoryItem> OnRemoveItem;
         public event Action<InventoryItem> OnRemoveStackItem;
         public event Action OnStartInventory;
+        public event Action OnRestartInventory;
         public static InventorySystem Instance { get; private set; }
         public List<GameObject> InventoryItems = new List<GameObject>();
         public SerializableDictionary<ItemData, InventoryItem> ItemsDictionary;
@@ -51,10 +53,17 @@ public class InventorySystem : MonoBehaviour ,IDataPersistence
             
         }
 
+        private void Update()
+        {
+            if (Keyboard.current[Key.F1].wasPressedThisFrame)
+            {
+                RestartInventory();
+            }
+        }
+
         public void RestartInventory()
         {
-            ItemsDictionary.Clear();
-            OnStartInventory?.Invoke();
+            OnRestartInventory?.Invoke();
         }
 
         public void StartInventory()
@@ -79,7 +88,6 @@ public class InventorySystem : MonoBehaviour ,IDataPersistence
 
         public void LoadData(GameData data)
         {
-            //ItemsDictionary = data.ItemsDictionary;
 
             foreach (var item in data.ItemsDictionary)
             {

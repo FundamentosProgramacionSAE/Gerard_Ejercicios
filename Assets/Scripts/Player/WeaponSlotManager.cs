@@ -17,10 +17,13 @@ namespace Inventory
         private DamageCollider leftHandDamageCollider;
         private DamageCollider rightHandDamageCollider;
 
+        private PlayerWeaponInventory _playerWeaponInventory;
+
         private Animator animator;
 
         private void Awake()
         {
+            _playerWeaponInventory = GetComponentInParent<PlayerWeaponInventory>();
             animator = GetComponent<Animator>();
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
             
@@ -64,38 +67,38 @@ namespace Inventory
         }
 
 
-        public void OnEquipWeapon(WeaponItem weaponItem)
+        public void OnEquipWeapon()
         {
             if (LeftHandSlot != null)
             {
-                LeftHandSlot.LoadWeaponModel(weaponItem);
-                RestLeftHandSlot.LoadWeaponModel(weaponItem);
+                LeftHandSlot.LoadWeaponModel(_playerWeaponInventory.LeftWeapon);
+                RestLeftHandSlot.LoadWeaponModel(_playerWeaponInventory.LeftWeapon);
                 RestLeftHandSlot.UnloadWeapon();
                 LoadLeftWeaponDamageCollider();
             }
 
             if (RightHandSlot != null)
             {
-                RightHandSlot.LoadWeaponModel(weaponItem);
-                RestRightHandSlot.LoadWeaponModel(weaponItem);
+                RightHandSlot.LoadWeaponModel(_playerWeaponInventory.RightWeapon);
+                RestRightHandSlot.LoadWeaponModel(_playerWeaponInventory.RightWeapon);
                 RestRightHandSlot.UnloadWeapon();
                 LoadRightWeaponDamageCollider();
             }
         }
         
-        public void OnUnequipWeapon(WeaponItem weaponItem)
+        public void OnRestWeapon()
         {
             if (LeftHandSlot != null)
             {
-                LeftHandSlot.LoadWeaponModel(weaponItem);
-                RestLeftHandSlot.LoadWeaponModel(weaponItem);
+                LeftHandSlot.LoadWeaponModel(_playerWeaponInventory.LeftWeapon);
+                RestLeftHandSlot.LoadWeaponModel(_playerWeaponInventory.LeftWeapon);
                 LeftHandSlot.UnloadWeapon();
             }
 
             if (RightHandSlot != null)
             {
-                RightHandSlot.LoadWeaponModel(weaponItem);
-                RestRightHandSlot.LoadWeaponModel(weaponItem);
+                RightHandSlot.LoadWeaponModel(_playerWeaponInventory.RightWeapon);
+                RestRightHandSlot.LoadWeaponModel(_playerWeaponInventory.RightWeapon);
                 RightHandSlot.UnloadWeapon();
             }
         }
