@@ -13055,7 +13055,7 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.3
-  m_Height: 1.5
+  m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &6688260510486698099
@@ -13101,6 +13101,7 @@ MonoBehaviour:
   ThirdAbilityInput: 0
   FourthAbilityInput: 0
   InventoryInput: 0
+  JumpInput: 0
 --- !u!114 &6688260510486698101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13115,9 +13116,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Rigidbody: {fileID: 0}
   moveDirection: {x: 0, y: 0, z: 0}
-  groundDetectionStart: 0.5
-  groundDirection: 0.05
-  minDistanceToFall: 1
+  raycastHeightOffset: 0.5
+  groundDirection: 0.5
+  LeapingVelocity: 50
   groundLayer:
     serializedVersion: 2
     m_Bits: 55
@@ -13125,7 +13126,11 @@ MonoBehaviour:
   movementSpeed: 5
   sprintSpeed: 10
   rotationSpeed: 10
-  fallingSpeed: 150
+  fallingSpeed: 250
+  Gravity: -9.8
+  HeightJump: 3
+  VelocityJump: 0
+  Velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &6688260510486698100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25695,7 +25700,7 @@ MonoBehaviour:
   m_ShowCameraFrustum: 1
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 1
+  m_UpdateMethod: 0
   m_BlendUpdateMethod: 0
   m_DefaultBlend:
     m_Style: 1
@@ -55081,7 +55086,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6688260511726690403}
-  m_LocalRotation: {x: -0.010940751, y: 0.98852056, z: -0.121692434, w: -0.08887288}
+  m_LocalRotation: {x: -0.010940751, y: 0.98852056, z: -0.12169244, w: -0.08887289}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

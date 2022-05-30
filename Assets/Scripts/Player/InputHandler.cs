@@ -32,10 +32,12 @@ namespace Player.Input
         [BoxGroup("Inputs")] public bool ThirdAbilityInput;
         [BoxGroup("Inputs")] public bool FourthAbilityInput;
         [BoxGroup("Inputs")] public bool InventoryInput;
-        
+        [BoxGroup("Inputs")] public bool JumpInput;
 
 
 
+
+        private PlayerLocomotion _playerLocomotion;
         private PlayerControls inputActions;
         private PlayerAttacker playerAttacker;
         private PlayerWeaponInventory _playerWeaponInventory;
@@ -60,6 +62,7 @@ namespace Player.Input
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
             playerCanvas = GetComponentInChildren<PlayerCanvas>();
             _weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
+            _playerLocomotion = GetComponent<PlayerLocomotion>();
         }
 
         private void OnEnable()
@@ -69,6 +72,11 @@ namespace Player.Input
                 inputActions = new PlayerControls();
                 inputActions.PlayerMovement.Movement.performed +=
                     inputActions => movementInput = inputActions.ReadValue<Vector2>();
+                
+                inputActions.PlayerActions.Sprint.performed += i => input = true;
+                inputActions.PlayerActions.Sprint.canceled += i => input = false;
+                
+                inputActions.PlayerActions.Jump.performed += i => JumpInput = true;
             }
             
             inputActions.Enable();
@@ -92,8 +100,9 @@ namespace Player.Input
                 return;
             }
 
+            HandleJumpingInput();
             MoveInput();
-            HandleRollInput();
+            //HandleRollInput();
             HandleSprintInput();
             AttackInputs();
 
@@ -125,11 +134,14 @@ namespace Player.Input
 
         private void HandleSprintInput()
         {
-            input = inputActions.PlayerActions.Sprint.phase == UnityEngine.InputSystem.InputActionPhase.Started;
-            
-            if (input)
+            // Cuando camina
+            if (input && MoveAmount > 0.5f)
             {
                 SprintFlag = true;
+            }
+            else
+            {
+                SprintFlag = false;
             }
         }
 
@@ -225,6 +237,15 @@ namespace Player.Input
                 {
                     playerCanvas.CloseInventory();
                 }
+            }
+        }
+
+        private void HandleJumpingInput()
+        {
+            if (JumpInput)
+            {
+                JumpInput = false;
+                _playerLocomotion.HandleJumping();
             }
         }
 

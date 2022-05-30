@@ -14,9 +14,9 @@ namespace Player.Locomotion
         public Rigidbody Rigidbody;
         public Vector3 moveDirection;
         
-        [BoxGroup("Ground Stats"), SerializeField] private float groundDetectionStart = 0.5f;
+        [BoxGroup("Ground Stats"), SerializeField] private float raycastHeightOffset = 0.5f;
         [BoxGroup("Ground Stats"), SerializeField] private float groundDirection = 0.5f;
-        [BoxGroup("Ground Stats"), SerializeField] private float minDistanceToFall = 0.5f;
+        [BoxGroup("Ground Stats"), SerializeField] private float LeapingVelocity = 0.5f;
         [BoxGroup("Ground Stats")] public LayerMask groundLayer;
         [BoxGroup("Ground Stats")] public float InAirTimer;
 
@@ -26,6 +26,10 @@ namespace Player.Locomotion
         [BoxGroup("Movement Stats"), SerializeField] private float sprintSpeed = 5;
         [BoxGroup("Movement Stats"), SerializeField] private float rotationSpeed = 10;
         [BoxGroup("Movement Stats"), SerializeField] private float fallingSpeed = 45;
+
+
+        public float Gravity;
+        public float HeightJump;
 
         private Transform camera;
         private InputHandler inputHandler;
@@ -55,6 +59,8 @@ namespace Player.Locomotion
 
         public void Handles()
         {
+            HandleFalling();
+            
             if (inputHandler.MoveAmount > 0 && playerManager.CanCombo)
             {
                 animatorHandler.DisableCombo();
@@ -62,7 +68,6 @@ namespace Player.Locomotion
             
             HandleMovement();
             HandleRollingAndSprinting();
-            HandleFalling();
         }
 
         private void HandleRotation(float delta)
@@ -90,6 +95,7 @@ namespace Player.Locomotion
 
         private void HandleMovement()
         {
+            if(playerManager.IsJumping) return;
             
             if(inputHandler.RollFlag) return;
             if(playerManager.IsInteracting) return;
@@ -121,12 +127,12 @@ namespace Player.Locomotion
                 }
 
             }
-            
 
 
-            Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
+
+            Vector3 projectedVelocity = moveDirection;
             Rigidbody.velocity = projectedVelocity;
-            
+
             animatorHandler.UpdateAnimatorValues(inputHandler.MoveAmount,0, playerManager.IsSprinting);
 
             if (animatorHandler.CanRotate)
@@ -157,83 +163,51 @@ namespace Player.Locomotion
 
         public void HandleFalling()
         {
-            
-            playerManager.IsGrounded = true;
             RaycastHit hit;
-            Vector3 origin = myTransform.position;
-            origin.y += groundDetectionStart;
-            
-            if(Physics.Raycast(origin, myTransform.forward, out hit, 0.4f))
+            Vector3 rayCastOrigin = transform.position;
+            rayCastOrigin.y = rayCastOrigin.y + raycastHeightOffset;
+
+
+            if (!playerManager.IsGrounded && !playerManager.IsJumping)
             {
-                moveDirection = Vector3.zero;
+                if (!playerManager.IsInteracting)
+                {
+                    animatorHandler.PlayTargetAnimation("Falling", true);
+                }
+
+                InAirTimer += Time.deltaTime;
+                Rigidbody.AddForce(transform.forward * LeapingVelocity);
+                Rigidbody.AddForce(-Vector3.up * fallingSpeed * InAirTimer);
             }
 
-            if (playerManager.IsInAir)
+            if (Physics.SphereCast(rayCastOrigin, 0.2f, -Vector3.up, out hit, groundDirection,groundLayer))
             {
-                Rigidbody.AddForce(-Vector3.up * fallingSpeed);
-                Rigidbody.AddForce(moveDirection * fallingSpeed / 10f);
-            }
+                if (!playerManager.IsGrounded && playerManager.IsInteracting)
+                {
+                    animatorHandler.PlayTargetAnimation("Land", true);
+                }
 
-            Vector3 dir = moveDirection;
-            dir.Normalize();
-            origin = origin + dir * groundDirection;
-
-            targetPosition = myTransform.position;
-            
-            Debug.DrawRay(origin, -Vector3.up * minDistanceToFall, Color.red, 0.1f, false);
-            
-            if(Physics.Raycast(origin, -Vector3.up, out hit, minDistanceToFall, groundLayer))
-            {
-                normalVector = hit.normal;
-                Vector3 tp = hit.point;
+                InAirTimer = 0;
                 playerManager.IsGrounded = true;
-                targetPosition.y = tp.y;
-
-                if (playerManager.IsInAir)
-                {
-                    if (InAirTimer > 0.5f)
-                    {
-                        animatorHandler.PlayTargetAnimation("Land", false);
-                        InAirTimer = 0;
-                    }
-                    else
-                    {
-                        animatorHandler.PlayTargetAnimation("Empty", false);
-                        InAirTimer = 0;
-                    }
-
-                    playerManager.IsInAir = false;
-                }
             }
             else
             {
-                if (playerManager.IsGrounded)
-                {
-                    playerManager.IsGrounded = false;
-                }
-
-                if (playerManager.IsInAir == false)
-                {
-                    if (playerManager.IsInteracting == false)
-                    {
-                        animatorHandler.PlayTargetAnimation("Falling", true);
-                    }
-                    
-                    Vector3 vel = Rigidbody.velocity;
-                    vel.Normalize();
-                    Rigidbody.velocity = vel * (movementSpeed / 2f);
-                    playerManager.IsInAir = true;
-                }
+                playerManager.IsGrounded = false;
             }
+        }
 
-            if (playerManager.IsInteracting || inputHandler.MoveAmount > 0)
-            {
-                myTransform.position = Vector3.Lerp(myTransform.position, targetPosition, Time.deltaTime / 0.1f);
-            }
-            else
-            {
-                myTransform.position = targetPosition;
 
+        public void HandleJumping()
+        {
+            if (playerManager.IsGrounded && inputHandler.MoveAmount >0)
+            {
+                animatorHandler.Animator.SetBool("isJumping", true);
+                animatorHandler.PlayTargetAnimation("Jump", false);
+
+                float jumpVelocity = Mathf.Sqrt(-2 * Gravity * HeightJump);
+                Vector3 playerVelocity = moveDirection;
+                playerVelocity.y = jumpVelocity;
+                Rigidbody.velocity = playerVelocity;
             }
         }
 

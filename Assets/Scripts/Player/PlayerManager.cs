@@ -41,19 +41,26 @@ namespace Player.Manager
             IsInteracting = animatorHandler.Animator.GetBool("isInteracting");
             CanCombo = animatorHandler.Animator.GetBool("canCombo");
             inputHandler.TickInput();
+
+        }
+
+        private void FixedUpdate()
+        {
             playerLocomotion.Handles();
         }
 
         private void LateUpdate()
         {
             inputHandler.RollFlag = false;
-            inputHandler.SprintFlag = false;
-            inputHandler.Rb_Input = false;
+
             inputHandler.SecondAbilityInput = false;
             inputHandler.ThirdAbilityInput = false;
             inputHandler.FourthAbilityInput = false;
             inputHandler.ReposeInput = false;
             inputHandler.InventoryInput = false;
+            inputHandler.JumpInput = false;
+            IsJumping = animatorHandler.Animator.GetBool("isJumping");
+            animatorHandler.Animator.SetBool("isGrounded", IsGrounded);
         }
     }
 }
