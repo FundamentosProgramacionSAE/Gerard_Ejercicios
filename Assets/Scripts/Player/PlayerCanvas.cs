@@ -139,14 +139,12 @@ namespace Player.Canvas
         {
             PanelInventory.GetComponent<CanvasGroup>().alpha = 1;
             Extensions.ShowCursor();
-            _playerManager.CinemachineBrain.enabled = false;
 
         }
 
         public void CloseInventory()
         {
             PanelInventory.GetComponent<CanvasGroup>().alpha = 0;
-            _playerManager.CinemachineBrain.enabled = true;
             Extensions.HideCursor();
             TooltipSystem.Hide();
         }

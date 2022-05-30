@@ -80,7 +80,6 @@ public class InventoryUI : MonoBehaviour
 
         private void OnRestartInventory()
         {
-            print("AS");
             var inventorySystem = InventorySystem.Instance;
             foreach (var item in inventorySystem.ItemsDictionary)
             {

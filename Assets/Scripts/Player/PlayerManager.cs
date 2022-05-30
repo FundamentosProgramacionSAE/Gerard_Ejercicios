@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using Player.CameraManager;
 using Player.Input;
 using Player.Locomotion;
 using Player.Stats;
@@ -10,7 +11,7 @@ using UnityEngine;
 
 namespace Player.Manager
 {
-    public class PlayerManager : MonoBehaviour
+    public class PlayerManager : CharacterManager
     {
 
         [BoxGroup("Inputs")] public bool IsInteracting;
@@ -21,8 +22,8 @@ namespace Player.Manager
         [BoxGroup("Inputs")] public bool CanCombo;
         [BoxGroup("Inputs")] public bool IsReposeWeapon;
 
-        public CinemachineBrain CinemachineBrain;
-        
+
+        private CameraHandler _cameraHandler;
         private InputHandler inputHandler;
         private AnimatorHandler animatorHandler;
         private PlayerLocomotion playerLocomotion;
@@ -34,6 +35,8 @@ namespace Player.Manager
             inputHandler = GetComponent<InputHandler>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            _cameraHandler = CameraHandler.Instance;
+            
         }
 
         private void Update()
@@ -51,6 +54,8 @@ namespace Player.Manager
 
         private void LateUpdate()
         {
+            _cameraHandler.HandleCameraMovement();
+            
             inputHandler.Rb_Input = false;
             inputHandler.SecondAbilityInput = false;
             inputHandler.ThirdAbilityInput = false;

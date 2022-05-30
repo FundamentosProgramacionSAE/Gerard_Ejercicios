@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Ability.Manager;
 using Inventory;
+using Player.CameraManager;
 using Player.Canvas;
 using Player.Locomotion;
 using Player.Manager;
@@ -32,9 +33,14 @@ namespace Player.Input
         [BoxGroup("Inputs")] public bool InventoryInput;
         [BoxGroup("Inputs")] public bool JumpInput;
 
+        
+        public float MouseX;
+        public float MouseY;
 
 
 
+
+        private CameraHandler _cameraHandler;
         private PlayerLocomotion _playerLocomotion;
         private PlayerControls inputActions;
         private PlayerAttacker playerAttacker;
@@ -63,6 +69,7 @@ namespace Player.Input
             _playerLocomotion = GetComponent<PlayerLocomotion>();
         }
 
+
         private void OnEnable()
         {
             if (inputActions == null)
@@ -70,6 +77,9 @@ namespace Player.Input
                 inputActions = new PlayerControls();
                 inputActions.PlayerMovement.Movement.performed +=
                     inputActions => movementInput = inputActions.ReadValue<Vector2>();
+                
+                inputActions.PlayerMovement.Camera.performed +=
+                    inputActions => cameraInput = inputActions.ReadValue<Vector2>();
                 
                 inputActions.PlayerActions.Sprint.performed += i => input = true;
                 inputActions.PlayerActions.Sprint.canceled += i => input = false;
@@ -127,6 +137,8 @@ namespace Player.Input
             Horizontal = movementInput.x;
             Vertical = movementInput.y;
             MoveAmount = Mathf.Clamp01(Mathf.Abs(Horizontal) + Mathf.Abs(Vertical));
+            MouseX = cameraInput.x;
+            MouseY = cameraInput.y;
         }
         
 
