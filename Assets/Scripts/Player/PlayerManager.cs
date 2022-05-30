@@ -51,8 +51,7 @@ namespace Player.Manager
 
         private void LateUpdate()
         {
-            inputHandler.RollFlag = false;
-
+            inputHandler.Rb_Input = false;
             inputHandler.SecondAbilityInput = false;
             inputHandler.ThirdAbilityInput = false;
             inputHandler.FourthAbilityInput = false;

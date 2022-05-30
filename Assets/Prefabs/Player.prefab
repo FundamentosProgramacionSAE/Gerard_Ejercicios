@@ -13055,7 +13055,7 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.3
-  m_Height: 2
+  m_Height: 1.6
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &6688260510486698099
@@ -13069,7 +13069,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -13089,12 +13089,11 @@ MonoBehaviour:
   Horizontal: 0
   Vertical: 0
   MoveAmount: 0
-  RollInputTimer: 0
-  RollFlag: 0
   SprintFlag: 0
   ComboFlag: 0
   InventoryFlag: 0
   input: 0
+  RollInput: 0
   Rb_Input: 0
   ReposeInput: 0
   SecondAbilityInput: 0
@@ -13114,23 +13113,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5974ffa8f69b75447b62565efa306559, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Rigidbody: {fileID: 0}
-  moveDirection: {x: 0, y: 0, z: 0}
   raycastHeightOffset: 0.5
   groundDirection: 0.5
-  LeapingVelocity: 50
-  groundLayer:
+  leapingVelocity: 250
+  gravity: -5
+  heightJump: 2
+  GroundLayer:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 1
   InAirTimer: 0
   movementSpeed: 5
   sprintSpeed: 10
   rotationSpeed: 10
-  fallingSpeed: 250
-  Gravity: -9.8
-  HeightJump: 3
-  VelocityJump: 0
-  Velocity: {x: 0, y: 0, z: 0}
+  fallingSpeed: 600
 --- !u!114 &6688260510486698100
 MonoBehaviour:
   m_ObjectHideFlags: 0

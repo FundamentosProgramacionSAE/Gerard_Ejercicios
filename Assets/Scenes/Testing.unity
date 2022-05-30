@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.2850269, g: 0.3713935, b: 0.49601045, a: 1}
+  m_IndirectSpecularColor: {r: 0.28502667, g: 0.37139323, b: 0.49600998, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -722,18 +722,6 @@ PrefabInstance:
     - target: {fileID: 6688260510457104415, guid: a43ece28d563647488460633d4e42ae6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6688260510486698101, guid: a43ece28d563647488460633d4e42ae6, type: 3}
-      propertyPath: Gravity
-      value: -15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6688260510486698101, guid: a43ece28d563647488460633d4e42ae6, type: 3}
-      propertyPath: fallingSpeed
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 6688260510486698101, guid: a43ece28d563647488460633d4e42ae6, type: 3}
-      propertyPath: LeapingVelocity
-      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 6688260511221257462, guid: a43ece28d563647488460633d4e42ae6, type: 3}
       propertyPath: m_AnchorMax.y

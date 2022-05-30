@@ -11,26 +11,26 @@ namespace Player.Locomotion
 {
     public class PlayerLocomotion : MonoBehaviour
     {
-        public Rigidbody Rigidbody;
-        public Vector3 moveDirection;
+        internal Rigidbody Rigidbody;
+
+        [TitleGroup("Ground Stats")]
+        [SerializeField] private float raycastHeightOffset = 0.5f;
+        [SerializeField] private float groundDirection = 0.5f;
+        [SerializeField] private float leapingVelocity = 250f;
+        [SerializeField] private float fallingSpeed = 600;
+        [SerializeField] private float gravity = -5;
+        [SerializeField] private float heightJump = 2;
+        [SerializeField] private LayerMask GroundLayer;
+        [SerializeField] private float InAirTimer;
+
+
+        [TitleGroup("Movement Stats")]
+        [SerializeField] private float movementSpeed = 5;
+        [SerializeField] private float sprintSpeed = 10;
+        [SerializeField] private float rotationSpeed = 10;
         
-        [BoxGroup("Ground Stats"), SerializeField] private float raycastHeightOffset = 0.5f;
-        [BoxGroup("Ground Stats"), SerializeField] private float groundDirection = 0.5f;
-        [BoxGroup("Ground Stats"), SerializeField] private float LeapingVelocity = 0.5f;
-        [BoxGroup("Ground Stats")] public LayerMask groundLayer;
-        [BoxGroup("Ground Stats")] public float InAirTimer;
 
-
-
-        [BoxGroup("Movement Stats"), SerializeField] private float movementSpeed = 5;
-        [BoxGroup("Movement Stats"), SerializeField] private float sprintSpeed = 5;
-        [BoxGroup("Movement Stats"), SerializeField] private float rotationSpeed = 10;
-        [BoxGroup("Movement Stats"), SerializeField] private float fallingSpeed = 45;
-
-
-        public float Gravity;
-        public float HeightJump;
-
+        private Vector3 moveDirection;
         private Transform camera;
         private InputHandler inputHandler;
         private Transform myTransform;
@@ -54,59 +54,44 @@ namespace Player.Locomotion
 
         #region Movement
         
-        private Vector3 normalVector;
-        private Vector3 targetPosition;
-
+        /// <summary>
+        /// Funcion encargada de llamar al HandleFalling y HandleMovement
+        /// </summary>
         public void Handles()
         {
             HandleFalling();
             
+            // Reiniciar el combo al moverse y si esta usando el combo
             if (inputHandler.MoveAmount > 0 && playerManager.CanCombo)
             {
                 animatorHandler.DisableCombo();
             }
             
             HandleMovement();
-            HandleRollingAndSprinting();
         }
+        
 
-        private void HandleRotation(float delta)
-        {
-            Vector3 targetDir = Vector3.zero;
-            float moveOverride = inputHandler.MoveAmount;
-
-
-            targetDir = camera.forward * inputHandler.Vertical;
-            targetDir += camera.right * inputHandler.Horizontal;
-            
-            targetDir.Normalize();
-            targetDir.y = 0;
-
-
-            if (targetDir == Vector3.zero) targetDir = myTransform.forward;
-
-            float rs = rotationSpeed;
-            
-            Quaternion tr = Quaternion.LookRotation(targetDir);
-            Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr,rs * delta);
-            
-            myTransform.rotation = targetRotation;
-        }
-
+        /// <summary>
+        /// Funcion encargada del movimiento del personaje.
+        /// </summary>
         private void HandleMovement()
         {
+            // Si esta en salto o esta interactuando no seguira ejecutando
             if(playerManager.IsJumping) return;
-            
-            if(inputHandler.RollFlag) return;
             if(playerManager.IsInteracting) return;
 
+            // Obtemenos la direccion de movimiento a partir de los inputs
+            // y de donde apuntemos con la camara
             moveDirection = camera.forward * inputHandler.Vertical;
             moveDirection += camera.right * inputHandler.Horizontal;
             moveDirection.Normalize();
             moveDirection.y = 0;
 
+            // Velocidad
             float speed = movementSpeed;
 
+            // Si estas corriendo y la velocidad de movimiento es superior a
+            // 0.5f la velocidad será de correr. Sino caminara
             if (inputHandler.SprintFlag && inputHandler.MoveAmount > 0.5f)
             {
                 speed = sprintSpeed;
@@ -129,35 +114,56 @@ namespace Player.Locomotion
             }
 
 
+            // Le asignamos la velodicad a nuestro Rigidbody.
+            Rigidbody.velocity = new Vector3(moveDirection.x, Rigidbody.velocity.y, moveDirection.z);
 
-            Vector3 projectedVelocity = moveDirection;
-            Rigidbody.velocity = projectedVelocity;
-
+            // Actualizamos las animaciones segun el movimiento
             animatorHandler.UpdateAnimatorValues(inputHandler.MoveAmount,0, playerManager.IsSprinting);
 
-            if (animatorHandler.CanRotate)
+            // Si podemos rotar, esta tocando el suelo y no estamos saltando el jugador podra rotar
+            if (animatorHandler.CanRotate && playerManager.IsGrounded && !playerManager.IsJumping)
             {
                 HandleRotation(Time.deltaTime);
             }
         }
+        
+        /// <summary>
+        /// Funcion encargada de la rotacion del personaje
+        /// </summary>
+        /// <param name="delta"></param>
+        private void HandleRotation(float delta)
+        {
+            Vector3 targetDir = Vector3.zero;
+            
+            targetDir = camera.forward * inputHandler.Vertical;
+            targetDir += camera.right * inputHandler.Horizontal;
+            
+            targetDir.Normalize();
+            targetDir.y = 0;
 
-        private void HandleRollingAndSprinting()
+
+            if (targetDir == Vector3.zero) targetDir = myTransform.forward;
+
+            float rs = rotationSpeed;
+            
+            Quaternion tr = Quaternion.LookRotation(targetDir);
+            Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr,rs * delta);
+            
+            myTransform.rotation = targetRotation;
+        }
+
+        public void HandleRollingAndSprinting()
         {
             if(animatorHandler.Animator.GetBool("isInteracting")) return;
+            moveDirection = camera.forward * inputHandler.Vertical;
+            moveDirection += camera.right * inputHandler.Horizontal;
 
-            if (inputHandler.RollFlag)
+            if (inputHandler.MoveAmount > 0)
             {
-                moveDirection = camera.forward * inputHandler.Vertical;
-                moveDirection += camera.right * inputHandler.Horizontal;
-
-                if (inputHandler.MoveAmount > 0)
-                {
-                    animatorHandler.PlayTargetAnimation("Rolling", true);
-                    moveDirection.y = 0;
-                    Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
-                    myTransform.rotation = rollRotation;
-                }
-
+                animatorHandler.PlayTargetAnimation("Rolling", true);
+                moveDirection.y = 0;
+                Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
+                myTransform.rotation = rollRotation;
             }
         }
 
@@ -165,7 +171,9 @@ namespace Player.Locomotion
         {
             RaycastHit hit;
             Vector3 rayCastOrigin = transform.position;
+            Vector3 targetPosition;
             rayCastOrigin.y = rayCastOrigin.y + raycastHeightOffset;
+            targetPosition = transform.position;
 
 
             if (!playerManager.IsGrounded && !playerManager.IsJumping)
@@ -176,23 +184,38 @@ namespace Player.Locomotion
                 }
 
                 InAirTimer += Time.deltaTime;
-                Rigidbody.AddForce(transform.forward * LeapingVelocity);
+                Rigidbody.AddForce(transform.forward * leapingVelocity);
                 Rigidbody.AddForce(-Vector3.up * fallingSpeed * InAirTimer);
             }
 
-            if (Physics.SphereCast(rayCastOrigin, 0.2f, -Vector3.up, out hit, groundDirection,groundLayer))
+            if (Physics.SphereCast(rayCastOrigin, 0.2f, Vector3.down, out hit, groundDirection,GroundLayer))
             {
-                if (!playerManager.IsGrounded && playerManager.IsInteracting)
+                if (!playerManager.IsGrounded && !playerManager.IsInteracting)
                 {
                     animatorHandler.PlayTargetAnimation("Land", true);
+                    Rigidbody.velocity = Vector3.zero;
                 }
 
+                Vector3 rayCastHitPoint = hit.point;
+                targetPosition.y = rayCastHitPoint.y;
                 InAirTimer = 0;
                 playerManager.IsGrounded = true;
             }
             else
             {
                 playerManager.IsGrounded = false;
+            }
+
+            if (playerManager.IsGrounded && !playerManager.IsJumping)
+            {
+                if (playerManager.IsInteracting || inputHandler.MoveAmount > 0)
+                {
+                    transform.position = targetPosition;
+                }
+                else
+                {
+                    transform.position = targetPosition;
+                }
             }
         }
 
@@ -204,7 +227,7 @@ namespace Player.Locomotion
                 animatorHandler.Animator.SetBool("isJumping", true);
                 animatorHandler.PlayTargetAnimation("Jump", false);
 
-                float jumpVelocity = Mathf.Sqrt(-2 * Gravity * HeightJump);
+                float jumpVelocity = Mathf.Sqrt(-1.5f * gravity * heightJump);
                 Vector3 playerVelocity = moveDirection;
                 playerVelocity.y = jumpVelocity;
                 Rigidbody.velocity = playerVelocity;

@@ -17,15 +17,13 @@ namespace Player.Input
         [BoxGroup("Values")] public float Horizontal;
         [BoxGroup("Values")] public float Vertical;
         [BoxGroup("Values")] public float MoveAmount;
-        [BoxGroup("Values")] public float RollInputTimer;
-        
 
-        [BoxGroup("Flags")] public bool RollFlag;
         [BoxGroup("Flags")] public bool SprintFlag;
         [BoxGroup("Flags")] public bool ComboFlag;
         [BoxGroup("Flags")] public bool InventoryFlag;
 
         [BoxGroup("Inputs")] public bool input;
+        [BoxGroup("Inputs")] public bool RollInput;
         [BoxGroup("Inputs")] public bool Rb_Input;
         [BoxGroup("Inputs")] public bool ReposeInput;
         [BoxGroup("Inputs")] public bool SecondAbilityInput;
@@ -77,6 +75,16 @@ namespace Player.Input
                 inputActions.PlayerActions.Sprint.canceled += i => input = false;
                 
                 inputActions.PlayerActions.Jump.performed += i => JumpInput = true;
+                inputActions.PlayerActions.Roll.performed += i => RollInput = true;
+                
+                inputActions.PlayerActions.RB.performed += i => Rb_Input = true;
+                inputActions.PlayerActions.Ability2.performed += i => SecondAbilityInput = true;
+                inputActions.PlayerActions.Ability3.performed += i => ThirdAbilityInput = true;
+                inputActions.PlayerActions.Ability4.performed += i => FourthAbilityInput = true;
+                
+                inputActions.PlayerActions.Inventory.performed += i => InventoryInput = true;
+                inputActions.PlayerActions.ReposeWeapon.performed += i => ReposeInput = true;
+                
             }
             
             inputActions.Enable();
@@ -102,7 +110,7 @@ namespace Player.Input
 
             HandleJumpingInput();
             MoveInput();
-            //HandleRollInput();
+            HandleRollInput();
             HandleSprintInput();
             AttackInputs();
 
@@ -124,11 +132,10 @@ namespace Player.Input
 
         private void HandleRollInput()
         {
-            input = inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Started;
-            
-            if (input && MoveAmount >= 1)
+            if (RollInput)
             {
-                RollFlag = true;
+                RollInput = false;
+                _playerLocomotion.HandleRollingAndSprinting();
             }
         }
 
@@ -149,10 +156,7 @@ namespace Player.Input
         {
             if(_playerWeaponInventory.RightWeapon.IsUnarmed) return;
             
-            inputActions.PlayerActions.RB.performed += i => Rb_Input = true;
-            inputActions.PlayerActions.Ability2.performed += i => SecondAbilityInput = true;
-            inputActions.PlayerActions.Ability3.performed += i => ThirdAbilityInput = true;
-            inputActions.PlayerActions.Ability4.performed += i => FourthAbilityInput = true;
+
 
             // RB input handles the RIGHT hand weapon's light attack
             if (Rb_Input)
@@ -202,7 +206,7 @@ namespace Player.Input
         private void HandleReposeInput()
         {
             if(_playerWeaponInventory.RightWeapon.IsUnarmed) return;
-            inputActions.PlayerActions.ReposeWeapon.performed += i => ReposeInput = true;
+
 
             if (ReposeInput)
             {
@@ -223,8 +227,6 @@ namespace Player.Input
 
         private void HandleInventoryInput()
         {
-            inputActions.PlayerActions.Inventory.performed += i => InventoryInput = true;
-
             if (InventoryInput)
             {
                 InventoryFlag = !InventoryFlag;
