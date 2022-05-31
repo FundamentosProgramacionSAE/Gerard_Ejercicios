@@ -41,6 +41,11 @@ namespace Player.CameraManager
             else
             {
                 CameraAnimator.CrossFade("TargetCamera", 0.2f);
+
+                if (_currentLockOnTarget == null)
+                {
+                    InputHandler.ClearCamera();
+                }
                 RaycastHit hit;
                 if (_currentLockOnTarget != null)
                 {

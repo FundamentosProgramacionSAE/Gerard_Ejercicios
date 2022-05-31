@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AI.Manager;
 using Player.Canvas;
 using Player.Locomotion;
 using Sirenix.OdinInspector;
@@ -20,6 +21,7 @@ namespace AI.Stats
 
 
         private Animator animator;
+        private EnemyManager _enemyManager;
 
         private void Awake()
         {
@@ -29,6 +31,7 @@ namespace AI.Stats
         private void Start()
         {
             animator = GetComponentInChildren<Animator>();
+            _enemyManager = GetComponent<EnemyManager>();
         }
         
 
@@ -53,6 +56,7 @@ namespace AI.Stats
         private void OnDead()
         {
             animator.Play("Dead_01");
+            Destroy(_enemyManager);
         }
     }
 }
