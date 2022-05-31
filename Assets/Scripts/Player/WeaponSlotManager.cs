@@ -8,11 +8,11 @@ namespace Inventory
 {
     public class WeaponSlotManager : MonoBehaviour
     {
-        private WeaponHolderSlot LeftHandSlot;
-        private WeaponHolderSlot RightHandSlot;
+        internal WeaponHolderSlot LeftHandSlot;
+        internal WeaponHolderSlot RightHandSlot;
         
-        private WeaponHolderSlot RestLeftHandSlot;
-        private WeaponHolderSlot RestRightHandSlot;
+        internal WeaponHolderSlot RestLeftHandSlot;
+        internal WeaponHolderSlot RestRightHandSlot;
 
         private DamageCollider leftHandDamageCollider;
         private DamageCollider rightHandDamageCollider;
@@ -84,6 +84,14 @@ namespace Inventory
                 RestRightHandSlot.UnloadWeapon();
                 LoadRightWeaponDamageCollider();
             }
+        }
+
+        public void UnEquip()
+        {
+            Destroy(LeftHandSlot.CurrentWeaponModel);
+            Destroy(RightHandSlot.CurrentWeaponModel);
+            Destroy(RestLeftHandSlot.CurrentWeaponModel);
+            Destroy(RestRightHandSlot.CurrentWeaponModel);
         }
         
         public void OnRestWeapon()

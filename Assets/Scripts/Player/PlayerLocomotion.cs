@@ -38,17 +38,22 @@ namespace Player.Locomotion
         private AnimatorHandler animatorHandler;
         private PlayerManager playerManager;
         private CameraHandler _cameraHandler;
+
+
+        private void Awake()
+        {
+            animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            animatorHandler.Initialize();
+        }
+
         private void Start()
         {
             playerManager = GetComponent<PlayerManager>();
             Rigidbody = GetComponent<Rigidbody>();
             inputHandler = GetComponent<InputHandler>();
-            animatorHandler = GetComponentInChildren<AnimatorHandler>();
             _cameraHandler = CameraHandler.Instance;
             camera = Camera.main.transform;
             myTransform = transform;
-            
-            animatorHandler.Initialize();
 
             playerManager.IsGrounded = true;
         }

@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8f8663491d0be4429f511c0add7a857, type: 3}
-  m_Name: Sword
+  m_Name: Sword1
   m_EditorClassIdentifier: 
-  ID: Sword
-  DisplayName: Sword
-  InfoItem: Sword
-  Icon: {fileID: 21300000, guid: 3b0497f5c50d040478fa02e4bfaa9402, type: 3}
+  ID: Sword1
+  DisplayName: Sword1
+  InfoItem: Sword1
+  Icon: {fileID: 21300000, guid: 840df642ca63c424fada32341e17427d, type: 3}
   RandomAmounts:
     Min: 1
     Max: 1
   MaxAmount: 1
-  Position: 3
-  ModelPrefab: {fileID: 789758267322978327, guid: 6383a397d578b944a8419edf1935acd0, type: 3}
+  Position: 4
+  ModelPrefab: {fileID: 789758267322978327, guid: 10fe245a2a0162043b5247c5a40e4b57, type: 3}
   WeaponDamage: 50
   IsUnarmed: 0
   IsDualWeapon: 1
@@ -33,6 +33,6 @@ MonoBehaviour:
   AbilityAttack2: Ability2
   AbilityAttack3: Ability3
   AbilityAttack4: Ability4
-  AbilityType2: {fileID: 11400000, guid: 046143c3edc3dd547be10ce7f34b84f8, type: 2}
-  AbilityType3: {fileID: 11400000, guid: d6642c5306d522642bfa5730c534e94d, type: 2}
-  AbilityType4: {fileID: 11400000, guid: f66d4197eb4ecfb4983558f82f71ba51, type: 2}
+  AbilityType2: {fileID: 11400000, guid: 80fedb29570e1f544a55691634882859, type: 2}
+  AbilityType3: {fileID: 11400000, guid: 984b494ba65e7e948a8fcba6521a225c, type: 2}
+  AbilityType4: {fileID: 11400000, guid: 070ca74baabdceb499a2a7fd2c87fbe4, type: 2}

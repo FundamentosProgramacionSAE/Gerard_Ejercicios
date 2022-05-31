@@ -13,7 +13,8 @@ namespace Player.Manager
 {
     public class PlayerManager : CharacterManager
     {
-
+        public static PlayerManager Instance { get; private set; }
+        
         [BoxGroup("Inputs")] public bool IsInteracting;
         [BoxGroup("Inputs")] public bool IsSprinting;
         [BoxGroup("Inputs")] public bool IsInAir;
@@ -25,8 +26,12 @@ namespace Player.Manager
         private InputHandler inputHandler;
         private AnimatorHandler animatorHandler;
         private PlayerLocomotion playerLocomotion;
-        
 
+
+        private void Awake()
+        {
+            Instance = this;
+        }
 
         private void Start()
         {

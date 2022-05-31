@@ -179,10 +179,11 @@ namespace Player.Input
 
         private void HandleAttackInput()
         {
+            if(_playerWeaponInventory.RightWeapon == null) return;
+            
+            
             if(_playerWeaponInventory.RightWeapon.IsUnarmed) return;
             
-
-
             // RB input handles the RIGHT hand weapon's light attack
             if (Rb_Input)
             {
@@ -230,9 +231,11 @@ namespace Player.Input
         }
         private void HandleReposeInput()
         {
+            
+            if(_playerWeaponInventory.RightWeapon == null) return;
+            
             if(_playerWeaponInventory.RightWeapon.IsUnarmed) return;
-
-
+            
             if (ReposeInput)
             {
                 if (playerManager.IsReposeWeapon)

@@ -36,24 +36,28 @@ namespace Ability.Manager
 	    private void Awake()
 	    {
 		    PlayerWeaponInventory = GetComponent<PlayerWeaponInventory>();
+	    }
 
+	    public void Initialized()
+	    {
 		    Ability2 = PlayerWeaponInventory.RightWeapon.AbilityType2;
 		    Ability3 = PlayerWeaponInventory.RightWeapon.AbilityType3;
 		    Ability4 = PlayerWeaponInventory.RightWeapon.AbilityType4;
-
-	    }
-
-	    private void Start()
-	    {
 		    if (Ability2 == null || Ability3 == null || Ability4 == null)
 		    {
 			    HasAbilities = false;
 			    return;
 		    }
-		    
+
 		    RestartAllCooldownsAbilities();
 	    }
 
+	    public void UnEquip()
+	    {
+		    Ability2 = null;
+		    Ability3 = null;
+		    Ability4 = null;
+	    }
 
 
 	    private void Update()
@@ -67,7 +71,7 @@ namespace Ability.Manager
 			    HasAbilities = true;
 		    }
 		    
-		    if(HasAbilities != true) return;
+		    if(HasAbilities == false) return;
 		    
 		    if (Ability2) CooldownAbility2();
 		    if (Ability3) CooldownAbility3();

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class ItemObject : MonoBehaviour
@@ -9,6 +10,7 @@ public class ItemObject : MonoBehaviour
         public ItemData ItemData;
         public List<ItemRequirement> Requirements;
         public bool RemoveRequirementsOnPickup;
+        public UnityEvent OnGetItem;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -30,6 +32,8 @@ public class ItemObject : MonoBehaviour
                     RemoveRequirements();
                 }
                 InventorySystem.Instance.Add(ItemData);
+                
+                OnGetItem?.Invoke();
 
                 //Destroy(gameObject);
 

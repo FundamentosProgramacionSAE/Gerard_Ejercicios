@@ -7,11 +7,13 @@ using UnityEngine;
 namespace Inventory.Item
 {
     [CreateAssetMenu(menuName = "Items/Weapon Item")]
-    public class WeaponItem : Item
+    public class WeaponItem : ItemData
     {
         public GameObject ModelPrefab;
         public int WeaponDamage;
         public bool IsUnarmed;
+        public bool IsDualWeapon;
+        public bool IsUsed;
         
         [Title("Attack Animations")]
         public string OHLightAttack1;

@@ -12,7 +12,7 @@ namespace TooltipManager
         public string Header;
         public SlotItem SlotItem;
         public Vector3 Offset;
-
+        
         private void Start()
         {
             Header = SlotItem.ItemData.DisplayName;

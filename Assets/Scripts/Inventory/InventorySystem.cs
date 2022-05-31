@@ -1,79 +1,86 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Inventory.Item;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class InventorySystem : MonoBehaviour ,IDataPersistence
+public class InventorySystem : MonoBehaviour, IDataPersistence
+{
+    public event Action<InventoryItem> OnAddItem;
+    public event Action<InventoryItem> OnAddStackItem;
+    public event Action<InventoryItem> OnRemoveItem;
+    public event Action<InventoryItem> OnRemoveStackItem;
+    public event Action OnStartInventory;
+    public event Action OnRestartInventory;
+    public static InventorySystem Instance { get; private set; }
+    public List<GameObject> InventoryItems = new List<GameObject>();
+    public SerializableDictionary<ItemData, InventoryItem> ItemsDictionary;
+
+
+    private void Awake()
     {
-
-        public event Action<InventoryItem> OnAddItem;
-        public event Action<InventoryItem> OnAddStackItem;
-        public event Action<InventoryItem> OnRemoveItem;
-        public event Action<InventoryItem> OnRemoveStackItem;
-        public event Action OnStartInventory;
-        public event Action OnRestartInventory;
-        public static InventorySystem Instance { get; private set; }
-        public List<GameObject> InventoryItems = new List<GameObject>();
-        public SerializableDictionary<ItemData, InventoryItem> ItemsDictionary;
+        Instance = this;
+        ItemsDictionary = new SerializableDictionary<ItemData, InventoryItem>();
+    }
 
 
-        private void Awake()
+    public InventoryItem Get(ItemData referenceData)
+    {
+        if (ItemsDictionary.TryGetValue(referenceData, out InventoryItem value))
         {
-            Instance = this;
-            ItemsDictionary = new SerializableDictionary<ItemData, InventoryItem>();
+            return value;
         }
 
+        return null;
+    }
 
-        public InventoryItem Get(ItemData referenceData)
+    public void Add(ItemData referenceData)
+    {
+        if (ItemsDictionary.TryGetValue(referenceData, out InventoryItem value))
         {
-            if (ItemsDictionary.TryGetValue(referenceData, out InventoryItem value))
-            {
-                return value;
-            }
+            value.AddToStack();
+            OnAddStackItem?.Invoke(value);
 
-            return null;
+        }
+        else
+        {
+            InventoryItem newItem = new InventoryItem(referenceData);
+            ItemsDictionary.Add(referenceData, newItem);
+            OnAddItem?.Invoke(newItem);
         }
 
-        public void Add(ItemData referenceData)
+    }
+
+    private void Update()
+    {
+        if (Keyboard.current[Key.F1].wasPressedThisFrame)
         {
-            if (ItemsDictionary.TryGetValue(referenceData, out InventoryItem value))
+            RestartInventory();
+        }
+    }
+
+    public void RestartInventory()
+    {
+        OnRestartInventory?.Invoke();
+    }
+
+    public void StartInventory()
+    {
+        OnStartInventory?.Invoke();
+    }
+
+    public void Remove(ItemData referenceData, bool removeCompleted = false)
+    {
+        if (ItemsDictionary.TryGetValue(referenceData, out InventoryItem value))
+        {
+            if (removeCompleted)
             {
-                value.AddToStack();
-                OnAddStackItem?.Invoke(value);
-                
+                ItemsDictionary.Remove(referenceData);
+                OnRemoveItem?.Invoke(value);
             }
             else
-            {
-                InventoryItem newItem = new InventoryItem(referenceData);
-                ItemsDictionary.Add(referenceData,newItem);
-                OnAddItem?.Invoke(newItem);
-            }
-            
-        }
-
-        private void Update()
-        {
-            if (Keyboard.current[Key.F1].wasPressedThisFrame)
-            {
-                RestartInventory();
-            }
-        }
-
-        public void RestartInventory()
-        {
-            OnRestartInventory?.Invoke();
-        }
-
-        public void StartInventory()
-        {
-            OnStartInventory?.Invoke();
-        }
-
-        public void Remove(ItemData referenceData)
-        {
-            if (ItemsDictionary.TryGetValue(referenceData, out InventoryItem value))
             {
                 value.RemoveFromStack();
                 OnRemoveStackItem?.Invoke(value);
@@ -84,38 +91,40 @@ public class InventorySystem : MonoBehaviour ,IDataPersistence
                     OnRemoveItem?.Invoke(value);
                 }
             }
+
         }
+    }
 
-        public void LoadData(GameData data)
+
+    public void LoadData(GameData data)
+    {
+
+        foreach (var item in data.ItemsDictionary)
         {
-
-            foreach (var item in data.ItemsDictionary)
+            foreach (var res in Resources.LoadAll<ItemData>("Items"))
             {
-                foreach (var res in Resources.LoadAll<ItemData>("Items"))
+                if (res.ID != item.Key.ToString()) continue;
+
+                InventoryItem newItem = new InventoryItem(res)
                 {
-                    if (res.ID != item.Key.ToString()) continue;
-
-                    InventoryItem newItem = new InventoryItem(res)
-                    {
-                        StackSize = int.Parse(item.Value)
-                    };
-                    ItemsDictionary.Add(res, newItem);
-                }
-
-            }
-        }
-
-        public void SaveData(GameData data)
-        {
-            //data.ItemsDictionary = ItemsDictionary;
-
-            data.ItemsDictionary.Clear();
-            foreach (var item in ItemsDictionary)
-            {
-                data.ItemsDictionary.Add(item.Key.ID, item.Value.StackSize.ToString());
+                    StackSize = int.Parse(item.Value)
+                };
+                ItemsDictionary.Add(res, newItem);
             }
         }
     }
+
+    public void SaveData(GameData data)
+    {
+        //data.ItemsDictionary = ItemsDictionary;
+
+        data.ItemsDictionary.Clear();
+        foreach (var item in ItemsDictionary)
+        {
+            data.ItemsDictionary.Add(item.Key.ID, item.Value.StackSize.ToString());
+        }
+    }
+}
 
 
 

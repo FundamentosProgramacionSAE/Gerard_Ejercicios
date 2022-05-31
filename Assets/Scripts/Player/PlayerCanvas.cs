@@ -53,23 +53,23 @@ namespace Player.Canvas
 
         private void Start()
         {
-            if (AbilityManager != null)
-            {
-                Ability2Image.sprite = (AbilityManager.Ability2) ? AbilityManager.Ability2.SpriteImage : DefaultAbilityImage;
-                Ability3Image.sprite = (AbilityManager.Ability3) ? AbilityManager.Ability3.SpriteImage : DefaultAbilityImage;
-                Ability4Image.sprite = (AbilityManager.Ability4) ? AbilityManager.Ability4.SpriteImage : DefaultAbilityImage;
-
-                CooldownAbility2.fillAmount = AbilityManager.Ability2 ? 1 : 0;
-                CooldownAbility3.fillAmount = AbilityManager.Ability3 ? 1 : 0;
-                CooldownAbility4.fillAmount = AbilityManager.Ability4 ? 1 : 0;
-                
-                if (AbilityManager.Ability2) AbilityManager.OnActivateAbility2 += AbilityManagerOnOnActivateAbility2;
-                if (AbilityManager.Ability3) AbilityManager.OnActivateAbility3 += AbilityManagerOnOnActivateAbility3;
-                if (AbilityManager.Ability4) AbilityManager.OnActivateAbility4 += AbilityManagerOnOnActivateAbility4;
-            }
-            
             InventorySystem.Instance.StartInventory();
             CloseInventory();
+        }
+
+        public void InitializedAbilities()
+        {
+            Ability2Image.sprite = (AbilityManager.Ability2) ? AbilityManager.Ability2.SpriteImage : DefaultAbilityImage;
+            Ability3Image.sprite = (AbilityManager.Ability3) ? AbilityManager.Ability3.SpriteImage : DefaultAbilityImage;
+            Ability4Image.sprite = (AbilityManager.Ability4) ? AbilityManager.Ability4.SpriteImage : DefaultAbilityImage;
+
+            CooldownAbility2.fillAmount = AbilityManager.Ability2 ? 1 : 0;
+            CooldownAbility3.fillAmount = AbilityManager.Ability3 ? 1 : 0;
+            CooldownAbility4.fillAmount = AbilityManager.Ability4 ? 1 : 0;
+                
+            if (AbilityManager.Ability2) AbilityManager.OnActivateAbility2 += AbilityManagerOnOnActivateAbility2;
+            if (AbilityManager.Ability3) AbilityManager.OnActivateAbility3 += AbilityManagerOnOnActivateAbility3;
+            if (AbilityManager.Ability4) AbilityManager.OnActivateAbility4 += AbilityManagerOnOnActivateAbility4;
         }
 
         private void Update()
