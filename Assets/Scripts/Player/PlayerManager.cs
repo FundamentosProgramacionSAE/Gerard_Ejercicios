@@ -21,9 +21,7 @@ namespace Player.Manager
         [BoxGroup("Inputs")] public bool IsJumping;
         [BoxGroup("Inputs")] public bool CanCombo;
         [BoxGroup("Inputs")] public bool IsReposeWeapon;
-
-
-        private CameraHandler _cameraHandler;
+        
         private InputHandler inputHandler;
         private AnimatorHandler animatorHandler;
         private PlayerLocomotion playerLocomotion;
@@ -35,8 +33,7 @@ namespace Player.Manager
             inputHandler = GetComponent<InputHandler>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
-            _cameraHandler = CameraHandler.Instance;
-            
+
         }
 
         private void Update()
@@ -51,7 +48,7 @@ namespace Player.Manager
         private void FixedUpdate()
         {
             playerLocomotion.Handles();
-            _cameraHandler.HandleCameraMovement();
+            //_cameraHandler.HandleCameraMovement();
 
         }
 

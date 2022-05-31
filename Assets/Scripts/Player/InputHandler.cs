@@ -298,19 +298,22 @@ namespace Player.Input
                 if (_cameraHandler._nearestLockOn != null)
                 {
                     _cameraHandler._currentLockOnTarget = _cameraHandler._nearestLockOn;
+                    _cameraHandler.VirtualCamera.LookAt = _cameraHandler._currentLockOnTarget.LockOn;
                     LockOnFlag = true;
                 }
             }
             else if (LockOnInput && LockOnFlag)
             {
-                LockOnInput = false;
-                LockOnFlag = false;
-                _cameraHandler.ClearLockOnTargets();
+                ClearCamera();
             }
             
-            _cameraHandler.SetCameraHeight();
+        }
 
-
+        public void ClearCamera()
+        {
+            LockOnInput = false;
+            LockOnFlag = false;
+            _cameraHandler.ClearLockOnTargets();
         }
     }
 }

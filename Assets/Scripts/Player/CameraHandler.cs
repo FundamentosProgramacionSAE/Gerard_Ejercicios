@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cinemachine;
 using Player.Input;
 using Player.Manager;
 using Unity.Mathematics;
@@ -13,35 +14,14 @@ namespace Player.CameraManager
 
 
         public PlayerManager PlayerManager;
-        public LayerMask CollisionLayers;
-        public float CameraCollisionRadius = 2;
-        public float CameraCollisionOffset = 0.2f;
-        public float MinCollisionOffset = 0.2f;
-        public Transform Camera;
         public InputHandler InputHandler;
+        public Transform Camera;
         public Transform Target;
-        public Transform CameraPivot;
-        public float CameraFollowSpeed;
-        public float CameraLookSpeed = 2;
-        public float CameraPivotSpeed;
-        public float LockedPivotPosition = 2.25f;
-        public float UnlockedPivotPosition = 1.65f;
-        public float LookAngle;
-        public float PivotAngle;
-        public float MinPivot;
-        public float MaxPivot;
         public float MaxLockOnDistance = 30;
         public List<CharacterManager> AvaliablesTargets = new List<CharacterManager>();
+        public Animator CameraAnimator;
+        public CinemachineVirtualCamera VirtualCamera;
 
-
-
-
-
-
-        private float _defaultPosition;
-        private Vector3 dollyDir;
-        private Vector3 cameraFollowVelocity = Vector3.zero;
-        private Vector3 _cameraPosition;
         internal CharacterManager _nearestLockOn;
         internal CharacterManager _currentLockOnTarget;
 
@@ -50,92 +30,31 @@ namespace Player.CameraManager
         {
             Instance = this;
             Camera = UnityEngine.Camera.main.transform;
-            _defaultPosition = Camera.localPosition.z;
         }
 
-        public void HandleCameraMovement()
-        {
-            FollowTarget();
-            RotateCamera();
-            HandleCameraCollisions();
-        }
-        
-        
-        private void FollowTarget()
-        {
-            Vector3 targetPosition = Vector3.SmoothDamp(transform.position, Target.position, ref cameraFollowVelocity,
-                CameraFollowSpeed);
-            transform.position = targetPosition;
-        }
-
-        private void RotateCamera()
+        private void Update()
         {
             if (InputHandler.LockOnFlag == false)
             {
-                Vector3 rotation;
-                Quaternion targetRotation;
-
-                LookAngle = LookAngle + (InputHandler.MouseX * CameraLookSpeed);
-                PivotAngle = PivotAngle - (InputHandler.MouseY * CameraPivotSpeed);
-                PivotAngle = Mathf.Clamp(PivotAngle, MinPivot, MaxPivot);
-            
-                rotation = Vector3.zero;
-                rotation.y = LookAngle;
-                targetRotation = Quaternion.Euler(rotation);
-                transform.rotation = targetRotation;
-            
-                rotation = Vector3.zero;
-                rotation.x = PivotAngle;
-                targetRotation = Quaternion.Euler(rotation);
-                CameraPivot.localRotation = targetRotation;
+                CameraAnimator.CrossFade("FollowCamera", 0.2f);
             }
             else
             {
-                float velocity = 0;
-                Vector3 dir = _currentLockOnTarget.transform.position - transform.position;
-                dir.Normalize();
-                dir.y = 0;
-                
-                Quaternion targetRotation = Quaternion.LookRotation(dir);
-                transform.rotation = targetRotation;
-
-                dir = _currentLockOnTarget.transform.position - CameraPivot.position;
-                dir.Normalize();
-
-                targetRotation = Quaternion.LookRotation(dir);
-                Vector3 eulerAngles = targetRotation.eulerAngles;
-                eulerAngles.y = 0;
-                CameraPivot.localEulerAngles = eulerAngles;
+                CameraAnimator.CrossFade("TargetCamera", 0.2f);
+                RaycastHit hit;
+                if (_currentLockOnTarget != null)
+                {
+                    if (Physics.Linecast(PlayerManager.LockOn.position, _currentLockOnTarget.LockOn.position, out hit))
+                    {
+                        if (!hit.transform.CompareTag("Enemy"))
+                        {
+                            InputHandler.ClearCamera();
+                        }
+                    }
+                }
             }
-            
-            
-
         }
-
-
-        private void HandleCameraCollisions()
-        {
-            float targetPosition = _defaultPosition;
-            RaycastHit hit;
-            Vector3 direciton = Camera.position - CameraPivot.position;
-            direciton.Normalize();
-            
-            if (Physics.SphereCast(CameraPivot.transform.position, CameraCollisionRadius, direciton, out hit,
-                    Mathf.Abs(targetPosition), CollisionLayers))
-            {
-                float distance = Vector3.Distance(CameraPivot.position, hit.point);
-                targetPosition = - (distance - CameraCollisionOffset);
-            }
-            
-            if (Mathf.Abs(targetPosition) < MinCollisionOffset)
-            {
-                targetPosition = - MinCollisionOffset;
-            }
-            
-            _cameraPosition.z = Mathf.Lerp(Camera.localPosition.z, targetPosition, Time.deltaTime/0.2f);
-            Camera.localPosition = _cameraPosition;
-
-        }
+        
 
         public void HandleLockOn()
         {
@@ -161,9 +80,7 @@ namespace Player.CameraManager
                     {
                         if (Physics.Linecast(PlayerManager.LockOn.position, character.LockOn.position, out hit))
                         {
-                            Debug.DrawLine(PlayerManager.LockOn.position, character.LockOn.position);
-                            print(hit.transform.gameObject.layer.ToString());
-                            if (hit.transform.gameObject == character.gameObject)
+                            if (hit.transform.CompareTag("Enemy"))
                             {
                                 AvaliablesTargets.Add(character);
                             }
@@ -185,6 +102,8 @@ namespace Player.CameraManager
                     _nearestLockOn = AvaliablesTargets[k];
                 }
             }
+            
+            
         }
 
         public void ClearLockOnTargets()
@@ -192,25 +111,6 @@ namespace Player.CameraManager
             AvaliablesTargets.Clear();
             _nearestLockOn = null;
             _currentLockOnTarget = null;
-        }
-
-        public void SetCameraHeight()
-        {
-            Vector3 velocity = Vector3.zero;
-            Vector3 newLockedPosition = new Vector3(0, LockedPivotPosition);
-            Vector3 newUnlockedPosition = new Vector3(0, UnlockedPivotPosition);
-
-            if (_currentLockOnTarget != null)
-            {
-                CameraPivot.transform.localPosition = Vector3.SmoothDamp(CameraPivot.transform.localPosition,
-                    newLockedPosition, ref velocity, Time.deltaTime);
-            }
-            else
-            {
-                CameraPivot.transform.localPosition = Vector3.SmoothDamp(CameraPivot.transform.localPosition,
-                    newUnlockedPosition, ref velocity, Time.deltaTime);
-            }
-
         }
     }
 }
