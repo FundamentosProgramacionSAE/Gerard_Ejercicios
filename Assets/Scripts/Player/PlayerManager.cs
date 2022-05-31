@@ -45,17 +45,19 @@ namespace Player.Manager
             CanCombo = animatorHandler.Animator.GetBool("canCombo");
             inputHandler.TickInput();
 
+
         }
 
         private void FixedUpdate()
         {
             playerLocomotion.Handles();
+            _cameraHandler.HandleCameraMovement();
+
         }
 
         private void LateUpdate()
         {
-            _cameraHandler.HandleCameraMovement();
-            
+
             inputHandler.Rb_Input = false;
             inputHandler.SecondAbilityInput = false;
             inputHandler.ThirdAbilityInput = false;

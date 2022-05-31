@@ -456,9 +456,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ebb573fd3504776a2c80e0eed4c5641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerManager: {fileID: 6688260510486698100}
   CollisionLayers:
     serializedVersion: 2
     m_Bits: 65
+  EnvironmentLayer:
+    serializedVersion: 2
+    m_Bits: 128
   CameraCollisionRadius: 2
   CameraCollisionOffset: 0.2
   MinCollisionOffset: 0.2
@@ -469,10 +473,14 @@ MonoBehaviour:
   CameraFollowSpeed: 0.1
   CameraLookSpeed: 5
   CameraPivotSpeed: 5
+  LockedPivotPosition: 1.5
+  UnlockedPivotPosition: 1.5
   LookAngle: 0
   PivotAngle: 0
   MinPivot: -35
   MaxPivot: 35
+  MaxLockOnDistance: 30
+  AvaliablesTargets: []
 --- !u!1 &4488966101178025551
 GameObject:
   m_ObjectHideFlags: 0
@@ -13106,9 +13114,12 @@ MonoBehaviour:
   Horizontal: 0
   Vertical: 0
   MoveAmount: 0
+  MouseX: 0
+  MouseY: 0
   SprintFlag: 0
   ComboFlag: 0
   InventoryFlag: 0
+  LockOnFlag: 0
   input: 0
   RollInput: 0
   Rb_Input: 0
@@ -13118,8 +13129,7 @@ MonoBehaviour:
   FourthAbilityInput: 0
   InventoryInput: 0
   JumpInput: 0
-  MouseX: 0
-  MouseY: 0
+  LockOnInput: 0
 --- !u!114 &6688260510486698101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13140,7 +13150,7 @@ MonoBehaviour:
   heightJump: 2
   GroundLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 129
   InAirTimer: 0
   movementSpeed: 5
   sprintSpeed: 10

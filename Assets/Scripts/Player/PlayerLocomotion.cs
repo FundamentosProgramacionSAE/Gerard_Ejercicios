@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Player.CameraManager;
 using UnityEngine;
 using Player.Input;
 using Player.Manager;
@@ -36,12 +37,14 @@ namespace Player.Locomotion
         private Transform myTransform;
         private AnimatorHandler animatorHandler;
         private PlayerManager playerManager;
+        private CameraHandler _cameraHandler;
         private void Start()
         {
             playerManager = GetComponent<PlayerManager>();
             Rigidbody = GetComponent<Rigidbody>();
             inputHandler = GetComponent<InputHandler>();
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            _cameraHandler = CameraHandler.Instance;
             camera = Camera.main.transform;
             myTransform = transform;
             
@@ -117,8 +120,17 @@ namespace Player.Locomotion
             // Le asignamos la velodicad a nuestro Rigidbody.
             Rigidbody.velocity = new Vector3(moveDirection.x, Rigidbody.velocity.y, moveDirection.z);
 
-            // Actualizamos las animaciones segun el movimiento
-            animatorHandler.UpdateAnimatorValues(inputHandler.MoveAmount,0, playerManager.IsSprinting);
+            if (inputHandler.LockOnFlag && inputHandler.SprintFlag == false)
+            {
+                // Actualizamos las animaciones segun el movimiento
+                animatorHandler.UpdateAnimatorValues(inputHandler.Vertical,inputHandler.Horizontal, playerManager.IsSprinting);
+            }
+            else
+            {
+                // Actualizamos las animaciones segun el movimiento
+                animatorHandler.UpdateAnimatorValues(inputHandler.MoveAmount,0, playerManager.IsSprinting);
+            }
+
 
             // Si podemos rotar, esta tocando el suelo y no estamos saltando el jugador podra rotar
             if (animatorHandler.CanRotate && playerManager.IsGrounded && !playerManager.IsJumping)
@@ -133,23 +145,59 @@ namespace Player.Locomotion
         /// <param name="delta"></param>
         private void HandleRotation(float delta)
         {
-            Vector3 targetDir = Vector3.zero;
+            if (inputHandler.LockOnFlag && inputHandler.SprintFlag == false)
+            {
+                if (inputHandler.SprintFlag || inputHandler.RollInput)
+                {
+                    Vector3 targetDirection = Vector3.zero;
+                    targetDirection = camera.forward * inputHandler.Vertical;
+                    targetDirection += camera.right * inputHandler.Horizontal;
+                    targetDirection.Normalize();
+                    targetDirection.y = 0;
+
+                    if (targetDirection == Vector3.zero)
+                    {
+                        targetDirection = transform.forward;
+                    }
+                
+                    Quaternion tr = Quaternion.LookRotation(targetDirection);
+                    Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr,rotationSpeed * Time.deltaTime);
+                    transform.rotation = targetRotation;
+                }
+                else
+                {
+                    Vector3 rotationDirection = moveDirection;
+                    rotationDirection = _cameraHandler._currentLockOnTarget.transform.position - transform.position;
+                    rotationDirection.y = 0;
+                    rotationDirection.Normalize();
+                    Quaternion tr = Quaternion.LookRotation(rotationDirection);
+                    Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * Time.deltaTime);
+                    transform.rotation = targetRotation;
+                }
+
+            }
+            else
+            {
+                Vector3 targetDir = Vector3.zero;
             
-            targetDir = camera.forward * inputHandler.Vertical;
-            targetDir += camera.right * inputHandler.Horizontal;
+                targetDir = camera.forward * inputHandler.Vertical;
+                targetDir += camera.right * inputHandler.Horizontal;
             
-            targetDir.Normalize();
-            targetDir.y = 0;
+                targetDir.Normalize();
+                targetDir.y = 0;
 
 
-            if (targetDir == Vector3.zero) targetDir = myTransform.forward;
+                if (targetDir == Vector3.zero) targetDir = myTransform.forward;
 
-            float rs = rotationSpeed;
+                float rs = rotationSpeed;
             
-            Quaternion tr = Quaternion.LookRotation(targetDir);
-            Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr,rs * delta);
+                Quaternion tr = Quaternion.LookRotation(targetDir);
+                Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr,rs * delta);
             
-            myTransform.rotation = targetRotation;
+                myTransform.rotation = targetRotation;
+            }
+            
+
         }
 
         public void HandleRollingAndSprinting()

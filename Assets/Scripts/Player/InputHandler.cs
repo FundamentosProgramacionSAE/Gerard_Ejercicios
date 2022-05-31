@@ -15,27 +15,32 @@ namespace Player.Input
 {
     public class InputHandler : MonoBehaviour
     {
-        [BoxGroup("Values")] public float Horizontal;
-        [BoxGroup("Values")] public float Vertical;
-        [BoxGroup("Values")] public float MoveAmount;
-
-        [BoxGroup("Flags")] public bool SprintFlag;
-        [BoxGroup("Flags")] public bool ComboFlag;
-        [BoxGroup("Flags")] public bool InventoryFlag;
-
-        [BoxGroup("Inputs")] public bool input;
-        [BoxGroup("Inputs")] public bool RollInput;
-        [BoxGroup("Inputs")] public bool Rb_Input;
-        [BoxGroup("Inputs")] public bool ReposeInput;
-        [BoxGroup("Inputs")] public bool SecondAbilityInput;
-        [BoxGroup("Inputs")] public bool ThirdAbilityInput;
-        [BoxGroup("Inputs")] public bool FourthAbilityInput;
-        [BoxGroup("Inputs")] public bool InventoryInput;
-        [BoxGroup("Inputs")] public bool JumpInput;
-
-        
+        [TitleGroup("Values")]
+        public float Horizontal;
+        public float Vertical;
+        public float MoveAmount;
         public float MouseX;
         public float MouseY;
+
+        [TitleGroup("Flags")]
+        public bool SprintFlag;
+        public bool ComboFlag;
+        public bool InventoryFlag;
+        public bool LockOnFlag;
+
+        [TitleGroup("Inputs")]
+        public bool input;
+        public bool RollInput;
+        public bool Rb_Input;
+        public bool ReposeInput;
+        public bool SecondAbilityInput;
+        public bool ThirdAbilityInput;
+        public bool FourthAbilityInput;
+        public bool InventoryInput;
+        public bool JumpInput;
+        public bool LockOnInput;
+
+
 
 
 
@@ -69,6 +74,11 @@ namespace Player.Input
             _playerLocomotion = GetComponent<PlayerLocomotion>();
         }
 
+        private void Start()
+        {
+            _cameraHandler = CameraHandler.Instance;
+        }
+
 
         private void OnEnable()
         {
@@ -95,6 +105,8 @@ namespace Player.Input
                 inputActions.PlayerActions.Inventory.performed += i => InventoryInput = true;
                 inputActions.PlayerActions.ReposeWeapon.performed += i => ReposeInput = true;
                 
+                inputActions.PlayerActions.LockOn.performed += i => LockOnInput = true;
+
             }
             
             inputActions.Enable();
@@ -123,6 +135,7 @@ namespace Player.Input
             HandleRollInput();
             HandleSprintInput();
             AttackInputs();
+            HandleLockOnInput();
 
         }
 
@@ -173,7 +186,7 @@ namespace Player.Input
             // RB input handles the RIGHT hand weapon's light attack
             if (Rb_Input)
             {
-                UnReposeWeapon();
+                HandleUnReposeWeapon();
                 
                 if (playerManager.CanCombo)
                 {
@@ -194,7 +207,7 @@ namespace Player.Input
             if(playerManager.IsInteracting || abilityManager.HasAbilities != true) return;
             if (SecondAbilityInput && abilityManager.CanUseAbility2)
             {
-                UnReposeWeapon();
+                HandleUnReposeWeapon();
                 playerAttacker.HandleAbilityAttack2(_playerWeaponInventory.RightWeapon);
                 abilityManager.RestartCooldownAbility2();
                 abilityManager.CanUseAbility2 = false;
@@ -202,14 +215,14 @@ namespace Player.Input
             
             if (ThirdAbilityInput && abilityManager.CanUseAbility3)
             {
-                UnReposeWeapon();
+                HandleUnReposeWeapon();
                 playerAttacker.HandleAbilityAttack3(_playerWeaponInventory.RightWeapon);
                 abilityManager.RestartCooldownAbility3();
                 abilityManager.CanUseAbility3 = false;
             }
             if (FourthAbilityInput && abilityManager.CanUseAbility4)
             {
-                UnReposeWeapon();
+                HandleUnReposeWeapon();
                 playerAttacker.HandleAbilityAttack4(_playerWeaponInventory.RightWeapon);
                 abilityManager.RestartCooldownAbility4();
                 abilityManager.CanUseAbility4 = false;
@@ -263,7 +276,7 @@ namespace Player.Input
             }
         }
 
-        private void UnReposeWeapon()
+        private void HandleUnReposeWeapon()
         {
             if (playerManager.IsReposeWeapon)
             {
@@ -272,6 +285,32 @@ namespace Player.Input
                 animatorHandler.Animator.SetBool("isReposeWeapon", false);
                     
             }
+        }
+
+        private void HandleLockOnInput()
+        {
+            if (LockOnInput && LockOnFlag == false)
+            {
+                _cameraHandler.ClearLockOnTargets();
+                LockOnInput = false;
+                LockOnFlag = false;
+                _cameraHandler.HandleLockOn();
+                if (_cameraHandler._nearestLockOn != null)
+                {
+                    _cameraHandler._currentLockOnTarget = _cameraHandler._nearestLockOn;
+                    LockOnFlag = true;
+                }
+            }
+            else if (LockOnInput && LockOnFlag)
+            {
+                LockOnInput = false;
+                LockOnFlag = false;
+                _cameraHandler.ClearLockOnTargets();
+            }
+            
+            _cameraHandler.SetCameraHeight();
+
+
         }
     }
 }
