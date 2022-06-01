@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Inventory.Item;
 using Player.Canvas;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -13,7 +14,9 @@ public class ItemDropHandler : MonoBehaviour, IDropHandler
     {
         if (IsDropZone)
         {
-            InventorySystem.Instance.Remove(eventData.pointerDrag.GetComponent<SlotItem>().ItemData, true);
+            var itemData = eventData.pointerDrag.GetComponent<SlotItem>().ItemData;
+            if(itemData as WeaponItem != null) return;
+            InventorySystem.Instance.Remove(itemData, true);
         }
         else
         {

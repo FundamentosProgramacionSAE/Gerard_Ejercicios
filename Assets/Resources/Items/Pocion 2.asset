@@ -20,4 +20,4 @@ MonoBehaviour:
     Min: 1
     Max: 2
   MaxAmount: 10
-  Position: 1
+  Position: -1

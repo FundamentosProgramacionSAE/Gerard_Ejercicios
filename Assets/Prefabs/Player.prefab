@@ -1600,7 +1600,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4230046271655802127}
-  m_LocalRotation: {x: 0.056224823, y: -0, z: -0, w: 0.99841815}
+  m_LocalRotation: {x: 0.056224816, y: -8.0936896e-10, z: 4.557872e-11, w: 0.99841815}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2411,8 +2411,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4230046273004737361}
-  m_LocalRotation: {x: 0.07437624, y: -0.0000000029223455, z: 2.1795675e-10, w: 0.9972303}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.11137055, y: -0.000000006185663, z: 6.932132e-10, w: 0.993779}
+  m_LocalPosition: {x: 0, y: 0.36666703, z: 0.08046293}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4230046272586632282}
@@ -2485,7 +2485,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4230046273119785962}
-  m_LocalRotation: {x: 0.038102802, y: 0.0000000014641667, z: -5.5829407e-11, w: 0.99927384}
+  m_LocalRotation: {x: 0.038102806, y: 0.0000000164344, z: -6.266518e-10, w: 0.99927384}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -16574,7 +16574,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RightWeapon: {fileID: 0}
   LeftWeapon: {fileID: 0}
-  InventorySystem: {fileID: 0}
+  InventorySystem: {fileID: 3687076524767151784}
 --- !u!114 &6688260510486698102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28570,8 +28570,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6688260510904366105}
-  m_LocalRotation: {x: -0.22768658, y: 0.000000029591993, z: 0.000000006919286, w: 0.9737345}
-  m_LocalPosition: {x: 0, y: 0.100000024, z: -1.9991056}
+  m_LocalRotation: {x: 0.05622482, y: -8.095876e-10, z: 4.555585e-11, w: 0.99841815}
+  m_LocalPosition: {x: 0, y: 1.75, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6688260510457104415}
@@ -53818,6 +53818,7 @@ MonoBehaviour:
   - {fileID: 8823360128894638254}
   - {fileID: 351219401297724546}
   - {fileID: 5524370905175791756}
+  GoldText: {fileID: 4779914742478393709}
   FeedbackActivateAbility2: {fileID: 6688260510967503687}
   FeedbackActivateAbility3: {fileID: 6688260512039283797}
   FeedbackActivateAbility4: {fileID: 6688260512228297753}
@@ -53833,10 +53834,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e376dc028b5a5364d942b1401f2f56df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InventoryItems: []
-  ItemsDictionary:
-    keys: []
-    values: []
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: ItemsDictionary
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[ItemData, Assembly-CSharp],[InventoryItem,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[ItemData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  Gold: 0
 --- !u!1 &6688260511616513714
 GameObject:
   m_ObjectHideFlags: 0
@@ -78160,7 +78187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlotPrefab: {fileID: 8350049343256557650, guid: 68b2ffb130af3d64db7b03ceb424ba40, type: 3}
   Items: []
-  PlayerCanvas: {fileID: 0}
+  PlayerCanvas: {fileID: 6688260511614485797}
 --- !u!114 &2789561156308417408
 MonoBehaviour:
   m_ObjectHideFlags: 0

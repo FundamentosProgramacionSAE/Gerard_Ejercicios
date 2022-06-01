@@ -22,7 +22,6 @@ public class ItemObject : MonoBehaviour
 
         public void OnPickUpItem()
         {
-
             if (MeetsRequirements())
             {
                 //if (ExceedItems()) return;

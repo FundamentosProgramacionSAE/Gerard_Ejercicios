@@ -10,8 +10,9 @@ public class InventoryUI : MonoBehaviour
         public List<SlotItem> Items = new List<SlotItem>();
         public PlayerCanvas PlayerCanvas;
 
+        
 
-        private void Awake()
+        public void Initialized()
         {
             PlayerCanvas = GetComponentInParent<PlayerCanvas>();
             PlayerCanvas.SetPositionsInventory();

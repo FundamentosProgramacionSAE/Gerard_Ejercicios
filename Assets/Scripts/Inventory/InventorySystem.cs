@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Inventory;
 using Inventory.Item;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using  Sirenix.OdinInspector;
 
-public class InventorySystem : MonoBehaviour, IDataPersistence
+public class InventorySystem : SerializedMonoBehaviour
 {
     public event Action<InventoryItem> OnAddItem;
     public event Action<InventoryItem> OnAddStackItem;
@@ -14,15 +16,37 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
     public event Action<InventoryItem> OnRemoveStackItem;
     public event Action OnStartInventory;
     public event Action OnRestartInventory;
+    public event Action OnAddGold;
     public static InventorySystem Instance { get; private set; }
-    public List<GameObject> InventoryItems = new List<GameObject>();
-    public SerializableDictionary<ItemData, InventoryItem> ItemsDictionary;
 
+    
+    public Dictionary<ItemData, InventoryItem> ItemsDictionary = new Dictionary<ItemData, InventoryItem>();
+    public int Gold;
+
+
+    private PlayerWeaponInventory _playerWeaponInventory;
+    private InventoryUI _inventoryUI;
 
     private void Awake()
     {
         Instance = this;
-        ItemsDictionary = new SerializableDictionary<ItemData, InventoryItem>();
+        _playerWeaponInventory = GetComponentInParent<PlayerWeaponInventory>();
+        _inventoryUI = GetComponentInChildren<InventoryUI>();
+
+    }
+
+
+    public void Initialized()
+    {
+
+        if (ES3.KeyExists("Inventory") == false)
+        {
+            ItemsDictionary = new Dictionary<ItemData, InventoryItem>();
+        }
+        StartInventory();
+        OnAddGold?.Invoke();
+        _playerWeaponInventory.Initialized();
+        _inventoryUI.Initialized();
     }
 
 
@@ -94,36 +118,7 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
 
         }
     }
-
-
-    public void LoadData(GameData data)
-    {
-
-        foreach (var item in data.ItemsDictionary)
-        {
-            foreach (var res in Resources.LoadAll<ItemData>("Items"))
-            {
-                if (res.ID != item.Key.ToString()) continue;
-
-                InventoryItem newItem = new InventoryItem(res)
-                {
-                    StackSize = int.Parse(item.Value)
-                };
-                ItemsDictionary.Add(res, newItem);
-            }
-        }
-    }
-
-    public void SaveData(GameData data)
-    {
-        //data.ItemsDictionary = ItemsDictionary;
-
-        data.ItemsDictionary.Clear();
-        foreach (var item in ItemsDictionary)
-        {
-            data.ItemsDictionary.Add(item.Key.ID, item.Value.StackSize.ToString());
-        }
-    }
+    
 }
 
 

@@ -6,6 +6,7 @@ using MoreMountains.Feedbacks;
 using Player.Manager;
 using Player.Stats;
 using Sirenix.OdinInspector;
+using TMPro;
 using TooltipManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -33,6 +34,7 @@ namespace Player.Canvas
         [Title("Inventory Panel")] 
         public GameObject PanelInventory;
         public List<InventoryLayout> Layouts = new List<InventoryLayout>();
+        public TextMeshProUGUI GoldText;
 
         [Title("Feedbacks")] 
         public MMF_Player FeedbackActivateAbility2;
@@ -43,17 +45,33 @@ namespace Player.Canvas
         
         private AbilityManager AbilityManager;
         private PlayerManager _playerManager;
+        private InventorySystem _inventorySystem;
 
 
         private void Awake()
         {
             AbilityManager = GetComponentInParent<AbilityManager>();
             _playerManager = GetComponentInParent<PlayerManager>();
+            _inventorySystem = GetComponent<InventorySystem>();
+        }
+
+        private void OnEnable()
+        {
+            _inventorySystem.OnAddGold += InventoryOnAddGold;
+        }
+
+        private void OnDisable()
+        {
+            _inventorySystem.OnAddGold -= InventoryOnAddGold;
+        }
+        
+        private void InventoryOnAddGold()
+        {
+            GoldText.text = _inventorySystem.Gold.ToString();
         }
 
         private void Start()
         {
-            InventorySystem.Instance.StartInventory();
             CloseInventory();
         }
 
@@ -74,6 +92,7 @@ namespace Player.Canvas
 
         private void Update()
         {
+
             if(AbilityManager == null) return;
 
             if (AbilityManager.Ability2 != null)

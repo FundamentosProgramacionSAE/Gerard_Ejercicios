@@ -29,19 +29,14 @@ namespace Inventory
         private void Awake()
         {
             weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
-            InventorySystem = GetComponentInChildren<InventorySystem>();
             _abilityManager = GetComponent<AbilityManager>();
             _playerCanvas = GetComponentInChildren<PlayerCanvas>();
+            InventorySystem = GetComponentInChildren<InventorySystem>();
             _animatorHandler = GetComponentInChildren<AnimatorHandler>();
             _playerManager = GetComponent<PlayerManager>();
         }
         
         
-
-        private void Start()
-        {
-            Initialized();
-        }
 
         public void UnEquip()
         {
@@ -60,6 +55,7 @@ namespace Inventory
         {
             _weaponReferenceRight = null;
             _weaponReferenceLeft = null;
+            
             foreach (var item in InventorySystem.ItemsDictionary)
             {
                 print(item.Key.DisplayName);
