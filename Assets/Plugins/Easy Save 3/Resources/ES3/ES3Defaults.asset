@@ -30,6 +30,7 @@ MonoBehaviour:
     serializationDepthLimit: 64
     assemblyNames:
     - MoreMountains.Feedbacks
+    - Assembly-CSharp-firstpass
     - MoreMountains.Feel.Demos
     - Assembly-CSharp
     - MoreMountains.Tools
@@ -47,7 +48,6 @@ MonoBehaviour:
     - MoreMountains.Tools.Cinemachine
     - Lofelt.NiceVibrations
     - MoreMountains.Tools.TextMeshPro
-    - Assembly-CSharp-firstpass
     - MoreMountains.Tools.Editor
     - Sirenix.OdinInspector.CompatibilityLayer.Editor
     - MoreMountains.Feedbacks.Editor
