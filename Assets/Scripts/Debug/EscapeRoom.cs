@@ -7,12 +7,26 @@ using UnityEngine.UI;
 
 public class EscapeRoom : MonoBehaviour
 {
+    
+    public static EscapeRoom Instance { get; private set; }
     public Slider VelocitySlider;
     public Slider ScaleSlider;
     public Slider RotationSlider;
+    public Button OpenCloseButton;
     public CharacterController CharacterController;
-    public GameObject DoorObject;
+    public DoorSystem DoorObject;
 
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    private void Start()
+    {
+        OpenCloseButton.onClick.AddListener(OpenCloseDoor);
+        OpenCloseButton.gameObject.SetActive(false);
+    }
 
     private void Update()
     {
@@ -32,10 +46,33 @@ public class EscapeRoom : MonoBehaviour
                 if (hitInfo.transform.gameObject.tag == "Enemy")
                 {
                     Debug.Log ("DOOR!!!!!");
-                    DoorObject = hitInfo.transform.gameObject;
+                    DoorObject = hitInfo.transform.GetComponent<DoorSystem>();
+                    DoorObject.InitializeDoor();
                 }
-            } 
+                else
+                {
+                    OpenCloseButton.gameObject.SetActive(false);
+                }
+            }
 
         } 
     }
+
+    public void OpenCloseDoor()
+    {
+        if(DoorObject == null) return;
+        DoorSystem doorSystem = DoorObject;
+        if (doorSystem.IsOpen)
+        {
+            doorSystem.IsOpen = false;
+            doorSystem.gameObject.transform.position -= new Vector3(0, 4, 0);
+        }
+        else
+        {
+            doorSystem.gameObject.transform.position += new Vector3(0, 4, 0);
+            doorSystem.IsOpen = true;
+        }
+        doorSystem.InitializeDoor();
+    }
 }
+

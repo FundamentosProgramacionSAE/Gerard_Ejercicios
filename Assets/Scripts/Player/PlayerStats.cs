@@ -9,18 +9,12 @@ using UnityEngine.InputSystem;
 
 namespace Player.Stats
 {
-    public class PlayerStats : MonoBehaviour, IDamageable
+    public class PlayerStats : CharacterStats, IDamageable
     {
-
-        [BoxGroup("STATS")] public int HealthLevel = 10;
-        [BoxGroup("STATS")] public int MaxHealth;
 
         [BoxGroup("Canvas")] public PlayerCanvas PlayerCanvas;
         
-        public HealthSystem healthSystem;
-
-
-        private AnimatorHandler animatorHandler;
+        private PlayerAnimatorManager _playerAnimatorManager;
 
         private void Awake()
         {
@@ -30,7 +24,7 @@ namespace Player.Stats
         private void Start()
         {
             PlayerCanvas = GetComponentInChildren<PlayerCanvas>();
-            animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            _playerAnimatorManager = GetComponentInChildren<PlayerAnimatorManager>();
 
             PlayerCanvas.SetHPSlider(healthSystem.CurrentHealth);
         }
@@ -54,7 +48,7 @@ namespace Player.Stats
         {
             healthSystem.Damage(damageAmount);
             PlayerCanvas.SetCurrentHealth(healthSystem.CurrentHealth);
-            animatorHandler.PlayTargetAnimation("Damage_01", true);
+            _playerAnimatorManager.PlayTargetAnimation("Damage_01", true);
             
             if(healthSystem.IsDead()) OnDead();
             
@@ -62,7 +56,7 @@ namespace Player.Stats
 
         private void OnDead()
         {
-            animatorHandler.PlayTargetAnimation("Dead_01", true);
+            _playerAnimatorManager.PlayTargetAnimation("Dead_01", true);
         }
     }
 }

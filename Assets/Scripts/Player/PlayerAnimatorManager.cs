@@ -1,15 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Managers;
 using Player.Input;
 using Player.Manager;
 using UnityEngine;
 
 namespace Player.Locomotion
 {
-    public class AnimatorHandler : MonoBehaviour
+    public class PlayerAnimatorManager : AnimatorManager
     {
-        public Animator Animator;
         public bool CanRotate;
 
 
@@ -66,13 +66,7 @@ namespace Player.Locomotion
             Animator.SetFloat(vertical, v, 0.1f, Time.deltaTime);
             Animator.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
         }
-
-        public void PlayTargetAnimation(string targetAnim, bool isInteracting)
-        {
-            Animator.applyRootMotion = isInteracting;
-            Animator.SetBool("isInteracting", isInteracting);
-            Animator.CrossFade(targetAnim, 0.2f);
-        }
+        
 
         public void Rotate()
         {

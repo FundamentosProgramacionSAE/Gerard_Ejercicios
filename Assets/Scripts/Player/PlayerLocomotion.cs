@@ -35,15 +35,15 @@ namespace Player.Locomotion
         private Transform camera;
         private InputHandler inputHandler;
         private Transform myTransform;
-        private AnimatorHandler animatorHandler;
+        private PlayerAnimatorManager _playerAnimatorManager;
         private PlayerManager playerManager;
         private CameraHandler _cameraHandler;
 
 
         private void Awake()
         {
-            animatorHandler = GetComponentInChildren<AnimatorHandler>();
-            animatorHandler.Initialize();
+            _playerAnimatorManager = GetComponentInChildren<PlayerAnimatorManager>();
+            _playerAnimatorManager.Initialize();
         }
 
         private void Start()
@@ -72,7 +72,7 @@ namespace Player.Locomotion
             // Reiniciar el combo al moverse y si esta usando el combo
             if (inputHandler.MoveAmount > 0 && playerManager.CanCombo)
             {
-                animatorHandler.DisableCombo();
+                _playerAnimatorManager.DisableCombo();
             }
             
             HandleMovement();
@@ -128,17 +128,17 @@ namespace Player.Locomotion
             if (inputHandler.LockOnFlag && inputHandler.SprintFlag == false)
             {
                 // Actualizamos las animaciones segun el movimiento
-                animatorHandler.UpdateAnimatorValues(inputHandler.Vertical,inputHandler.Horizontal, playerManager.IsSprinting);
+                _playerAnimatorManager.UpdateAnimatorValues(inputHandler.Vertical,inputHandler.Horizontal, playerManager.IsSprinting);
             }
             else
             {
                 // Actualizamos las animaciones segun el movimiento
-                animatorHandler.UpdateAnimatorValues(inputHandler.MoveAmount,0, playerManager.IsSprinting);
+                _playerAnimatorManager.UpdateAnimatorValues(inputHandler.MoveAmount,0, playerManager.IsSprinting);
             }
 
 
             // Si podemos rotar, esta tocando el suelo y no estamos saltando el jugador podra rotar
-            if (animatorHandler.CanRotate && playerManager.IsGrounded && !playerManager.IsJumping)
+            if (_playerAnimatorManager.CanRotate && playerManager.IsGrounded && !playerManager.IsJumping)
             {
                 HandleRotation(Time.deltaTime);
             }
@@ -207,13 +207,13 @@ namespace Player.Locomotion
 
         public void HandleRollingAndSprinting()
         {
-            if(animatorHandler.Animator.GetBool("isInteracting")) return;
+            if(_playerAnimatorManager.Animator.GetBool("isInteracting")) return;
             moveDirection = camera.forward * inputHandler.Vertical;
             moveDirection += camera.right * inputHandler.Horizontal;
 
             if (inputHandler.MoveAmount > 0)
             {
-                animatorHandler.PlayTargetAnimation("Rolling", true);
+                _playerAnimatorManager.PlayTargetAnimation("Rolling", true);
                 moveDirection.y = 0;
                 Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
                 myTransform.rotation = rollRotation;
@@ -233,7 +233,7 @@ namespace Player.Locomotion
             {
                 if (!playerManager.IsInteracting)
                 {
-                    animatorHandler.PlayTargetAnimation("Falling", true);
+                    _playerAnimatorManager.PlayTargetAnimation("Falling", true);
                 }
 
                 InAirTimer += Time.deltaTime;
@@ -245,7 +245,7 @@ namespace Player.Locomotion
             {
                 if (!playerManager.IsGrounded && !playerManager.IsInteracting)
                 {
-                    animatorHandler.PlayTargetAnimation("Land", true);
+                    _playerAnimatorManager.PlayTargetAnimation("Land", true);
                     Rigidbody.velocity = Vector3.zero;
                 }
 
@@ -277,8 +277,8 @@ namespace Player.Locomotion
         {
             if (playerManager.IsGrounded && inputHandler.MoveAmount >0)
             {
-                animatorHandler.Animator.SetBool("isJumping", true);
-                animatorHandler.PlayTargetAnimation("Jump", false);
+                _playerAnimatorManager.Animator.SetBool("isJumping", true);
+                _playerAnimatorManager.PlayTargetAnimation("Jump", false);
 
                 float jumpVelocity = Mathf.Sqrt(-1.5f * gravity * heightJump);
                 Vector3 playerVelocity = moveDirection;

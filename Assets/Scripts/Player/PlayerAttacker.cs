@@ -13,19 +13,19 @@ namespace Player.Locomotion
         public string LastAttack;
         public float ComboDuration = .5f;
         
-        private AnimatorHandler animatorHandler;
+        private PlayerAnimatorManager _playerAnimatorManager;
         private InputHandler inputHandler;
         private string startCombo;
         
         private void Awake()
         {
-            animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            _playerAnimatorManager = GetComponentInChildren<PlayerAnimatorManager>();
             inputHandler = GetComponent<InputHandler>();
         }
 
         public void HandleLightAttack(WeaponItem weapon)
         {
-            animatorHandler.PlayTargetAnimation(weapon.OHLightAttack1, true);
+            _playerAnimatorManager.PlayTargetAnimation(weapon.OHLightAttack1, true);
             LastAttack = weapon.OHLightAttack1;
             startCombo = weapon.OHLightAttack1;
         }
@@ -34,22 +34,22 @@ namespace Player.Locomotion
         {
             if (inputHandler.ComboFlag)
             {
-                animatorHandler.Animator.SetBool("canCombo", false);
+                _playerAnimatorManager.Animator.SetBool("canCombo", false);
                 if (LastAttack == weapon.OHLightAttack1)
                 {
-                    animatorHandler.PlayTargetAnimation(weapon.OHLightAttack2, true);
+                    _playerAnimatorManager.PlayTargetAnimation(weapon.OHLightAttack2, true);
                     LastAttack = weapon.OHLightAttack2;
                     return;
                 }
                 if (LastAttack == weapon.OHLightAttack2)
                 {
-                    animatorHandler.PlayTargetAnimation(weapon.OHLightAttack3, true);
+                    _playerAnimatorManager.PlayTargetAnimation(weapon.OHLightAttack3, true);
                     LastAttack = weapon.OHLightAttack3;
                     return;
                 }
                 if (LastAttack == weapon.OHLightAttack3)
                 {
-                    animatorHandler.PlayTargetAnimation(weapon.OHLightAttack4, true);
+                    _playerAnimatorManager.PlayTargetAnimation(weapon.OHLightAttack4, true);
                     return;
                 }
             }
@@ -63,17 +63,17 @@ namespace Player.Locomotion
 
         public void HandleAbilityAttack2(WeaponItem weapon)
         {
-            animatorHandler.PlayTargetAnimation(weapon.AbilityAttack2, true);
+            _playerAnimatorManager.PlayTargetAnimation(weapon.AbilityAttack2, true);
             LastAttack = weapon.AbilityAttack2;
         }
         public void HandleAbilityAttack3(WeaponItem weapon)
         {
-            animatorHandler.PlayTargetAnimation(weapon.AbilityAttack3, true);
+            _playerAnimatorManager.PlayTargetAnimation(weapon.AbilityAttack3, true);
             LastAttack = weapon.AbilityAttack3;
         }
         public void HandleAbilityAttack4(WeaponItem weapon)
         {
-            animatorHandler.PlayTargetAnimation(weapon.AbilityAttack4, true);
+            _playerAnimatorManager.PlayTargetAnimation(weapon.AbilityAttack4, true);
             LastAttack = weapon.AbilityAttack4;
         }
     }

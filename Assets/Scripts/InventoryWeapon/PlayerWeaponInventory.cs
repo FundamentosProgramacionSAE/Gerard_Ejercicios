@@ -23,7 +23,7 @@ namespace Inventory
 
         private AbilityManager _abilityManager;
         private PlayerCanvas _playerCanvas;
-        private AnimatorHandler _animatorHandler;
+        private PlayerAnimatorManager _playerAnimatorManager;
         private PlayerManager _playerManager;
 
         private void Awake()
@@ -32,7 +32,7 @@ namespace Inventory
             _abilityManager = GetComponent<AbilityManager>();
             _playerCanvas = GetComponentInChildren<PlayerCanvas>();
             InventorySystem = GetComponentInChildren<InventorySystem>();
-            _animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            _playerAnimatorManager = GetComponentInChildren<PlayerAnimatorManager>();
             _playerManager = GetComponent<PlayerManager>();
         }
         
@@ -44,7 +44,7 @@ namespace Inventory
             LeftWeapon = null;
             _weaponReferenceRight = null;
             _weaponReferenceLeft = null;
-            _animatorHandler.Animator.SetBool("isReposeWeapon", true);
+            _playerAnimatorManager.Animator.SetBool("isReposeWeapon", true);
             _playerManager.IsReposeWeapon = true;
             weaponSlotManager.UnEquip();
             
@@ -114,7 +114,7 @@ namespace Inventory
             }
             weaponSlotManager.LoadWeaponSlot(RightWeapon,false);
             weaponSlotManager.LoadWeaponSlot(LeftWeapon,true);
-            _animatorHandler.Animator.SetBool("isReposeWeapon", false);
+            _playerAnimatorManager.Animator.SetBool("isReposeWeapon", false);
             _playerManager.IsReposeWeapon = false;
             _abilityManager.Initialized();
             _playerCanvas.InitializedAbilities();

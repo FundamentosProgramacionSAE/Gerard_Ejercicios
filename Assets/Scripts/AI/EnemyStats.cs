@@ -10,16 +10,8 @@ using UnityEngine.InputSystem;
 
 namespace AI.Stats
 {
-    public class EnemyStats : MonoBehaviour, IDamageable
+    public class EnemyStats : CharacterStats, IDamageable
     {
-
-        [BoxGroup("STATS")] public int HealthLevel = 10;
-        [BoxGroup("STATS")] public int MaxHealth;
-        public int CurrentHealth => healthSystem.CurrentHealth;
-
-        public HealthSystem healthSystem;
-
-
         private Animator animator;
         private EnemyManager _enemyManager;
 

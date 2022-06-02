@@ -24,7 +24,7 @@ namespace Player.Manager
         [BoxGroup("Inputs")] public bool IsReposeWeapon;
         
         private InputHandler inputHandler;
-        private AnimatorHandler animatorHandler;
+        private PlayerAnimatorManager _playerAnimatorManager;
         private PlayerLocomotion playerLocomotion;
 
 
@@ -37,14 +37,14 @@ namespace Player.Manager
         {
             inputHandler = GetComponent<InputHandler>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
-            animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            _playerAnimatorManager = GetComponentInChildren<PlayerAnimatorManager>();
 
         }
 
         private void Update()
         {
-            IsInteracting = animatorHandler.Animator.GetBool("isInteracting");
-            CanCombo = animatorHandler.Animator.GetBool("canCombo");
+            IsInteracting = _playerAnimatorManager.Animator.GetBool("isInteracting");
+            CanCombo = _playerAnimatorManager.Animator.GetBool("canCombo");
             inputHandler.TickInput();
 
 
@@ -67,8 +67,8 @@ namespace Player.Manager
             inputHandler.ReposeInput = false;
             inputHandler.InventoryInput = false;
             inputHandler.JumpInput = false;
-            IsJumping = animatorHandler.Animator.GetBool("isJumping");
-            animatorHandler.Animator.SetBool("isGrounded", IsGrounded);
+            IsJumping = _playerAnimatorManager.Animator.GetBool("isJumping");
+            _playerAnimatorManager.Animator.SetBool("isGrounded", IsGrounded);
         }
     }
 }

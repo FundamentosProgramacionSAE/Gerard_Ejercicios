@@ -52,7 +52,7 @@ namespace Player.Input
         private PlayerWeaponInventory _playerWeaponInventory;
         private PlayerStats playerStats;
         private PlayerManager playerManager;
-        private AnimatorHandler animatorHandler;
+        private PlayerAnimatorManager _playerAnimatorManager;
         private AbilityManager abilityManager;
         private PlayerCanvas playerCanvas;
         private WeaponSlotManager _weaponSlotManager;
@@ -68,7 +68,7 @@ namespace Player.Input
             playerStats = GetComponent<PlayerStats>();
             playerManager = GetComponent<PlayerManager>();
             abilityManager = GetComponent<AbilityManager>();
-            animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            _playerAnimatorManager = GetComponentInChildren<PlayerAnimatorManager>();
             playerCanvas = GetComponentInChildren<PlayerCanvas>();
             _weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
             _playerLocomotion = GetComponent<PlayerLocomotion>();
@@ -240,14 +240,14 @@ namespace Player.Input
             {
                 if (playerManager.IsReposeWeapon)
                 {
-                    animatorHandler.Animator.SetBool("isReposeWeapon", false);
-                    animatorHandler.PlayTargetAnimation("Equip", false);
+                    _playerAnimatorManager.Animator.SetBool("isReposeWeapon", false);
+                    _playerAnimatorManager.PlayTargetAnimation("Equip", false);
                     playerManager.IsReposeWeapon = false;
                 }
                 else
                 {
-                    animatorHandler.Animator.SetBool("isReposeWeapon", true);
-                    animatorHandler.PlayTargetAnimation("Unequip", false);
+                    _playerAnimatorManager.Animator.SetBool("isReposeWeapon", true);
+                    _playerAnimatorManager.PlayTargetAnimation("Unequip", false);
                     playerManager.IsReposeWeapon = true;
                 }
             }
@@ -285,7 +285,7 @@ namespace Player.Input
             {
                 _weaponSlotManager.OnEquipWeapon();
                 playerManager.IsReposeWeapon = false;
-                animatorHandler.Animator.SetBool("isReposeWeapon", false);
+                _playerAnimatorManager.Animator.SetBool("isReposeWeapon", false);
                     
             }
         }
