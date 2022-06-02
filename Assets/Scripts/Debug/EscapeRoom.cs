@@ -17,6 +17,7 @@ public class EscapeRoom : MonoBehaviour
     public DoorSystem DoorObject;
 
 
+    private DoorSystem _lastDoor;
     private void Awake()
     {
         Instance = this;
@@ -48,10 +49,14 @@ public class EscapeRoom : MonoBehaviour
                     Debug.Log ("DOOR!!!!!");
                     DoorObject = hitInfo.transform.GetComponent<DoorSystem>();
                     DoorObject.InitializeDoor();
+                    if(_lastDoor != null) _lastDoor.EnabledOutline(false);
+                    DoorObject.EnabledOutline(true);
+                    _lastDoor = DoorObject;
                 }
                 else
                 {
                     OpenCloseButton.gameObject.SetActive(false);
+                    _lastDoor.EnabledOutline(false);
                 }
             }
 
