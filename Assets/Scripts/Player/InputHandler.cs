@@ -234,7 +234,7 @@ namespace Player.Input
             
             if(_playerWeaponInventory.RightWeapon == null) return;
             
-            if(_playerWeaponInventory.RightWeapon.IsUnarmed) return;
+            if(_playerWeaponInventory.RightWeapon.IsUnarmed || LockOnFlag) return;
             
             if (ReposeInput)
             {
@@ -302,6 +302,9 @@ namespace Player.Input
                 {
                     _cameraHandler._currentLockOnTarget = _cameraHandler._nearestLockOn;
                     _cameraHandler.VirtualCamera.LookAt = _cameraHandler._currentLockOnTarget.LockOn;
+                    _playerAnimatorManager.Animator.SetBool("isReposeWeapon", false);
+                    _playerAnimatorManager.PlayTargetAnimation("Equip", false);
+                    playerManager.IsReposeWeapon = false;
                     LockOnFlag = true;
                 }
             }
