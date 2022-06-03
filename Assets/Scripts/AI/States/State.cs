@@ -26,12 +26,38 @@ namespace AI.States
     }
     public abstract class State : MonoBehaviour
     {
+        /// <summary>
+        /// Estado de ejecucion del estado
+        /// </summary>
         private ExecutionState ExecutionState { get; set; }
+        
+        /// <summary>
+        /// Tipo de estado de la IA
+        /// </summary>
         public FSMStateType StateType { get; protected set; }
+        
+        /// <summary>
+        /// Bool para comprobar si entra en el estado o no
+        /// </summary>
         protected bool EnteredState { get; set; }
+        
+        /// <summary>
+        /// Agente de la IA
+        /// </summary>
         protected NavMeshAgent Agent { get; set; }
+        
+        /// <summary>
+        /// Manager del enemigo
+        /// </summary>
         protected EnemyManager EnemyManager { get; set; }
         
+        
+        /// <summary>
+        /// Funcion que sera llamada en el update del EnemyManager.cs
+        /// </summary>
+        /// <param name="enemyManager"></param>
+        /// <param name="enemyStats"></param>
+        /// <param name="enemyAnimatorManager"></param>
         public abstract void UpdateState(EnemyManager enemyManager, EnemyStats enemyStats,
             EnemyAnimatorManager enemyAnimatorManager);
         
@@ -68,16 +94,16 @@ namespace AI.States
         /// Add component NavMeshAgent
         /// </summary>
         /// <param name="agent"></param>
-        public virtual void SetNavMesh(NavMeshAgent agent)
+        public void SetNavMesh(NavMeshAgent agent)
         {
             Agent = agent;
         }
         
         /// <summary>
-        /// Add component Enemy MAnager
+        /// Add component Enemy Manager
         /// </summary>
         /// <param name="agent"></param>
-        public virtual void SetEnemyManager(EnemyManager enemyManager)
+        public void SetEnemyManager(EnemyManager enemyManager)
         {
             EnemyManager = enemyManager;
         }

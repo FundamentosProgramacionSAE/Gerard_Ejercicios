@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1467,6 +1467,7 @@ MonoBehaviour:
   IsOpen: 0
   OpenName: Open
   CloseName: Close
+  Outline: {fileID: 0}
 --- !u!65 &631534491
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2228,6 +2229,7 @@ MonoBehaviour:
   IsOpen: 0
   OpenName: Open
   CloseName: Close
+  Outline: {fileID: 0}
 --- !u!65 &1113198808
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3392,6 +3394,7 @@ MonoBehaviour:
   IsOpen: 0
   OpenName: Open
   CloseName: Close
+  Outline: {fileID: 0}
 --- !u!114 &1387762092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3486,6 +3489,7 @@ MonoBehaviour:
   IsOpen: 0
   OpenName: Open
   CloseName: Close
+  Outline: {fileID: 0}
 --- !u!65 &1389877839
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4947,6 +4951,7 @@ MonoBehaviour:
   IsOpen: 0
   OpenName: Open
   CloseName: Close
+  Outline: {fileID: 0}
 --- !u!65 &2003806574
 BoxCollider:
   m_ObjectHideFlags: 0

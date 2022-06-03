@@ -6,21 +6,21 @@ namespace AI.Manager
 {
     public class EnemyAnimatorManager : AnimatorManager
     {
-        private EnemyLocomotionManager _enemyLocomotionManager;
+        private EnemyManager _enemyManager;
         private void Awake()
         {
             Animator = GetComponent<Animator>();
-            _enemyLocomotionManager = GetComponentInParent<EnemyLocomotionManager>();
+            _enemyManager = GetComponentInParent<EnemyManager>();
         }
 
         private void OnAnimatorMove()
         {
             float delta = Time.deltaTime;
-            _enemyLocomotionManager._enemyRigidbody.drag = 0;
+            _enemyManager._enemyRigidbody.drag = 0;
             Vector3 deltaPosition = Animator.deltaPosition;
             deltaPosition.y = 0;
             Vector3 velocity = deltaPosition / delta;
-            _enemyLocomotionManager._enemyRigidbody.velocity = velocity;
+            _enemyManager._enemyRigidbody.velocity = velocity;
         }
     }
 }

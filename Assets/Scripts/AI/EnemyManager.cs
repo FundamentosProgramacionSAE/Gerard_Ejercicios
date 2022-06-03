@@ -6,46 +6,57 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using AI.States;
 using AI.Stats;
+using Sirenix.OdinInspector;
+using UnityEngine.AI;
 
 
 namespace AI.Manager
 {
     public class EnemyManager : CharacterManager
     {
+        [TitleGroup("STATES")]
         public List<State> States;
         public State CurrentState;
-        
+
+        [TitleGroup("COMPONENTS")]
+        public NavMeshAgent Agent;
         public VisionEnemy VisionEnemy;
         public Transform visionPosition;
+        public GameObject CurrentTarget;
+        
+        [TitleGroup("VALUES")]
         public bool IsPreformingAction;
         public float StoppingDistance = 0.5f;
         public float RotationSpeed;
         public float CurrentRecoveryTime = 0;
         public float MaxAttackRange = 1.5f;
-        public GameObject CurrentTarget;
 
 
 
-        public EnemyLocomotionManager EnemyLocomotion;
+        
         private EnemyAnimatorManager _enemyAnimatorManager;
         private EnemyStats _enemyStats;
         private Dictionary<FSMStateType, State> _statesDictionary;
+        internal Rigidbody _enemyRigidbody;
 
         private void Awake()
         {
-            EnemyLocomotion = GetComponent<EnemyLocomotionManager>();
             _enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
             _enemyStats = GetComponent<EnemyStats>();
+            Agent = GetComponentInChildren<NavMeshAgent>();
+            _enemyRigidbody = GetComponent<Rigidbody>();
         }
 
         private void Start()
         {
+            Agent.enabled = false;
+            _enemyRigidbody.isKinematic = false;
             CurrentState = null;
             _statesDictionary = new Dictionary<FSMStateType, State>();
 
             foreach (var state in States)
             {
-                state.SetNavMesh(EnemyLocomotion.Agent);
+                state.SetNavMesh(Agent);
                 state.SetEnemyManager(this);
                 _statesDictionary.Add(state.StateType, state);
             }

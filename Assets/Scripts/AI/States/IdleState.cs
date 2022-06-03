@@ -9,7 +9,7 @@ namespace AI.States
     public class IdleState : State
     {
         
-        [SerializeField] float TimeToNext = 1f;
+        [SerializeField, Tooltip("Tiempo para pasar el siguiente estado")] float TimeToNext = 1f;
         private float _currentTime;
         
         
@@ -34,9 +34,9 @@ namespace AI.States
 
         public override void UpdateState(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager)
         {
-            // Look for potential target
+            // Comprueba si el enemigo puede ver al jugador
             enemyManager.TargetDetection(FSMStateType.CHASE);
-            enemyManager.StopEnemy();
+            enemyManager.StopEnemy(); // Paramdos la animacion del enemigo
             
             _currentTime += Time.deltaTime;
             // When current time arrived in TimeToNext. PATROL
@@ -44,8 +44,6 @@ namespace AI.States
             {
                 enemyManager.EnterState(FSMStateType.PATROL);
             }
-            // Switch to follow target
-            // If not return the state
         }
         
         public override bool ExitState()

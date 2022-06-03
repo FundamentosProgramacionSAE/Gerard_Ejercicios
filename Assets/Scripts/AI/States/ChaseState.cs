@@ -30,25 +30,23 @@ namespace AI.States
         {
             float distanceFromTarget = Vector3.Distance(enemyManager.CurrentTarget.transform.position,
                 enemyManager.transform.position);
-            Vector3 targetDirection = enemyManager.CurrentTarget.transform.position - enemyManager.transform.position;
-            float viewableAngle = Vector3.Angle(targetDirection, enemyManager.transform.forward);
-            
-            
+
+
             if (enemyManager.IsPreformingAction)
             {
-                enemyAnimatorManager.Animator.SetFloat("Vertical", 0, 0.1f,Time.deltaTime);
+                enemyManager.StopEnemy();
                 return;
             }
             
+            //Mueve la IA al target
             HandleMoveToTarget(enemyManager,enemyAnimatorManager);
 
+            //Si la distancia es inferior al ataque maximo de rango, podra pasar al estado combate
             if (distanceFromTarget <= enemyManager.MaxAttackRange)
             {
                 enemyManager.EnterState(FSMStateType.COMBAT);
             }
-            //Chase state
-            // If is in range of attack, switch to combat state
-            // if target ir out of range, return this state and continue to chase target
+
         }
         
         public override bool ExitState()
@@ -59,7 +57,7 @@ namespace AI.States
         }
         
         
-        public void HandleMoveToTarget(EnemyManager enemyManager, EnemyAnimatorManager enemyAnimatorManager)
+        private void HandleMoveToTarget(EnemyManager enemyManager, EnemyAnimatorManager enemyAnimatorManager)
         {
             Vector3 targetDirection = enemyManager.CurrentTarget.transform.position - enemyManager.transform.position;
             float distanceFromTarget = Vector3.Distance(enemyManager.CurrentTarget.transform.position, enemyManager.transform.position);
@@ -76,7 +74,7 @@ namespace AI.States
             
         }
         
-        public void HandleRotateTowardsTarget(EnemyManager enemyManager, float distanceFromTarget)
+        private void HandleRotateTowardsTarget(EnemyManager enemyManager, float distanceFromTarget)
         {
             if (enemyManager.IsPreformingAction)
             {
@@ -94,45 +92,36 @@ namespace AI.States
                     Quaternion.Slerp(transform.rotation, targetRotation, EnemyManager.RotationSpeed / Time.deltaTime);
 
             }
-            // else
-            // {
-            //     Vector3 targetVelocity = enemyManager.EnemyLocomotion._enemyRigidbody.velocity;
-            //
-            //     Agent.enabled = true;
-            //     Agent.SetDestination(EnemyManager.CurrentTarget.transform.position);
-            //     enemyManager.EnemyLocomotion._enemyRigidbody.velocity = targetVelocity;
-            //     enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, enemyManager.EnemyLocomotion.Agent.transform.rotation, enemyManager.RotationSpeed / Time.deltaTime);
-            // }
             else
             {
 
-                enemyManager.EnemyLocomotion.Agent.enabled = true;
-                enemyManager.EnemyLocomotion.Agent.SetDestination(enemyManager.CurrentTarget.transform.position);
+                enemyManager.Agent.enabled = true;
+                enemyManager.Agent.SetDestination(enemyManager.CurrentTarget.transform.position);
 
                 float rotationToApplyToDynamicEnemy = Quaternion.Angle(enemyManager.transform.rotation,
-                    Quaternion.LookRotation(enemyManager.EnemyLocomotion.Agent.desiredVelocity.normalized));
-                if (distanceFromTarget > 5) enemyManager.EnemyLocomotion.Agent.angularSpeed = 500f;
+                    Quaternion.LookRotation(enemyManager.Agent.desiredVelocity.normalized));
+                if (distanceFromTarget > 5) enemyManager.Agent.angularSpeed = 500f;
                 else if (distanceFromTarget < 5 && Mathf.Abs(rotationToApplyToDynamicEnemy) < 30)
-                    enemyManager.EnemyLocomotion.Agent.angularSpeed = 50f;
+                    enemyManager.Agent.angularSpeed = 50f;
                 else if (distanceFromTarget < 5 && Mathf.Abs(rotationToApplyToDynamicEnemy) > 30)
-                    enemyManager.EnemyLocomotion.Agent.angularSpeed = 500f;
+                    enemyManager.Agent.angularSpeed = 500f;
 
                 Vector3 targetDirection =
                     enemyManager.CurrentTarget.transform.position - enemyManager.transform.position;
                 Quaternion rotationToApplyToStaticEnemy = Quaternion.LookRotation(targetDirection);
 
 
-                if (enemyManager.EnemyLocomotion.Agent.desiredVelocity.magnitude > 0)
+                if (enemyManager.Agent.desiredVelocity.magnitude > 0)
                 {
-                    enemyManager.EnemyLocomotion.Agent.updateRotation = false;
+                    enemyManager.Agent.updateRotation = false;
                     enemyManager.transform.rotation = Quaternion.RotateTowards(enemyManager.transform.rotation,
-                        Quaternion.LookRotation(enemyManager.EnemyLocomotion.Agent.desiredVelocity.normalized),
-                        enemyManager.EnemyLocomotion.Agent.angularSpeed * Time.deltaTime);
+                        Quaternion.LookRotation(enemyManager.Agent.desiredVelocity.normalized),
+                        enemyManager.Agent.angularSpeed * Time.deltaTime);
                 }
                 else
                 {
                     enemyManager.transform.rotation = Quaternion.RotateTowards(enemyManager.transform.rotation,
-                        rotationToApplyToStaticEnemy, enemyManager.EnemyLocomotion.Agent.angularSpeed * Time.deltaTime);
+                        rotationToApplyToStaticEnemy, enemyManager.Agent.angularSpeed * Time.deltaTime);
                 }
             }
 

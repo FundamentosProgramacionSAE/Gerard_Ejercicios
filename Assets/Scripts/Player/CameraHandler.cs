@@ -51,10 +51,13 @@ namespace Player.CameraManager
                 {
                     if (Physics.Linecast(PlayerManager.LockOn.position, _currentLockOnTarget.LockOn.position, out hit))
                     {
-                        if (!hit.transform.CompareTag("Enemy"))
+                        if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Enemy") ||
+                            hit.collider.gameObject.layer == LayerMask.NameToLayer("CharacterCollisionBlocker"))
                         {
-                            InputHandler.ClearCamera();
+                            return;
+                            
                         }
+                        InputHandler.ClearCamera();
                     }
                 }
             }
@@ -80,16 +83,15 @@ namespace Player.CameraManager
                     float viewableAngle = Vector3.Angle(lockTargetDirection, Camera.forward);
                     RaycastHit hit;
 
-                    if (character.transform.root != Target.transform.root && viewableAngle > -50 &&
-                        viewableAngle < 50 && distanceFromTarget <= MaxLockOnDistance)
+                    if (character.transform.root != Target.transform.root && viewableAngle > -90 &&
+                        viewableAngle < 90 && distanceFromTarget <= MaxLockOnDistance)
                     {
                         if (Physics.Linecast(PlayerManager.LockOn.position, character.LockOn.position, out hit))
                         {
-                            if (hit.transform.CompareTag("Enemy"))
+                            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
                             {
                                 AvaliablesTargets.Add(character);
                             }
-
                         }
 
                     }
