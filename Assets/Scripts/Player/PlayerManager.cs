@@ -22,6 +22,10 @@ namespace Player.Manager
         [BoxGroup("Inputs")] public bool IsJumping;
         [BoxGroup("Inputs")] public bool CanCombo;
         [BoxGroup("Inputs")] public bool IsReposeWeapon;
+
+
+        [BoxGroup("Flags")] public bool IsUsingRightHand;
+        [BoxGroup("Flags")] public bool IsUsingLeftHand;
         
         private InputHandler inputHandler;
         private PlayerAnimatorManager _playerAnimatorManager;
@@ -45,6 +49,9 @@ namespace Player.Manager
         {
             IsInteracting = _playerAnimatorManager.Animator.GetBool("isInteracting");
             CanCombo = _playerAnimatorManager.Animator.GetBool("canCombo");
+            IsUsingRightHand = _playerAnimatorManager.Animator.GetBool("IsUsingRightHand");
+            IsUsingLeftHand = _playerAnimatorManager.Animator.GetBool("IsUsingLeftHand");
+
             inputHandler.TickInput();
 
 

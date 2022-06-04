@@ -46,6 +46,8 @@ namespace Player.Stats
 
         public void TakeDamage(int damageAmount)
         {
+            if(healthSystem.IsDead()) return;
+            
             healthSystem.Damage(damageAmount);
             PlayerCanvas.SetCurrentHealth(healthSystem.CurrentHealth);
             _playerAnimatorManager.PlayTargetAnimation("Damage_01", true);

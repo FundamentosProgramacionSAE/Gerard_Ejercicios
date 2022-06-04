@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 327698463548090639}
   - component: {fileID: 6267359679758863745}
   - component: {fileID: 5276349691969030498}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Sword_Model
-  m_TagString: Player
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119,9 +119,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 792552844144489299}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Sword_02
-  m_TagString: Player
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -150,9 +150,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4696448122137188546}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: WeaponPivot
-  m_TagString: Player
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

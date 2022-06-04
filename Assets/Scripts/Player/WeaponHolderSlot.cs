@@ -10,6 +10,7 @@ namespace Inventory
         public Transform ParentOverride;
         public bool IsLeftHandSlot;
         public bool IsRightHandSlot;
+        public WeaponItem CurrentWeaponItem;
         public GameObject CurrentWeaponModel;
         public bool isRest;
 

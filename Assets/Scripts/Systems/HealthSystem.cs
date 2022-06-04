@@ -66,6 +66,11 @@ public class HealthSystem
         }
         
     }
+
+    public float GetHealthNormalized()
+    {
+        return (float)CurrentHealth / MaxHealth;
+    }
     public void Die() => OnDead?.Invoke();
     public bool IsDead() => CurrentHealth <= 0;
     

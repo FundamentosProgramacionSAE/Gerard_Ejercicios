@@ -30,9 +30,9 @@ MonoBehaviour:
     serializationDepthLimit: 64
     assemblyNames:
     - MoreMountains.Feedbacks
+    - Assembly-CSharp
     - Assembly-CSharp-firstpass
     - MoreMountains.Feel.Demos
-    - Assembly-CSharp
     - MoreMountains.Tools
     - MoreMountains.Feedbacks.URP
     - Lofelt.NiceVibrations.Demo

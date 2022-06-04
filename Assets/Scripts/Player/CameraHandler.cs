@@ -21,6 +21,7 @@ namespace Player.CameraManager
         public List<CharacterManager> AvaliablesTargets = new List<CharacterManager>();
         public Animator CameraAnimator;
         public CinemachineVirtualCamera VirtualCamera;
+        public LayerMask DetectionMasks;
 
         internal CharacterManager _nearestLockOn;
         internal CharacterManager _currentLockOnTarget;
@@ -49,7 +50,7 @@ namespace Player.CameraManager
                 RaycastHit hit;
                 if (_currentLockOnTarget != null)
                 {
-                    if (Physics.Linecast(PlayerManager.LockOn.position, _currentLockOnTarget.LockOn.position, out hit))
+                    if (Physics.Linecast(PlayerManager.LockOn.position, _currentLockOnTarget.LockOn.position, out hit, DetectionMasks))
                     {
                         if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Enemy") ||
                             hit.collider.gameObject.layer == LayerMask.NameToLayer("CharacterCollisionBlocker"))
@@ -86,11 +87,13 @@ namespace Player.CameraManager
                     if (character.transform.root != Target.transform.root && viewableAngle > -90 &&
                         viewableAngle < 90 && distanceFromTarget <= MaxLockOnDistance)
                     {
-                        if (Physics.Linecast(PlayerManager.LockOn.position, character.LockOn.position, out hit))
+                        if (Physics.Linecast(PlayerManager.LockOn.position, character.LockOn.position, out hit, DetectionMasks))
                         {
-                            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+                            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemy") ||
+                                hit.transform.gameObject.layer == LayerMask.NameToLayer("CharacterCollisionBlocker"))
                             {
                                 AvaliablesTargets.Add(character);
+
                             }
                         }
 

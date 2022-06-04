@@ -11,14 +11,21 @@ namespace AI.Manager
         public EnemyManager _enemyManager;
 
         private EnemyAnimatorManager _enemyAnimatorManager;
+
+        public CapsuleCollider CharacterCollider;
+        public CapsuleCollider CharacterBlockerCollider;
         private void Awake()
         {
             _enemyManager = GetComponent<EnemyManager>();
             _enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
         }
 
-        
-        
+        private void Start()
+        {
+            Physics.IgnoreCollision(CharacterCollider, CharacterBlockerCollider, true);
+        }
+
+
         public Vector3 DirectionFromAngle(float angleInDegrees, bool angleIsGlobal)
         {
             if (!angleIsGlobal)

@@ -16,9 +16,12 @@ namespace Player.Canvas
 {
     public class PlayerCanvas : MonoBehaviour
     {
+        private const float DAMAGED_HEALTH_FADE_TIMER_MAX = 1f;
+        
         [Title("Parameters Panel")]
         public Slider HPSlider;
-
+        public Image FadeSlider;
+        public float DamageHealthFadeTimer;
 
         [Title("Ability Panel")] 
         public Image Ability2Image;
@@ -46,12 +49,15 @@ namespace Player.Canvas
         private AbilityManager AbilityManager;
         private PlayerManager _playerManager;
         private InventorySystem _inventorySystem;
+        private PlayerStats _playerStats;
+        private float _evaluate;
 
 
         private void Awake()
         {
             AbilityManager = GetComponentInParent<AbilityManager>();
             _playerManager = GetComponentInParent<PlayerManager>();
+            _playerStats = GetComponentInParent<PlayerStats>();
             _inventorySystem = GetComponent<InventorySystem>();
         }
 
@@ -92,8 +98,23 @@ namespace Player.Canvas
 
         private void Update()
         {
+            DamageHealthFadeTimer -= Time.deltaTime;
 
-            if(AbilityManager == null) return;
+            if (DamageHealthFadeTimer < 0)
+            {
+                if (_playerStats.healthSystem.GetHealthNormalized() < FadeSlider.fillAmount)
+                {
+                    float speed = 1f;
+                    FadeSlider.fillAmount -= speed *Time.deltaTime;
+                }
+            }
+            
+            AbilityUI();
+        }
+
+        private void AbilityUI()
+        {
+            if (AbilityManager == null) return;
 
             if (AbilityManager.Ability2 != null)
             {
@@ -104,7 +125,7 @@ namespace Player.Canvas
                     Ability2Image.color = OfAbilityColor;
                 }
             }
-            
+
             if (AbilityManager.Ability3 != null)
             {
                 if (AbilityManager.CanUseAbility3 == false)
@@ -114,7 +135,7 @@ namespace Player.Canvas
                     Ability3Image.color = OfAbilityColor;
                 }
             }
-            
+
             if (AbilityManager.Ability4 != null)
             {
                 if (AbilityManager.CanUseAbility4 == false)
@@ -125,6 +146,7 @@ namespace Player.Canvas
                 }
             }
         }
+
         private void AbilityManagerOnOnActivateAbility4()
         {
             Ability4Image.color = OnAbilityColor;
@@ -152,6 +174,7 @@ namespace Player.Canvas
         public void SetCurrentHealth(int value)
         {
             HPSlider.value = value;
+            DamageHealthFadeTimer = DAMAGED_HEALTH_FADE_TIMER_MAX;
         }
 
         public void OpenInventory()

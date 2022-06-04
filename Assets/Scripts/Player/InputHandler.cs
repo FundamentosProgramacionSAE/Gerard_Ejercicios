@@ -184,11 +184,14 @@ namespace Player.Input
             
             if(_playerWeaponInventory.RightWeapon.IsUnarmed) return;
             
+            
+            
             // RB input handles the RIGHT hand weapon's light attack
             if (Rb_Input)
             {
                 HandleUnReposeWeapon();
                 
+                SetWeaponDamageCollider();
                 if (playerManager.CanCombo)
                 {
                     ComboFlag = true;
@@ -209,6 +212,7 @@ namespace Player.Input
             if (SecondAbilityInput && abilityManager.CanUseAbility2)
             {
                 HandleUnReposeWeapon();
+                SetWeaponDamageCollider();
                 playerAttacker.HandleAbilityAttack2(_playerWeaponInventory.RightWeapon);
                 abilityManager.RestartCooldownAbility2();
                 abilityManager.CanUseAbility2 = false;
@@ -217,6 +221,7 @@ namespace Player.Input
             if (ThirdAbilityInput && abilityManager.CanUseAbility3)
             {
                 HandleUnReposeWeapon();
+                SetWeaponDamageCollider();
                 playerAttacker.HandleAbilityAttack3(_playerWeaponInventory.RightWeapon);
                 abilityManager.RestartCooldownAbility3();
                 abilityManager.CanUseAbility3 = false;
@@ -224,11 +229,26 @@ namespace Player.Input
             if (FourthAbilityInput && abilityManager.CanUseAbility4)
             {
                 HandleUnReposeWeapon();
+                SetWeaponDamageCollider();
                 playerAttacker.HandleAbilityAttack4(_playerWeaponInventory.RightWeapon);
                 abilityManager.RestartCooldownAbility4();
                 abilityManager.CanUseAbility4 = false;
             }
         }
+
+        private void SetWeaponDamageCollider()
+        {
+            if (_playerWeaponInventory.RightWeapon.IsDualWeapon)
+            {
+                _playerAnimatorManager.Animator.SetBool("IsUsingRightHand", true);
+                _playerAnimatorManager.Animator.SetBool("IsUsingLeftHand", true);
+            }
+            else
+            {
+                _playerAnimatorManager.Animator.SetBool("IsUsingRightHand", true);
+            }
+        }
+
         private void HandleReposeInput()
         {
             
@@ -281,6 +301,7 @@ namespace Player.Input
 
         private void HandleUnReposeWeapon()
         {
+            if(playerManager.IsReposeWeapon == false) return; 
             if (playerManager.IsReposeWeapon)
             {
                 _weaponSlotManager.OnEquipWeapon();
@@ -302,9 +323,13 @@ namespace Player.Input
                 {
                     _cameraHandler._currentLockOnTarget = _cameraHandler._nearestLockOn;
                     _cameraHandler.VirtualCamera.LookAt = _cameraHandler._currentLockOnTarget.LockOn;
-                    _playerAnimatorManager.Animator.SetBool("isReposeWeapon", false);
-                    _playerAnimatorManager.PlayTargetAnimation("Equip", false);
-                    playerManager.IsReposeWeapon = false;
+                    if (playerManager.IsReposeWeapon)
+                    {                    _playerAnimatorManager.Animator.SetBool("isReposeWeapon", false);
+                        _playerAnimatorManager.PlayTargetAnimation("Equip", false);
+                        playerManager.IsReposeWeapon = false;
+                        
+                    }
+
                     LockOnFlag = true;
                 }
             }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Inventory.Item;
+using Player.Manager;
 using UnityEngine;
 
 namespace Inventory
@@ -18,12 +19,13 @@ namespace Inventory
         private DamageCollider rightHandDamageCollider;
 
         private PlayerWeaponInventory _playerWeaponInventory;
-
         private Animator animator;
+        private PlayerManager _playerManager;
 
         private void Awake()
         {
             _playerWeaponInventory = GetComponentInParent<PlayerWeaponInventory>();
+            _playerManager = GetComponentInParent<PlayerManager>();
             animator = GetComponent<Animator>();
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
             
@@ -52,6 +54,7 @@ namespace Inventory
         {
             if (isLeft)
             {
+                LeftHandSlot.CurrentWeaponItem = weaponItem;
                 LeftHandSlot.LoadWeaponModel(weaponItem);
                 RestLeftHandSlot.LoadWeaponModel(weaponItem);
                 RestLeftHandSlot.UnloadWeapon();
@@ -59,6 +62,7 @@ namespace Inventory
             }
             else
             {
+                RightHandSlot.CurrentWeaponItem = weaponItem;
                 RightHandSlot.LoadWeaponModel(weaponItem);
                 RestRightHandSlot.LoadWeaponModel(weaponItem);
                 RestRightHandSlot.UnloadWeapon();
@@ -122,34 +126,22 @@ namespace Inventory
             rightHandDamageCollider = RightHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
         }
 
-        private void OpenAllWeaponDamageCollider()
+        public void OpenDamageCollider()
         {
-            leftHandDamageCollider.EnableDamageCollider();
-            rightHandDamageCollider.EnableDamageCollider();
-        }
-        
-        private void OpenRightDamageCollider()
-        {
-            rightHandDamageCollider.EnableDamageCollider();
-        }
-        
-        private void OpenLeftDamageCollider()
-        {
-            leftHandDamageCollider.EnableDamageCollider();
+            if (_playerManager.IsUsingRightHand)
+            {            
+                rightHandDamageCollider.EnableDamageCollider();
+            }
+            if (_playerManager.IsUsingLeftHand)
+            {
+                leftHandDamageCollider.EnableDamageCollider();
+            }
+
         }
 
-        private void CloseAllWeaponDamageCollider()
+        public void CloseDamageCollider()
         {
             rightHandDamageCollider.DisableDamageCollider();
-            leftHandDamageCollider.DisableDamageCollider();
-        }
-        private void CloseRightHandDamageCollider()
-        {
-            rightHandDamageCollider.DisableDamageCollider();
-        }
-        
-        private void CloseLeftHandDamageCollider()
-        {
             leftHandDamageCollider.DisableDamageCollider();
         }
         

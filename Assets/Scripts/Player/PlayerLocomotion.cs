@@ -30,6 +30,10 @@ namespace Player.Locomotion
         [SerializeField] private float sprintSpeed = 10;
         [SerializeField] private float rotationSpeed = 10;
         
+        
+        public CapsuleCollider CharacterCollider;
+        public CapsuleCollider CharacterBlockerCollider;
+        
 
         private Vector3 moveDirection;
         private Transform camera;
@@ -56,6 +60,9 @@ namespace Player.Locomotion
             myTransform = transform;
 
             playerManager.IsGrounded = true;
+            
+            
+            Physics.IgnoreCollision(CharacterCollider, CharacterBlockerCollider, true);
         }
         
         

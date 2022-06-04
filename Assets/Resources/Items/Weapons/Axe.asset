@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8f8663491d0be4429f511c0add7a857, type: 3}
+  m_Name: Axe
+  m_EditorClassIdentifier: 
+  ID: Axe
+  DisplayName: Axe
+  InfoItem: Axe
+  Icon: {fileID: 0}
+  RandomAmounts:
+    Min: 1
+    Max: 2
+  MaxAmount: 10
+  Position: -1
+  ModelPrefab: {fileID: 5962410820394844087, guid: 3b1de1794a473d74c8b5f34048b99299, type: 3}
+  WeaponDamage: 50
+  IsUnarmed: 0
+  IsDualWeapon: 0
+  IsUsed: 0
+  OHLightAttack1: 
+  OHLightAttack2: 
+  OHLightAttack3: 
+  OHLightAttack4: 
+  AbilityAttack2: 
+  AbilityAttack3: 
+  AbilityAttack4: 
+  AbilityType2: {fileID: 0}
+  AbilityType3: {fileID: 0}
+  AbilityType4: {fileID: 0}
