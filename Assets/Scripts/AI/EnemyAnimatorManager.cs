@@ -18,7 +18,6 @@ namespace AI.Manager
             float delta = Time.deltaTime;
             _enemyManager._enemyRigidbody.drag = 0;
             Vector3 deltaPosition = Animator.deltaPosition;
-            deltaPosition.y = 0;
             Vector3 velocity = deltaPosition / delta;
             _enemyManager._enemyRigidbody.velocity = velocity;
         }

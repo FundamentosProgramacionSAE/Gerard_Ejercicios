@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Player.Canvas;
 using Player.Locomotion;
+using Player.Manager;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,10 +16,12 @@ namespace Player.Stats
         [BoxGroup("Canvas")] public PlayerCanvas PlayerCanvas;
         
         private PlayerAnimatorManager _playerAnimatorManager;
+        private PlayerManager _playerManager;
 
         private void Awake()
         {
             healthSystem = new HealthSystem(MaxHealth);
+            _playerManager = GetComponent<PlayerManager>();
         }
 
         private void Start()
@@ -46,6 +49,7 @@ namespace Player.Stats
 
         public void TakeDamage(int damageAmount)
         {
+            if(_playerManager.IsInvulnerable) return;
             if(healthSystem.IsDead()) return;
             
             healthSystem.Damage(damageAmount);
@@ -54,6 +58,12 @@ namespace Player.Stats
             
             if(healthSystem.IsDead()) OnDead();
             
+        }
+
+        public void HealPlayer(int healAmount)
+        {
+            healthSystem.Heal(healAmount);
+            PlayerCanvas.SetCurrentHealth(healthSystem.CurrentHealth);
         }
 
         private void OnDead()

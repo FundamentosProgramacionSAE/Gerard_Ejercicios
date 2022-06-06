@@ -15,7 +15,6 @@ public class InventoryUI : MonoBehaviour
         public void Initialized()
         {
             PlayerCanvas = GetComponentInParent<PlayerCanvas>();
-            PlayerCanvas.SetPositionsInventory();
         }
 
         private void OnEnable()
@@ -75,7 +74,7 @@ public class InventoryUI : MonoBehaviour
             {
                 Destroy(t.gameObject);
             }
-            
+            PlayerCanvas.SetPositionsInventory();
             DrawInventory();
         }
 
@@ -122,9 +121,9 @@ public class InventoryUI : MonoBehaviour
                     if (layout.HasOccupied) continue;
                 
                     obj.transform.localPosition = layout.GetComponent<RectTransform>().localPosition;
-                    layout.SetSlot(slot);
                     slot.InventoryLayout = layout;
                     slot.ItemData.Position = layout.Position;
+                    layout.SetSlot(slot);
                     return;
 
 
@@ -133,8 +132,8 @@ public class InventoryUI : MonoBehaviour
             else
             {
                 obj.transform.localPosition = PlayerCanvas.Layouts[slot.ItemData.Position].GetComponent<RectTransform>().localPosition;
-                PlayerCanvas.Layouts[slot.ItemData.Position].SetSlot(slot);
                 slot.InventoryLayout = PlayerCanvas.Layouts[slot.ItemData.Position];
+                PlayerCanvas.Layouts[slot.ItemData.Position].SetSlot(slot);
                 return;
             }
 

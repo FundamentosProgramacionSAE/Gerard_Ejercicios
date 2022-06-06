@@ -36,8 +36,6 @@ namespace Player.Locomotion
             vertical = Animator.StringToHash("Vertical");
             horizontal = Animator.StringToHash("Horizontal");
         }
-
-
         private void Update()
         {
             canCombo = Animator.GetBool("canCombo");
@@ -51,7 +49,6 @@ namespace Player.Locomotion
                 }
             }
         }
-
         public void UpdateAnimatorValues(float verticalMovement, float horizontalMovement, bool isSprinting)
         {
             var v = Extensions.ClampMovementDir(verticalMovement);
@@ -66,29 +63,33 @@ namespace Player.Locomotion
             Animator.SetFloat(vertical, v, 0.1f, Time.deltaTime);
             Animator.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
         }
-        
-
         public void Rotate()
         {
             CanRotate = true;
         }
-
         public void StopRotation()
         {
             CanRotate = false;
         }
-
         public void EnableCombo()
         {
             Animator.SetBool("canCombo", true);
             timer = playerAttacker.ComboDuration;
         }
-        
-
         public void DisableCombo()
         {
             Animator.SetBool("canCombo", false);
             playerAttacker.ResetCombo();
+        }
+
+        public void EnableIsInvulnerable()
+        {
+            Animator.SetBool("IsInvulnerable", true);
+        }
+
+        public void DisableIsInvulnerable()
+        {
+            Animator.SetBool("IsInvulnerable", false);
         }
         private void OnAnimatorMove()
         {

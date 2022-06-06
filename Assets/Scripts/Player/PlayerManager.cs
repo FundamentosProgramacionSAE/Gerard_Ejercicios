@@ -15,17 +15,19 @@ namespace Player.Manager
     {
         public static PlayerManager Instance { get; private set; }
         
-        [BoxGroup("Inputs")] public bool IsInteracting;
-        [BoxGroup("Inputs")] public bool IsSprinting;
-        [BoxGroup("Inputs")] public bool IsInAir;
-        [BoxGroup("Inputs")] public bool IsGrounded;
-        [BoxGroup("Inputs")] public bool IsJumping;
-        [BoxGroup("Inputs")] public bool CanCombo;
-        [BoxGroup("Inputs")] public bool IsReposeWeapon;
-
-
-        [BoxGroup("Flags")] public bool IsUsingRightHand;
-        [BoxGroup("Flags")] public bool IsUsingLeftHand;
+        [TitleGroup("Inputs")]
+        public bool IsInteracting;
+        public bool IsSprinting;
+        public bool IsInAir;
+        public bool IsGrounded;
+        public bool IsJumping;
+        public bool CanCombo;
+        public bool IsReposeWeapon;
+        
+        [TitleGroup("Flags")]
+        public bool IsUsingRightHand;
+        public bool IsUsingLeftHand;
+        public bool IsInvulnerable;
         
         private InputHandler inputHandler;
         private PlayerAnimatorManager _playerAnimatorManager;
@@ -51,6 +53,7 @@ namespace Player.Manager
             CanCombo = _playerAnimatorManager.Animator.GetBool("canCombo");
             IsUsingRightHand = _playerAnimatorManager.Animator.GetBool("IsUsingRightHand");
             IsUsingLeftHand = _playerAnimatorManager.Animator.GetBool("IsUsingLeftHand");
+            IsInvulnerable = _playerAnimatorManager.Animator.GetBool("IsInvulnerable");
 
             inputHandler.TickInput();
 

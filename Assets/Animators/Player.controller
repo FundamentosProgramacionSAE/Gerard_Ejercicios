@@ -88,6 +88,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetBool: isInteracting
   Status: 0
+--- !u!114 &-7551302259301771949
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6f0f2680f72fdc4a90d2575e6cdeadd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetBool: IsInvulnerable
+  Status: 0
 --- !u!206 &-6989862137014172181
 BlendTree:
   m_ObjectHideFlags: 1
@@ -642,6 +656,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
+  - m_Name: IsInvulnerable
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -1020,6 +1040,7 @@ AnimatorState:
   - {fileID: -8173573229838117422}
   - {fileID: 5948310315416771224}
   - {fileID: 7467553531750344501}
+  - {fileID: -7551302259301771949}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 1
   m_WriteDefaultValues: 1
@@ -1250,7 +1271,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 88157121682bb004d9fa202c8ce24a75, type: 3}
+  m_Motion: {fileID: 7400000, guid: 9b18f5f7cf466764ba49da978e9b4da2, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Inventory.Item;
 using Player.Canvas;
+using Player.Manager;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class ItemDropHandler : MonoBehaviour, IDropHandler
 {
+    public bool OnlyFlask;
     public bool IsItem;
     public bool IsDropZone;
     public void OnDrop(PointerEventData eventData)
@@ -19,11 +21,24 @@ public class ItemDropHandler : MonoBehaviour, IDropHandler
             InventorySystem.Instance.Remove(itemData, true);
         }
         else
-        {
+        {                
+
+
             if (IsItem)
             {
                 var slotItemDropped = eventData.pointerDrag.GetComponent<SlotItem>();
                 var slotItem = GetComponent<SlotItem>();
+                var flask = slotItemDropped.ItemData as FlaskItem;
+
+                if (slotItem.InventoryLayout.GetComponent<ItemDropHandler>().OnlyFlask)
+                {
+                    if ( flask == null)
+                    {
+                        Debug.LogWarning("No puedes poner objetos que no sean pociones");
+                        return;
+                    }
+                }
+
                 var slotLayoutDropped = slotItemDropped.InventoryLayout;
                 var slotLayout = slotItem.InventoryLayout;
 
@@ -43,9 +58,17 @@ public class ItemDropHandler : MonoBehaviour, IDropHandler
             }
             else
             {
+
                 var slotItem = eventData.pointerDrag.GetComponent<SlotItem>();
                 var inventoryLayout = GetComponent<InventoryLayout>();
-        
+                var flask = slotItem.ItemData as FlaskItem;
+
+                if (OnlyFlask)
+                {
+                    if (eventData.pointerDrag.GetComponent<SlotItem>().ItemData as FlaskItem == null) return;
+                    
+                }
+
                 eventData.pointerDrag.GetComponent<ItemDragHandler>().startPosition =
                     GetComponent<RectTransform>().localPosition;
 
@@ -59,7 +82,7 @@ public class ItemDropHandler : MonoBehaviour, IDropHandler
         }
         
 
-
     }
+    
 }
 

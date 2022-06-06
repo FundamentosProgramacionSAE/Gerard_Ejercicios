@@ -20,7 +20,7 @@ MonoBehaviour:
     Min: 1
     Max: 1
   MaxAmount: 1
-  Position: 3
+  Position: -1
   ModelPrefab: {fileID: 789758267322978327, guid: 6383a397d578b944a8419edf1935acd0, type: 3}
   WeaponDamage: 50
   IsUnarmed: 0

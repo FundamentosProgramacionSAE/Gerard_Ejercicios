@@ -33,6 +33,8 @@ namespace Player.Canvas
         public Image CooldownAbility3;
         public Image CooldownAbility4;
         public Sprite DefaultAbilityImage;
+        
+
 
         [Title("Inventory Panel")] 
         public GameObject PanelInventory;
@@ -90,6 +92,10 @@ namespace Player.Canvas
             CooldownAbility2.fillAmount = AbilityManager.Ability2 ? 1 : 0;
             CooldownAbility3.fillAmount = AbilityManager.Ability3 ? 1 : 0;
             CooldownAbility4.fillAmount = AbilityManager.Ability4 ? 1 : 0;
+
+            Ability2Image.color = OnAbilityColor;
+            Ability3Image.color = OnAbilityColor;
+            Ability4Image.color = OnAbilityColor;
                 
             if (AbilityManager.Ability2) AbilityManager.OnActivateAbility2 += AbilityManagerOnOnActivateAbility2;
             if (AbilityManager.Ability3) AbilityManager.OnActivateAbility3 += AbilityManagerOnOnActivateAbility3;
@@ -206,6 +212,8 @@ namespace Player.Canvas
                 layout.RemoveSlot();
             }
         }
+        
+
     }
 }
 

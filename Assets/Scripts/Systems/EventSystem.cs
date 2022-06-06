@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Inventory;
 using Inventory.Item;
+using Player.Locomotion;
 using Player.Manager;
+using Player.Stats;
 using UnityEngine;
 
 public class EventSystem : MonoBehaviour
@@ -54,6 +56,13 @@ public class EventSystem : MonoBehaviour
     public void OnUnEquipWeapon()
     {
         Player.GetComponent<PlayerWeaponInventory>().UnEquip();
+    }
+
+    public void OnHealPlayer(FlaskItem flaskItem)
+    {
+        Player.GetComponent<PlayerStats>().HealPlayer(flaskItem.HealthRecoverAmount);
+        Player.GetComponentInChildren<InventorySystem>().Remove(flaskItem);
+        Instantiate(flaskItem.RecoverFX, Player.transform.position, Quaternion.identity, Player.transform);
     }
 }
 

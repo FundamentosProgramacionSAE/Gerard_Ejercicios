@@ -49,7 +49,12 @@ namespace Inventory
                 }
             }
         }
-        
+
+        public void LoadBothWeaponOnSlot()
+        {
+            LoadWeaponSlot(_playerWeaponInventory.RightWeapon, false);
+            LoadWeaponSlot(_playerWeaponInventory.LeftWeapon, true);
+        }
         public void LoadWeaponSlot(WeaponItem weaponItem, bool isLeft)
         {
             if (isLeft)
