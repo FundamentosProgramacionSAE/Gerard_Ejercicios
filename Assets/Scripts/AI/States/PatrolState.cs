@@ -30,6 +30,8 @@ namespace AI.States
                 if (WaypointSystem != null)
                 {
                     // Set waypoint and position Agent
+                    Extensions.PlayNavMesh(Agent);
+                    Agent.speed = EnemyManager.WalkSpeed;
                     SetPositionIndex();
                 }
 
@@ -122,42 +124,10 @@ namespace AI.States
             {
                 _enemyAnimatorManager.Animator.SetFloat("Vertical",0,0.1f,Time.deltaTime);
             }
-
-            HandleRotateTowardsTarget(CurrentTarget, _enemyManager);
             
-            Agent.transform.localPosition = Vector3.zero;
-            Agent.transform.localRotation = Quaternion.identity;
             
-        }
-
-        public void HandleRotateTowardsTarget(Vector3 CurrentTarget, EnemyManager _enemyManager)
-        {
-            if (_enemyManager.IsPreformingAction)
-            {
-                Vector3 direction = CurrentTarget - transform.position;
-                direction.y = 0;
-                direction.Normalize();
-
-                if (direction == Vector3.zero)
-                {
-                    direction = transform.forward;
-                }
-
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                transform.rotation =
-                    Quaternion.Slerp(transform.rotation, targetRotation, _enemyManager.RotationSpeed / Time.deltaTime);
-
-            }
-            else
-            {
-                Vector3 targetVelocity = _enemyManager._enemyRigidbody.velocity;
-
-                Agent.enabled = true;
-                Agent.SetDestination(CurrentTarget);
-                _enemyManager._enemyRigidbody.velocity = targetVelocity;
-                _enemyManager.transform.rotation = Quaternion.Slerp(transform.rotation, Agent.transform.rotation, _enemyManager.RotationSpeed / Time.deltaTime);
-            }
-
+            Agent.SetDestination(CurrentTarget);
+            
         }
     }
 }

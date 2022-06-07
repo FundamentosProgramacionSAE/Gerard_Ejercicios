@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using AI.Manager;
 using Player.Canvas;
 using Player.Locomotion;
+using Player.Manager;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -40,6 +41,7 @@ namespace AI.Stats
             healthSystem.Damage(damageAmount);
             animator.Play("Damage_01");
             print(healthSystem.CurrentHealth);
+            if(!_enemyManager.CurrentTarget) _enemyManager.transform.LookAt(PlayerManager.Instance.transform);
             
             if(healthSystem.IsDead()) OnDead();
             

@@ -7,7 +7,7 @@ namespace Inventory.Item
     [CreateAssetMenu(menuName = "Items/Flask Item")]
     public class FlaskItem : ItemData
     {
-        public int HealthRecoverAmount;
+        public MinMaxInt HealthRecoverAmount;
         public GameObject RecoverFX;
         public int TimeToUse;
     }

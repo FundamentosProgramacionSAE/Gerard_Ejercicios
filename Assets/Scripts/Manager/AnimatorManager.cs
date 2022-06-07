@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using AI.Manager;
+using UnityEngine;
 
 namespace Managers
 {
     public class AnimatorManager : MonoBehaviour
     {
         public Animator Animator;
+
         public void PlayTargetAnimation(string targetAnim, bool isInteracting)
         {
             Animator.applyRootMotion = isInteracting;

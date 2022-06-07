@@ -48,12 +48,18 @@ MonoBehaviour:
     - MoreMountains.Tools.Cinemachine
     - Lofelt.NiceVibrations
     - MoreMountains.Tools.TextMeshPro
+    - NavMeshComponentsExamples
+    - NavMeshComponentsTestsPlaymode
+    - NavMeshComponents
     - MoreMountains.Tools.Editor
     - Sirenix.OdinInspector.CompatibilityLayer.Editor
     - MoreMountains.Feedbacks.Editor
     - MoreMountains.Tools.Feedbacks.Editor
     - Lofelt.NiceVibrations.Editor
     - Sirenix.OdinInspector.Modules.UnityMathematics
+    - NavMeshComponentsEditor
+    - NavMeshComponentsTestsEditmode
+    - NavMeshComponentsExamplesEditor
     showAdvancedSettings: 1
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1

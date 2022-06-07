@@ -26,6 +26,7 @@ namespace AI.States
             if (EnteredState)
             {
                 print("ENTERED IDLE STATE");
+                Extensions.StopNavMesh(Agent);
                 _currentTime = 0f;
             }
 

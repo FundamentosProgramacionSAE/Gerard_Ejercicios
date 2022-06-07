@@ -63,7 +63,7 @@ namespace Player.Stats
         public void HealPlayer(int healAmount)
         {
             healthSystem.Heal(healAmount);
-            PlayerCanvas.SetCurrentHealth(healthSystem.CurrentHealth);
+            PlayerCanvas.HealPlayer(healthSystem.CurrentHealth);
         }
 
         private void OnDead()

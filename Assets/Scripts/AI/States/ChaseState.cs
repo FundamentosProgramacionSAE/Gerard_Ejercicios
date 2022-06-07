@@ -20,6 +20,8 @@ namespace AI.States
             if (EnteredState)
             {
                 Debug.Log("ENTER CHASE STATE");
+                Agent.ResetPath();
+                Agent.speed = EnemyManager.RunSpeed;
 
             }
         
@@ -69,9 +71,8 @@ namespace AI.States
             }
 
             HandleRotateTowardsTarget(enemyManager,distanceFromTarget);
-            Agent.transform.localPosition = Vector3.zero;
-            Agent.transform.localRotation = Quaternion.identity;
-            
+            Agent.SetDestination(enemyManager.CurrentTarget.transform.position);
+
         }
         
         private void HandleRotateTowardsTarget(EnemyManager enemyManager, float distanceFromTarget)

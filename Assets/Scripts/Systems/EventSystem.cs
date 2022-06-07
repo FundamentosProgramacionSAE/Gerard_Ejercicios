@@ -60,7 +60,7 @@ public class EventSystem : MonoBehaviour
 
     public void OnHealPlayer(FlaskItem flaskItem)
     {
-        Player.GetComponent<PlayerStats>().HealPlayer(flaskItem.HealthRecoverAmount);
+        Player.GetComponent<PlayerStats>().HealPlayer(flaskItem.HealthRecoverAmount.GetValueFromRatio());
         Player.GetComponentInChildren<InventorySystem>().Remove(flaskItem);
         Instantiate(flaskItem.RecoverFX, Player.transform.position, Quaternion.identity, Player.transform);
     }

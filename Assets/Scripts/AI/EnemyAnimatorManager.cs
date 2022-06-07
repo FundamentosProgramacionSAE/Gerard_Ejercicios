@@ -15,11 +15,12 @@ namespace AI.Manager
 
         private void OnAnimatorMove()
         {
+            if(_enemyManager.IsInteracting == false) return;
             float delta = Time.deltaTime;
-            _enemyManager._enemyRigidbody.drag = 0;
+            //_enemyManager._enemyRigidbody.drag = 0;
             Vector3 deltaPosition = Animator.deltaPosition;
             Vector3 velocity = deltaPosition / delta;
-            _enemyManager._enemyRigidbody.velocity = velocity;
+            _enemyManager.Agent.velocity = velocity;
         }
     }
 }

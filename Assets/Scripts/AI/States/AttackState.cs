@@ -23,6 +23,7 @@ namespace AI.States
             if (EnteredState)
             {
                 Debug.Log("ENTER ATTACK STATE");
+                Extensions.StopNavMesh(Agent);
 
             }
         

@@ -177,6 +177,13 @@ namespace Player.Canvas
             HPSlider.value = value;
         }
 
+        public void HealPlayer(int value)
+        {
+            HPSlider.value = value;
+            FadeSlider.fillAmount = _playerStats.healthSystem.GetHealthNormalized();
+            DamageHealthFadeTimer = DAMAGED_HEALTH_FADE_TIMER_MAX;
+        }
+
         public void SetCurrentHealth(int value)
         {
             HPSlider.value = value;

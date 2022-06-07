@@ -26,10 +26,13 @@ namespace AI.Manager
         
         [TitleGroup("VALUES")]
         public bool IsPreformingAction;
+        public bool IsInteracting;
         public float StoppingDistance = 0.5f;
         public float RotationSpeed;
         public float CurrentRecoveryTime = 0;
         public float MaxAttackRange = 1.5f;
+        public float WalkSpeed;
+        public float RunSpeed;
 
 
 
@@ -37,20 +40,19 @@ namespace AI.Manager
         private EnemyAnimatorManager _enemyAnimatorManager;
         private EnemyStats _enemyStats;
         private Dictionary<FSMStateType, State> _statesDictionary;
-        internal Rigidbody _enemyRigidbody;
 
         private void Awake()
         {
             _enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
             _enemyStats = GetComponent<EnemyStats>();
-            Agent = GetComponentInChildren<NavMeshAgent>();
-            _enemyRigidbody = GetComponent<Rigidbody>();
+            Agent = GetComponent<NavMeshAgent>();
+            //_enemyRigidbody = GetComponent<Rigidbody>();
         }
 
         private void Start()
         {
-            Agent.enabled = false;
-            _enemyRigidbody.isKinematic = false;
+            //Agent.enabled = false;
+            //_enemyRigidbody.isKinematic = false;
             CurrentState = null;
             _statesDictionary = new Dictionary<FSMStateType, State>();
 
@@ -66,6 +68,7 @@ namespace AI.Manager
         private void Update()
         {
             HandleRecoveryTimer();
+            IsInteracting = _enemyAnimatorManager.Animator.GetBool("isInteracting");
         }
 
         private void FixedUpdate()

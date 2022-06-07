@@ -14,13 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: Pocion1
   DisplayName: Pocion1
-  InfoItem: "Poci\xF3n de los dioses, te puede curar entre 50-80 de vida."
+  InfoItem: "Poci\xF3n de los dioses, te puede curar entre 25-35 de vida."
   Icon: {fileID: 21300000, guid: 74dda245e5deb9e46bc615714e05cb49, type: 3}
   RandomAmounts:
     Min: 1
     Max: 2
   MaxAmount: 10
-  Position: -1
-  HealthRecoverAmount: 50
+  Position: 20
+  HealthRecoverAmount:
+    Min: 25
+    Max: 35
   RecoverFX: {fileID: 8104252009654705145, guid: a34cfbf8aaa71d9459beff0739cfdc65, type: 3}
   TimeToUse: 5

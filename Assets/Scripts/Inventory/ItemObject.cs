@@ -24,7 +24,7 @@ public class ItemObject : MonoBehaviour
         {
             if (MeetsRequirements())
             {
-                //if (ExceedItems()) return;
+                if (ExceedItems()) return;
                 
                 if (RemoveRequirementsOnPickup)
                 {
