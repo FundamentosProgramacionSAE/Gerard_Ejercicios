@@ -11,8 +11,13 @@ namespace Inventory.Item
     {
         public GameObject ModelPrefab;
         public int WeaponDamage;
+        public MinMaxInt DamageToAdd;
+        public float CriticalDamageMultiplier = 1.5f;
+        [Range(0, 100)] public int CriticalRate;
+        public MinMaxInt PhysicalDamageAbsorption; 
         public bool IsUnarmed;
         public bool IsDualWeapon;
+        public bool IsShield;
         public bool IsUsed;
         
         [Title("Attack Animations")]

@@ -13,7 +13,8 @@ namespace Player.Stats
     public class PlayerStats : CharacterStats, IDamageable
     {
 
-        [BoxGroup("Canvas")] public PlayerCanvas PlayerCanvas;
+        [TitleGroup("STATS")]
+        public PlayerCanvas PlayerCanvas;
         
         private PlayerAnimatorManager _playerAnimatorManager;
         private PlayerManager _playerManager;
@@ -47,14 +48,14 @@ namespace Player.Stats
             return MaxHealth;
         }
 
-        public void TakeDamage(int damageAmount)
+        public void TakeDamage(int damageAmount, string damageAnimation = "Damage_01")
         {
             if(_playerManager.IsInvulnerable) return;
             if(healthSystem.IsDead()) return;
             
             healthSystem.Damage(damageAmount);
             PlayerCanvas.SetCurrentHealth(healthSystem.CurrentHealth);
-            _playerAnimatorManager.PlayTargetAnimation("Damage_01", true);
+            _playerAnimatorManager.PlayTargetAnimation(damageAnimation, true);
             
             if(healthSystem.IsDead()) OnDead();
             

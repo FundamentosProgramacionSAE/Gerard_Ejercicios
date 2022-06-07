@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AI.Stats;
+using Player.Manager;
 using Player.Stats;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Inventory.Item
 {
@@ -11,7 +13,7 @@ namespace Inventory.Item
     {
         private Collider damageCollider;
         public int WeaponDamage;
-
+        public WeaponItem WeaponItem;
 
         private void Awake()
         {
@@ -37,9 +39,29 @@ namespace Inventory.Item
             if (collider.CompareTag("Player"))
             {
                 PlayerStats playerStats = collider.GetComponent<PlayerStats>();
+                CharacterManager enemyCharacterManager = collider.GetComponent<CharacterManager>();
+                BlockingCollider shield = collider.transform.GetComponentInChildren<BlockingCollider>();
+                
+                ApplyDamageAdded();
+
+                if (enemyCharacterManager != null)
+                {
+                    if (enemyCharacterManager.IsBlocking && shield != null)
+                    {
+                        float physicalDamageAfterBlock =
+                            WeaponDamage - (WeaponDamage * shield.BlockingPhysicalDamage) / 100;
+
+                        if (playerStats != null)
+                        {
+                            playerStats.TakeDamage(Mathf.RoundToInt(physicalDamageAfterBlock), "Block Guard");
+                            return;
+                        }
+                    }
+                }
                 
                 if(playerStats == null) return;
                 
+
                 playerStats.TakeDamage(WeaponDamage);
             }
             
@@ -48,8 +70,22 @@ namespace Inventory.Item
                 EnemyStats enemyStats = collider.GetComponent<EnemyStats>();
                 
                 if(enemyStats == null) return;
-                
+
+                ApplyDamageAdded();
                 enemyStats.TakeDamage(WeaponDamage);
+            }
+        }
+
+        private void ApplyDamageAdded()
+        {
+            WeaponDamage = WeaponItem.WeaponDamage + WeaponItem.DamageToAdd.GetValueFromRatio();
+            
+            var randomChance = Random.Range(0, 100);
+
+            if (randomChance <= WeaponItem.CriticalRate)
+            {
+                // CRIT
+                WeaponDamage = (int)(WeaponDamage * WeaponItem.CriticalDamageMultiplier);
             }
         }
     }

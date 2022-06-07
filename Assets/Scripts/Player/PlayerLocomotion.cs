@@ -142,21 +142,17 @@ namespace Player.Locomotion
                 // Actualizamos las animaciones segun el movimiento
                 _playerAnimatorManager.UpdateAnimatorValues(inputHandler.MoveAmount,0, playerManager.IsSprinting);
             }
-
-
-            // Si podemos rotar, esta tocando el suelo y no estamos saltando el jugador podra rotar
-            if (_playerAnimatorManager.CanRotate && playerManager.IsGrounded && !playerManager.IsJumping)
-            {
-                HandleRotation(Time.deltaTime);
-            }
         }
         
         /// <summary>
         /// Funcion encargada de la rotacion del personaje
         /// </summary>
         /// <param name="delta"></param>
-        private void HandleRotation(float delta)
+        public void HandleRotation(float delta)
         {
+            // Si podemos rotar, esta tocando el suelo y no estamos saltando el jugador podra rotar
+            if (!_playerAnimatorManager.CanRotate || !playerManager.IsGrounded || playerManager.IsJumping) return;
+            
             if (inputHandler.LockOnFlag && inputHandler.SprintFlag == false)
             {
                 if (inputHandler.SprintFlag || inputHandler.RollInput)
@@ -171,7 +167,7 @@ namespace Player.Locomotion
                     {
                         targetDirection = transform.forward;
                     }
-                
+                    
                     Quaternion tr = Quaternion.LookRotation(targetDirection);
                     Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr,rotationSpeed * Time.deltaTime);
                     transform.rotation = targetRotation;
@@ -191,10 +187,10 @@ namespace Player.Locomotion
             else
             {
                 Vector3 targetDir = Vector3.zero;
-            
+                
                 targetDir = camera.forward * inputHandler.Vertical;
                 targetDir += camera.right * inputHandler.Horizontal;
-            
+                
                 targetDir.Normalize();
                 targetDir.y = 0;
 
@@ -202,13 +198,13 @@ namespace Player.Locomotion
                 if (targetDir == Vector3.zero) targetDir = myTransform.forward;
 
                 float rs = rotationSpeed;
-            
+                
                 Quaternion tr = Quaternion.LookRotation(targetDir);
                 Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr,rs * delta);
-            
+                
                 myTransform.rotation = targetRotation;
             }
-            
+
 
         }
 
@@ -282,6 +278,7 @@ namespace Player.Locomotion
 
         public void HandleJumping()
         {
+            if(playerManager.IsInteracting) return;
             if (playerManager.IsGrounded && inputHandler.MoveAmount >0)
             {
                 _playerAnimatorManager.Animator.SetBool("isJumping", true);

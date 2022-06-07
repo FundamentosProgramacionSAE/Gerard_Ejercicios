@@ -253,6 +253,22 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""7631fd80-d25f-4c00-b16b-7fd548d2e888"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Block"",
+                    ""type"": ""Button"",
+                    ""id"": ""2dc05a79-f763-4f8f-be32-12fc2665901d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -376,6 +392,28 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""LockOn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""808f9378-5c7d-439a-9546-8057aad2eb35"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7791ba24-7072-4b11-901c-f6b8cf11701b"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -398,6 +436,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_PlayerActions_Inventory = m_PlayerActions.FindAction("Inventory", throwIfNotFound: true);
         m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
         m_PlayerActions_LockOn = m_PlayerActions.FindAction("LockOn", throwIfNotFound: true);
+        m_PlayerActions_Interact = m_PlayerActions.FindAction("Interact", throwIfNotFound: true);
+        m_PlayerActions_Block = m_PlayerActions.FindAction("Block", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -498,6 +538,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerActions_Inventory;
     private readonly InputAction m_PlayerActions_Jump;
     private readonly InputAction m_PlayerActions_LockOn;
+    private readonly InputAction m_PlayerActions_Interact;
+    private readonly InputAction m_PlayerActions_Block;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -512,6 +554,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Inventory => m_Wrapper.m_PlayerActions_Inventory;
         public InputAction @Jump => m_Wrapper.m_PlayerActions_Jump;
         public InputAction @LockOn => m_Wrapper.m_PlayerActions_LockOn;
+        public InputAction @Interact => m_Wrapper.m_PlayerActions_Interact;
+        public InputAction @Block => m_Wrapper.m_PlayerActions_Block;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -551,6 +595,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @LockOn.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOn;
                 @LockOn.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOn;
                 @LockOn.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOn;
+                @Interact.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInteract;
+                @Block.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnBlock;
+                @Block.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnBlock;
+                @Block.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnBlock;
             }
             m_Wrapper.m_PlayerActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -585,6 +635,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @LockOn.started += instance.OnLockOn;
                 @LockOn.performed += instance.OnLockOn;
                 @LockOn.canceled += instance.OnLockOn;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
+                @Block.started += instance.OnBlock;
+                @Block.performed += instance.OnBlock;
+                @Block.canceled += instance.OnBlock;
             }
         }
     }
@@ -606,5 +662,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnInventory(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnLockOn(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
+        void OnBlock(InputAction.CallbackContext context);
     }
 }

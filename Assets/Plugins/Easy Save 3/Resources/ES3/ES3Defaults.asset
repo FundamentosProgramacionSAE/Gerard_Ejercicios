@@ -36,29 +36,29 @@ MonoBehaviour:
     - MoreMountains.Tools
     - MoreMountains.Feedbacks.URP
     - Lofelt.NiceVibrations.Demo
+    - NavMeshComponentsTestsPlaymode
     - MoreMountains.Feedbacks.NiceVibrations
     - Cinemachine
     - MoreMountains.Feedbacks.MMTools
     - MoreMountains.Feedbacks.TextMeshPro
     - MoreMountains.Feedbacks.Cinemachine
     - MoreMountains.Tools.Feedbacks
+    - NavMeshComponentsExamples
     - MoreMountains.Feel.Demos.URP
     - Sirenix.OdinInspector.CompatibilityLayer
     - MoreMountains.Feel.Demos.HDRP
     - MoreMountains.Tools.Cinemachine
     - Lofelt.NiceVibrations
     - MoreMountains.Tools.TextMeshPro
-    - NavMeshComponentsExamples
-    - NavMeshComponentsTestsPlaymode
     - NavMeshComponents
     - MoreMountains.Tools.Editor
     - Sirenix.OdinInspector.CompatibilityLayer.Editor
     - MoreMountains.Feedbacks.Editor
     - MoreMountains.Tools.Feedbacks.Editor
+    - NavMeshComponentsTestsEditmode
+    - NavMeshComponentsEditor
     - Lofelt.NiceVibrations.Editor
     - Sirenix.OdinInspector.Modules.UnityMathematics
-    - NavMeshComponentsEditor
-    - NavMeshComponentsTestsEditmode
     - NavMeshComponentsExamplesEditor
     showAdvancedSettings: 1
   addMgrToSceneAutomatically: 0

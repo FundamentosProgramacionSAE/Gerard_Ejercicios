@@ -90,8 +90,8 @@ public class SlotItem : MonoBehaviour, IPointerClickHandler
                 bool isDual = weaponItem.IsDualWeapon;
                 weaponItem.IsUsed = !weaponItem.IsUsed;
 
-                if (weaponItem.IsUsed) EventSystem.Instance.OnUseWeapon(weaponItem,weaponItem,isDual);
-                else EventSystem.Instance.OnUnEquipWeapon();
+                if (weaponItem.IsUsed) EventSystem.Instance.OnUseWeapon(weaponItem,weaponItem,isDual,weaponItem.IsShield);
+                else EventSystem.Instance.OnUnEquipWeapon(weaponItem.IsShield);
             }
 
             if (flaskItem != null)

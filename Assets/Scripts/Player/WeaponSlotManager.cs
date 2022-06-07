@@ -4,19 +4,20 @@ using System.Collections.Generic;
 using Inventory.Item;
 using Player.Manager;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Inventory
 {
     public class WeaponSlotManager : MonoBehaviour
     {
-        internal WeaponHolderSlot LeftHandSlot;
-        internal WeaponHolderSlot RightHandSlot;
+        public WeaponHolderSlot LeftHandSlot;
+        public WeaponHolderSlot RightHandSlot;
         
-        internal WeaponHolderSlot RestLeftHandSlot;
-        internal WeaponHolderSlot RestRightHandSlot;
+        public WeaponHolderSlot RestLeftHandSlot;
+        public WeaponHolderSlot RestRightHandSlot;
 
-        private DamageCollider leftHandDamageCollider;
-        private DamageCollider rightHandDamageCollider;
+        internal DamageCollider leftHandDamageCollider;
+        internal DamageCollider rightHandDamageCollider;
 
         private PlayerWeaponInventory _playerWeaponInventory;
         private Animator animator;
@@ -102,6 +103,12 @@ namespace Inventory
             Destroy(RestLeftHandSlot.CurrentWeaponModel);
             Destroy(RestRightHandSlot.CurrentWeaponModel);
         }
+
+        public void UnEquipLeft()
+        {
+            Destroy(LeftHandSlot.CurrentWeaponModel);
+            Destroy(RestLeftHandSlot.CurrentWeaponModel);
+        }
         
         public void OnRestWeapon()
         {
@@ -124,17 +131,17 @@ namespace Inventory
 
         private void LoadLeftWeaponDamageCollider()
         {
-            leftHandDamageCollider = LeftHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
+            if(LeftHandSlot.CurrentWeaponModel != null) leftHandDamageCollider = LeftHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
         }
         private void LoadRightWeaponDamageCollider()
         {
-            rightHandDamageCollider = RightHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
+            if(RightHandSlot.CurrentWeaponModel != null) rightHandDamageCollider = RightHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
         }
 
         public void OpenDamageCollider()
         {
             if (_playerManager.IsUsingRightHand)
-            {            
+            {
                 rightHandDamageCollider.EnableDamageCollider();
             }
             if (_playerManager.IsUsingLeftHand)
@@ -146,8 +153,8 @@ namespace Inventory
 
         public void CloseDamageCollider()
         {
-            rightHandDamageCollider.DisableDamageCollider();
-            leftHandDamageCollider.DisableDamageCollider();
+            if(rightHandDamageCollider != null) rightHandDamageCollider.DisableDamageCollider();
+            if(leftHandDamageCollider != null)leftHandDamageCollider.DisableDamageCollider();
         }
         
 

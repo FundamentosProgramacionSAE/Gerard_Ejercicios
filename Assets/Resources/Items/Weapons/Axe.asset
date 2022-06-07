@@ -22,7 +22,12 @@ MonoBehaviour:
   MaxAmount: 10
   Position: -1
   ModelPrefab: {fileID: 5962410820394844087, guid: 3b1de1794a473d74c8b5f34048b99299, type: 3}
-  WeaponDamage: 10
+  WeaponDamage: 5
+  DamageToAdd:
+    Min: 2
+    Max: 5
+  CriticalDamageMultiplier: 1.5
+  CriticalRate: 20
   IsUnarmed: 0
   IsDualWeapon: 0
   IsUsed: 0

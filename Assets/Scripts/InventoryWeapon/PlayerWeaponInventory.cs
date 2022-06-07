@@ -51,6 +51,13 @@ namespace Inventory
             _abilityManager.UnEquip();
             _playerCanvas.InitializedAbilities();
         }
+
+        public void UnEquipShield()
+        {
+            LeftWeapon = null;
+            _weaponReferenceLeft = null;
+            weaponSlotManager.UnEquipLeft();
+        }
         public void Initialized()
         {
             _weaponReferenceRight = null;
@@ -63,7 +70,7 @@ namespace Inventory
 
                 if (_weaponReferenceRight != null)
                 {
-                    if (_weaponReferenceRight.IsUsed)
+                    if (_weaponReferenceRight.IsUsed && _weaponReferenceRight.IsShield == false)
                     {
                         break;
                     }
@@ -81,10 +88,10 @@ namespace Inventory
             {
                 foreach (var item in InventorySystem.ItemsDictionary)
                 {
-                    print(item.Key.DisplayName);
+                    print(item.Key.DisplayName + "LEFT");
                     _weaponReferenceLeft = item.Key as WeaponItem;
 
-                    if (_weaponReferenceLeft != null)
+                    if (_weaponReferenceLeft != null && _weaponReferenceLeft.IsShield)
                     {
                         if (_weaponReferenceLeft.IsUsed)
                         {
@@ -94,6 +101,10 @@ namespace Inventory
                         {
                             _weaponReferenceLeft = null;
                         }
+                    }
+                    else
+                    {
+                        _weaponReferenceLeft = null;
                     }
 
                 }
@@ -112,8 +123,8 @@ namespace Inventory
                 RightWeapon = _weaponReferenceRight;
                 LeftWeapon = _weaponReferenceLeft;
             }
-            weaponSlotManager.LoadWeaponSlot(RightWeapon,false);
-            weaponSlotManager.LoadWeaponSlot(LeftWeapon,true);
+            if(RightWeapon!= null) weaponSlotManager.LoadWeaponSlot(RightWeapon,false);
+            if(LeftWeapon != null) weaponSlotManager.LoadWeaponSlot(LeftWeapon,true);
             _playerAnimatorManager.Animator.SetBool("isReposeWeapon", false);
             _playerManager.IsReposeWeapon = false;
             _abilityManager.Initialized();

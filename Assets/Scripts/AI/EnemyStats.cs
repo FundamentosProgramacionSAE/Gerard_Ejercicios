@@ -34,7 +34,7 @@ namespace AI.Stats
             return MaxHealth;
         }
 
-        public void TakeDamage(int damageAmount)
+        public void TakeDamage(int damageAmount, string damageAnimation = "Damage_01")
         {
             if(healthSystem.IsDead()) return;
             

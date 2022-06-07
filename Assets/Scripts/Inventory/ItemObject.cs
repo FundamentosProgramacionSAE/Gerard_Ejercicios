@@ -11,20 +11,17 @@ public class ItemObject : MonoBehaviour
         public List<ItemRequirement> Requirements;
         public bool RemoveRequirementsOnPickup;
         public UnityEvent OnGetItem;
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.CompareTag("Player"))
-            {
-                OnPickUpItem();
-            }
-        }
+        
 
         public void OnPickUpItem()
         {
             if (MeetsRequirements())
             {
-                if (ExceedItems()) return;
+                if (ExceedItems())
+                {
+                    Destroy(this);
+                    return;
+                }
                 
                 if (RemoveRequirementsOnPickup)
                 {
@@ -34,7 +31,7 @@ public class ItemObject : MonoBehaviour
                 
                 OnGetItem?.Invoke();
 
-                //Destroy(gameObject);
+                Destroy(this);
 
             }
 

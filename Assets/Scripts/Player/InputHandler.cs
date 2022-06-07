@@ -30,6 +30,7 @@ namespace Player.Input
 
         [TitleGroup("Inputs")]
         public bool input;
+        public bool BlockInput;
         public bool RollInput;
         public bool Rb_Input;
         public bool ReposeInput;
@@ -39,6 +40,7 @@ namespace Player.Input
         public bool InventoryInput;
         public bool JumpInput;
         public bool LockOnInput;
+        public bool InteractInput;
 
 
 
@@ -56,6 +58,7 @@ namespace Player.Input
         private AbilityManager abilityManager;
         private PlayerCanvas playerCanvas;
         private WeaponSlotManager _weaponSlotManager;
+        private BlockingCollider _blockingCollider;
 
         private Vector2 movementInput;
         private Vector2 cameraInput;
@@ -72,6 +75,7 @@ namespace Player.Input
             playerCanvas = GetComponentInChildren<PlayerCanvas>();
             _weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
             _playerLocomotion = GetComponent<PlayerLocomotion>();
+            _blockingCollider = GetComponentInChildren<BlockingCollider>();
         }
 
         private void Start()
@@ -94,6 +98,9 @@ namespace Player.Input
                 inputActions.PlayerActions.Sprint.performed += i => input = true;
                 inputActions.PlayerActions.Sprint.canceled += i => input = false;
                 
+                inputActions.PlayerActions.Block.performed += i => BlockInput = true;
+                inputActions.PlayerActions.Block.canceled += i => BlockInput = false;
+                
                 inputActions.PlayerActions.Jump.performed += i => JumpInput = true;
                 inputActions.PlayerActions.Roll.performed += i => RollInput = true;
                 
@@ -106,6 +113,8 @@ namespace Player.Input
                 inputActions.PlayerActions.ReposeWeapon.performed += i => ReposeInput = true;
                 
                 inputActions.PlayerActions.LockOn.performed += i => LockOnInput = true;
+
+                inputActions.PlayerActions.Interact.performed += i => InteractInput = true;
 
             }
             
@@ -187,10 +196,10 @@ namespace Player.Input
             
             
             // RB input handles the RIGHT hand weapon's light attack
-            if (Rb_Input)
+            if (Rb_Input && playerManager.IsBlocking == false)
             {
                 HandleUnReposeWeapon();
-                
+
                 SetWeaponDamageCollider();
                 if (playerManager.CanCombo)
                 {
@@ -207,8 +216,23 @@ namespace Player.Input
                 }
 
             }
-            
-            if(playerManager.IsInteracting || abilityManager.HasAbilities != true) return;
+
+            if (BlockInput)
+            {
+                // Block
+                playerAttacker.HandleBlock();
+            }
+            else
+            {
+                playerManager.IsBlocking = false;
+
+                if (_blockingCollider._blockingCollider.enabled)
+                {
+                    _blockingCollider.DisableBlockingCollider();
+                }
+            }
+
+            if(playerManager.IsInteracting || abilityManager.HasAbilities != true || playerManager.IsBlocking) return;
             if (SecondAbilityInput && abilityManager.CanUseAbility2)
             {
                 HandleUnReposeWeapon();
@@ -235,6 +259,7 @@ namespace Player.Input
                 abilityManager.CanUseAbility4 = false;
             }
         }
+
 
         private void SetWeaponDamageCollider()
         {
@@ -337,6 +362,11 @@ namespace Player.Input
             {
                 ClearCamera();
             }
+            
+        }
+
+        private void HandleInteractInput()
+        {
             
         }
 

@@ -10,9 +10,7 @@ namespace Player.Locomotion
 {
     public class PlayerAnimatorManager : AnimatorManager
     {
-        public bool CanRotate;
-
-
+        
         private InputHandler inputHandler;
         private PlayerLocomotion playerLocomotion;
         private PlayerManager playerManager;
@@ -65,11 +63,11 @@ namespace Player.Locomotion
         }
         public void Rotate()
         {
-            CanRotate = true;
+            Animator.SetBool("canRotate", true);
         }
         public void StopRotation()
         {
-            CanRotate = false;
+            Animator.SetBool("canRotate", false);
         }
         public void EnableCombo()
         {

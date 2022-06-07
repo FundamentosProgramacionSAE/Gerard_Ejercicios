@@ -28,7 +28,7 @@ public class EventSystem : MonoBehaviour
         Player.GetComponent<PlayerWeaponInventory>().Initialized();
     }
 
-    public void OnUseWeapon(WeaponItem rightWeapon, WeaponItem leftWeapon, bool isDual)
+    public void OnUseWeapon(WeaponItem rightWeapon, WeaponItem leftWeapon, bool isDual, bool isShield = false)
     {
         var weaponInventory = Player.GetComponent<PlayerWeaponInventory>();
         
@@ -41,21 +41,40 @@ public class EventSystem : MonoBehaviour
         }
         else
         {
-            if (rightWeapon != weaponInventory.RightWeapon && weaponInventory.RightWeapon != null)
+            if (isShield == false)
             {
-                weaponInventory.RightWeapon.IsUsed = false;
+                if (rightWeapon != weaponInventory.RightWeapon && weaponInventory.RightWeapon != null)
+                {
+                    weaponInventory.RightWeapon.IsUsed = false;
+                }
+                if (leftWeapon != weaponInventory.LeftWeapon && weaponInventory.LeftWeapon != null)
+                {
+                    weaponInventory.LeftWeapon.IsUsed = false;
+                }
             }
-            if (leftWeapon != weaponInventory.LeftWeapon && weaponInventory.LeftWeapon != null)
+            else
             {
-                weaponInventory.LeftWeapon.IsUsed = false;
+                if (leftWeapon != weaponInventory.LeftWeapon && weaponInventory.LeftWeapon != null)
+                {
+                    weaponInventory.LeftWeapon.IsUsed = false;
+                }
             }
+
         }
         OnCollectWeapon();
     }
 
-    public void OnUnEquipWeapon()
+    public void OnUnEquipWeapon(bool isShield = false)
     {
-        Player.GetComponent<PlayerWeaponInventory>().UnEquip();
+        if (isShield == false)
+        {
+            Player.GetComponent<PlayerWeaponInventory>().UnEquip();
+        }
+        else
+        {
+            Player.GetComponent<PlayerWeaponInventory>().UnEquipShield();
+        }
+
     }
 
     public void OnHealPlayer(FlaskItem flaskItem)

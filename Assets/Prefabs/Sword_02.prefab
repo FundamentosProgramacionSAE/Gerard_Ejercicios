@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponDamage: 0
+  WeaponItem: {fileID: 11400000, guid: ec81eb6f15f273044aaba5967603c52d, type: 2}
 --- !u!136 &5276349691969030498
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Inventory;
 using Inventory.Item;
+using Managers;
 using Player.Input;
+using Player.Manager;
 using UnityEngine;
 
 namespace Player.Locomotion
@@ -16,11 +19,17 @@ namespace Player.Locomotion
         private PlayerAnimatorManager _playerAnimatorManager;
         private InputHandler inputHandler;
         private string startCombo;
+        private PlayerManager _playerManager;
+        private PlayerEquipmentManager _playerEquipmentManager;
+        private PlayerWeaponInventory _playerWeaponInventory;
         
         private void Awake()
         {
             _playerAnimatorManager = GetComponentInChildren<PlayerAnimatorManager>();
+            _playerEquipmentManager = GetComponentInChildren<PlayerEquipmentManager>();
+            _playerWeaponInventory = GetComponent<PlayerWeaponInventory>();
             inputHandler = GetComponent<InputHandler>();
+            _playerManager = GetComponent<PlayerManager>();
         }
 
         public void HandleLightAttack(WeaponItem weapon)
@@ -75,6 +84,21 @@ namespace Player.Locomotion
         {
             _playerAnimatorManager.PlayTargetAnimation(weapon.AbilityAttack4, true);
             LastAttack = weapon.AbilityAttack4;
+        }
+        
+        public void HandleBlock()
+        {
+            PerformBlockAction();
+        }
+
+        private void PerformBlockAction()
+        {
+            if(_playerManager.IsInteracting) return;
+            if(_playerManager.IsBlocking || !_playerWeaponInventory.LeftWeapon) return;
+            
+            _playerManager.IsBlocking = true;
+            _playerAnimatorManager.PlayTargetAnimation("Block",false, true);
+            _playerEquipmentManager.OpenBlockingCollider();
         }
     }
 }
