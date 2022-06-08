@@ -30,6 +30,9 @@ namespace AI.States
         
         public override void UpdateState(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager)
         {
+            
+            if(enemyManager.IsInteracting) return;
+            
             float distanceFromTarget = Vector3.Distance(enemyManager.CurrentTarget.transform.position,
                 enemyManager.transform.position);
 

@@ -8,7 +8,9 @@ namespace AI.States
     {
         public EnemyAttackAction[] EnemyAttacks;
         public EnemyAttackAction CurrentAttack;
-        
+
+
+        private bool _willDoComboOnNext = false;
         
         public override void OnEnable()
         {
@@ -37,6 +39,15 @@ namespace AI.States
             // If Attack is viable, stop our movement and attack our target
             // set out recovery timer to the attacks recovery time
             // return the combat state
+            if(enemyManager.IsInteracting && enemyManager.CanDoCombo == false ) return;
+            else if (enemyManager.CanDoCombo && enemyManager.IsInteracting)
+            {
+                if(_willDoComboOnNext)
+                {
+                    _willDoComboOnNext = false;
+                    enemyAnimatorManager.PlayTargetAnimation(CurrentAttack.ActionAnimation, true);
+                }
+            }
             AttackTarget(enemyManager, enemyAnimatorManager);
         }
         
@@ -62,7 +73,6 @@ namespace AI.States
             {
                 enemyManager.EnterState(FSMStateType.COMBAT);
             }
-            
 
             if (CurrentAttack != null)
             {
@@ -77,9 +87,21 @@ namespace AI.States
                             enemyAnimatorManager.Animator.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
                             enemyAnimatorManager.PlayTargetAnimation(CurrentAttack.ActionAnimation, true);
                             enemyManager.IsPreformingAction = true;
-                            enemyManager.CurrentRecoveryTime = CurrentAttack.RecoveryTime;
-                            CurrentAttack = null;
-                            enemyManager.EnterState(FSMStateType.COMBAT);
+                            RollForComboChance();
+
+
+                            if (CurrentAttack.CanCombo && _willDoComboOnNext)
+                            {
+                                CurrentAttack = CurrentAttack.ComboAction;
+                                return;
+                            }
+                            else
+                            {
+                                enemyManager.CurrentRecoveryTime = CurrentAttack.RecoveryTime;
+                                CurrentAttack = null;
+                                enemyManager.EnterState(FSMStateType.COMBAT);
+                            }
+                            
                         }
                     }
                 }
@@ -90,6 +112,8 @@ namespace AI.States
             }
             enemyManager.EnterState(FSMStateType.COMBAT);
         }
+        
+        
         private void GetNewAttack(EnemyManager enemyManager, float distanceFromTarget)
         {
             Vector3 targeDireaciton = enemyManager.CurrentTarget.transform.position - transform.position;
@@ -188,6 +212,16 @@ namespace AI.States
                 }
             }
 
+        }
+
+        private void RollForComboChance()
+        {
+            float comboChance = Random.Range(0, 100);
+
+            if (EnemyManager.AllowAIToPerformCombos && comboChance <= EnemyManager.ComboChance)
+            {
+                _willDoComboOnNext = true;
+            }
         }
     }
 }

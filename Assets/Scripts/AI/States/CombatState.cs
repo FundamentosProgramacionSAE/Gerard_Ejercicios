@@ -34,7 +34,8 @@ namespace AI.States
             // if in attack range return attack state
             // if we are in cooldown after attack, return this state and continue circling target
             // if the player runs out of range return to chase state
-
+            if(enemyManager.IsInteracting) return;
+            
             float distanceFromTarget = Vector3.Distance(enemyManager.CurrentTarget.transform.position,
                 enemyManager.transform.position);
             HandleRotateTowardsTarget(enemyManager, distanceFromTarget);

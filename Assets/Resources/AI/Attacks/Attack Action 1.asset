@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Attack Action 1
   m_EditorClassIdentifier: 
   ActionAnimation: Frank_RPG_Warrior_Attack05
+  CanCombo: 1
+  ComboAction: {fileID: 11400000, guid: acc791e70073936409c90051d965034d, type: 2}
   AttackScore: 3
   RecoveryTime: 2
   MaxAttackAngle: 35

@@ -23,6 +23,9 @@ namespace AI.Manager
         public VisionEnemy VisionEnemy;
         public Transform visionPosition;
         public GameObject CurrentTarget;
+
+        [TitleGroup("Combat Flags")] 
+        public bool CanDoCombo;
         
         [TitleGroup("VALUES")]
         public bool IsPreformingAction;
@@ -35,6 +38,9 @@ namespace AI.Manager
         public float RunSpeed;
 
 
+        [TitleGroup("AI Combat Settings")] 
+        public bool AllowAIToPerformCombos;
+        public float ComboChance;
 
         
         private EnemyAnimatorManager _enemyAnimatorManager;
@@ -69,6 +75,7 @@ namespace AI.Manager
         {
             HandleRecoveryTimer();
             IsInteracting = _enemyAnimatorManager.Animator.GetBool("isInteracting");
+            CanDoCombo = _enemyAnimatorManager.Animator.GetBool("canCombo");
         }
 
         private void FixedUpdate()
