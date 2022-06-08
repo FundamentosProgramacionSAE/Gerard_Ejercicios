@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AI.Manager;
 using AI.Stats;
 using Player.Manager;
 using Player.Stats;
@@ -14,7 +15,7 @@ namespace Inventory.Item
         private Collider damageCollider;
         public int WeaponDamage;
         public WeaponItem WeaponItem;
-
+        
         private void Awake()
         {
             damageCollider = GetComponent<Collider>();
@@ -40,16 +41,21 @@ namespace Inventory.Item
             {
                 PlayerStats playerStats = collider.GetComponent<PlayerStats>();
                 CharacterManager enemyCharacterManager = collider.GetComponent<CharacterManager>();
-                BlockingCollider shield = collider.transform.GetComponentInChildren<BlockingCollider>();
+                var shield = playerStats.GetComponent<PlayerWeaponInventory>().LeftWeapon;
+                var enemy = GetComponentInParent<EnemyManager>();
                 
                 ApplyDamageAdded();
 
+                Vector3 directionEnemyToPlayer =
+                    (enemy.gameObject.transform.position - playerStats.gameObject.transform.position).normalized;
+                var angleHit = Vector3.Dot(playerStats.gameObject.transform.forward, directionEnemyToPlayer);
+                
                 if (enemyCharacterManager != null)
                 {
-                    if (enemyCharacterManager.IsBlocking && shield != null)
+                    if (enemyCharacterManager.IsBlocking && shield != null && angleHit>=0)
                     {
                         float physicalDamageAfterBlock =
-                            WeaponDamage - (WeaponDamage * shield.BlockingPhysicalDamage) / 100;
+                            WeaponDamage - (WeaponDamage * shield.PhysicalDamageAbsorption.GetValueFromRatio()) / 100;
 
                         if (playerStats != null)
                         {
@@ -64,7 +70,6 @@ namespace Inventory.Item
 
                 playerStats.TakeDamage(WeaponDamage);
             }
-            
             if (collider.CompareTag("Enemy"))
             {
                 EnemyStats enemyStats = collider.GetComponent<EnemyStats>();

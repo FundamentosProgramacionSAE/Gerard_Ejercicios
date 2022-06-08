@@ -58,7 +58,6 @@ namespace Player.Input
         private AbilityManager abilityManager;
         private PlayerCanvas playerCanvas;
         private WeaponSlotManager _weaponSlotManager;
-        private BlockingCollider _blockingCollider;
 
         private Vector2 movementInput;
         private Vector2 cameraInput;
@@ -75,7 +74,6 @@ namespace Player.Input
             playerCanvas = GetComponentInChildren<PlayerCanvas>();
             _weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
             _playerLocomotion = GetComponent<PlayerLocomotion>();
-            _blockingCollider = GetComponentInChildren<BlockingCollider>();
         }
 
         private void Start()
@@ -225,11 +223,6 @@ namespace Player.Input
             else
             {
                 playerManager.IsBlocking = false;
-
-                if (_blockingCollider._blockingCollider.enabled)
-                {
-                    _blockingCollider.DisableBlockingCollider();
-                }
             }
 
             if(playerManager.IsInteracting || abilityManager.HasAbilities != true || playerManager.IsBlocking) return;

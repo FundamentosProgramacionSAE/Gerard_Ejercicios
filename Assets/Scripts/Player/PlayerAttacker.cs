@@ -20,13 +20,11 @@ namespace Player.Locomotion
         private InputHandler inputHandler;
         private string startCombo;
         private PlayerManager _playerManager;
-        private PlayerEquipmentManager _playerEquipmentManager;
         private PlayerWeaponInventory _playerWeaponInventory;
         
         private void Awake()
         {
             _playerAnimatorManager = GetComponentInChildren<PlayerAnimatorManager>();
-            _playerEquipmentManager = GetComponentInChildren<PlayerEquipmentManager>();
             _playerWeaponInventory = GetComponent<PlayerWeaponInventory>();
             inputHandler = GetComponent<InputHandler>();
             _playerManager = GetComponent<PlayerManager>();
@@ -98,7 +96,6 @@ namespace Player.Locomotion
             
             _playerManager.IsBlocking = true;
             _playerAnimatorManager.PlayTargetAnimation("Block",false, true);
-            _playerEquipmentManager.OpenBlockingCollider();
         }
     }
 }

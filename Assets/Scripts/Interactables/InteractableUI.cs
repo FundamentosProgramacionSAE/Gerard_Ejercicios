@@ -15,6 +15,13 @@ namespace InteractableItems
         public MMF_Player FeedbackOnCollected;
         public Image ImageItem;
 
+
+        public void PlayFeedbackOnCollected()
+        {
+            FeedbackOnCollected.StopFeedbacks();
+            FeedbackOnCollected.PlayFeedbacks();
+        }
+
     }
     
 }

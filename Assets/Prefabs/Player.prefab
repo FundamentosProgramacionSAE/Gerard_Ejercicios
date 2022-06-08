@@ -549,6 +549,7 @@ MonoBehaviour:
   DebugActive: 0
   FeedbacksList:
   - id: 0
+  - id: 1
   KeepPlayModeChanges: 0
   PerformanceMode: 0
   references:
@@ -557,7 +558,84 @@ MonoBehaviour:
       type: {class: MMF_CanvasGroup, ns: MoreMountains.Feedbacks, asm: MoreMountains.Feedbacks.MMTools}
       data:
         Active: 1
-        UniqueID: 13338441
+        UniqueID: -757819691
+        Label: CanvasGroup
+        Channel: 0
+        Chance: 100
+        DisplayColor: {r: 0, g: 0, b: 0, a: 1}
+        Timing:
+          TimescaleMode: 0
+          ExcludeFromHoldingPauses: 0
+          ContributeToTotalDuration: 1
+          InitialDelay: 0
+          CooldownDuration: 0
+          InterruptsOnStop: 1
+          NumberOfRepeats: 0
+          RepeatForever: 0
+          DelayBetweenRepeats: 1
+          MMFeedbacksDirectionCondition: 0
+          PlayDirection: 0
+          ConstantIntensity: 0
+          UseIntensityInterval: 0
+          IntensityIntervalMin: 0
+          IntensityIntervalMax: 0
+          Sequence: {fileID: 0}
+          TrackID: 0
+          Quantized: 0
+          TargetBPM: 120
+        Owner: {fileID: 5228791357559790983}
+        DebugActive: 0
+        Mode: 1
+        Duration: 0.2
+        StartsOff: 0
+        RelativeValues: 1
+        AllowAdditivePlays: 0
+        DisableOnStop: 0
+        TargetCanvasGroup: {fileID: 7446568007972737953}
+        AlphaCurve:
+          MMTweenDefinitionType: 1
+          MMTweenCurve: 4
+          Curve:
+            serializedVersion: 2
+            m_Curve:
+            - serializedVersion: 3
+              time: 0
+              value: 0
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0
+              outWeight: 0
+            - serializedVersion: 3
+              time: 0.3
+              value: 1
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0
+              outWeight: 0
+            - serializedVersion: 3
+              time: 1
+              value: 0
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0
+              outWeight: 0
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+        RemapZero: 0
+        RemapOne: 1
+        InstantAlpha: 1
+    00000001:
+      type: {class: MMF_CanvasGroup, ns: MoreMountains.Feedbacks, asm: MoreMountains.Feedbacks.MMTools}
+      data:
+        Active: 1
+        UniqueID: 453554394
         Label: CanvasGroup
         Channel: 0
         Chance: 100
@@ -2044,64 +2122,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!1 &3077240323561299297
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 613207050642976131}
-  - component: {fileID: 1603890531481002562}
-  - component: {fileID: 1585560760645997180}
-  m_Layer: 6
-  m_Name: BlockingCollider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &613207050642976131
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3077240323561299297}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 6222181171112351}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1603890531481002562
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3077240323561299297}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1.4984487, z: 0.11305475}
-  m_Center: {x: 0, y: 0.72568256, z: 0.3188603}
---- !u!114 &1585560760645997180
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3077240323561299297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd7a7a3c3354d8146a8e3123568bbf38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BlockingPhysicalDamage: 0
 --- !u!1 &3117121107053058761
 GameObject:
   m_ObjectHideFlags: 0
@@ -2719,8 +2739,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4230046271655802127}
-  m_LocalRotation: {x: 0.05404914, y: 0.27505392, z: -0.015489357, w: 0.9597834}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.20780413, y: 0.17033589, z: -0.036774702, w: 0.96252316}
+  m_LocalPosition: {x: 0, y: 0.00000023841858, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4230046273227575006}
@@ -2997,7 +3017,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 5
-  m_FollowOffset: {x: 0, y: 0.75, z: -5}
+  m_FollowOffset: {x: 0, y: 1.411785, z: -4.687209}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -3092,7 +3112,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4230046272784924884}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.272835, y: 0.43994045, z: -3.5659657}
+  m_LocalPosition: {x: -2.9724407, y: 1.6439044, z: -3.0139554}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4230046273004737367}
@@ -3438,7 +3458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 5
-  m_FollowOffset: {x: 0, y: 0.75, z: -5}
+  m_FollowOffset: {x: 0, y: 1.411785, z: -4.687209}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -3530,8 +3550,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4230046273004737361}
-  m_LocalRotation: {x: -0.19209318, y: 0.17091247, z: 0.03399436, w: 0.96578133}
-  m_LocalPosition: {x: 1.8793616, y: -1.6780024, z: 2.1365745}
+  m_LocalRotation: {x: 0.22527753, y: 0.16963881, z: -0.039866935, w: 0.9585841}
+  m_LocalPosition: {x: 0, y: 0.00000023841858, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4230046272586632282}
@@ -3604,8 +3624,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4230046273119785962}
-  m_LocalRotation: {x: 0.03662838, y: 0.27528965, z: -0.010496931, w: 0.960606}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.19030839, y: 0.17097501, z: -0.03367852, w: 0.9661346}
+  m_LocalPosition: {x: 0, y: 0.00000023841858, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4230046272917412317}
@@ -3712,7 +3732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 5
-  m_FollowOffset: {x: 0, y: 0.75, z: -5}
+  m_FollowOffset: {x: 0, y: 1.411785, z: -4.687209}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -5709,7 +5729,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6744480920599551444}
-  - {fileID: 613207050642976131}
   m_Father: {fileID: 6688260510486698107}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -30081,8 +30100,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6688260510904366105}
-  m_LocalRotation: {x: 0.058751576, y: 0.18265468, z: -0.010935091, w: 0.98135924}
-  m_LocalPosition: {x: -1.71595, y: 1.7499881, z: -4.4500012}
+  m_LocalRotation: {x: 0.20780411, y: 0.17033586, z: -0.03677469, w: 0.96252316}
+  m_LocalPosition: {x: -1.3478993, y: 2.953964, z: -3.6890438}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6688260510457104415}
@@ -43305,7 +43324,6 @@ GameObject:
   - component: {fileID: 6688260511256578538}
   - component: {fileID: 6688260511256578541}
   - component: {fileID: 6688260511256578540}
-  - component: {fileID: 7458074083084821852}
   m_Layer: 6
   m_Name: Chr_FantasyHero_Preset_47
   m_TagString: Untagged
@@ -43378,19 +43396,6 @@ MonoBehaviour:
   RightHandSlot: {fileID: 0}
   RestLeftHandSlot: {fileID: 0}
   RestRightHandSlot: {fileID: 0}
---- !u!114 &7458074083084821852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6688260511256578542}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfea637d2d8c4fe59d61830dc412d929, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _blockingCollider: {fileID: 1585560760645997180}
 --- !u!1 &6688260511263665889
 GameObject:
   m_ObjectHideFlags: 0
@@ -64580,7 +64585,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 99
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3944eaaf70beffa4097d8c293604125e, type: 2}
   m_sharedMaterial: {fileID: 7159369417392969216, guid: 3944eaaf70beffa4097d8c293604125e, type: 2}
@@ -77956,7 +77961,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 99
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3944eaaf70beffa4097d8c293604125e, type: 2}
   m_sharedMaterial: {fileID: 7159369417392969216, guid: 3944eaaf70beffa4097d8c293604125e, type: 2}

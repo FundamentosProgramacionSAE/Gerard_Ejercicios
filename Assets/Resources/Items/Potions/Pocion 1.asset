@@ -17,8 +17,8 @@ MonoBehaviour:
   InfoItem: "Poci\xF3n de los dioses, te puede curar entre 25-35 de vida."
   Icon: {fileID: 21300000, guid: 74dda245e5deb9e46bc615714e05cb49, type: 3}
   RandomAmounts:
-    Min: 1
-    Max: 2
+    Min: 10
+    Max: 10
   MaxAmount: 10
   Position: 20
   HealthRecoverAmount:

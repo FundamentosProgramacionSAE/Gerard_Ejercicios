@@ -9,16 +9,23 @@ public class SaveManager : MonoBehaviour
     public InventorySystem InventorySystem;
     private void Start()
     {
-        InventorySystem.ItemsDictionary = ES3.Load("Inventory", InventorySystem.ItemsDictionary);
-        InventorySystem.Gold = ES3.Load("Gold", InventorySystem.Gold);
-        InventorySystem.Initialized();
+        if (InventorySystem)
+        {
+            InventorySystem.ItemsDictionary = ES3.Load("Inventory", InventorySystem.ItemsDictionary);
+            InventorySystem.Gold = ES3.Load("Gold", InventorySystem.Gold);
+            InventorySystem.Initialized();
+        }
     }
     
 
     public void OnApplicationQuit()
     {
-        ES3.Save("Inventory", InventorySystem.ItemsDictionary);
-        ES3.Save("Gold", InventorySystem.Gold);
+        if (InventorySystem)
+        {
+            ES3.Save("Inventory", InventorySystem.ItemsDictionary);
+            ES3.Save("Gold", InventorySystem.Gold);
+        }
+
     }
 }
 

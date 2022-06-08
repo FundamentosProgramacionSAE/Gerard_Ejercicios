@@ -130,7 +130,7 @@ namespace Player.Manager
             _interactableUI.InteractableObjectPicked.SetActive(true);
             _interactableUI.InteractableObjectPicked.GetComponentInChildren<TextMeshProUGUI>().text = nameItem;
             _interactableUI.ImageItem.sprite = sprite;
-            _interactableUI.FeedbackOnCollected.PlayFeedbacks();
+            _interactableUI.PlayFeedbackOnCollected();;
 
         }
     }
