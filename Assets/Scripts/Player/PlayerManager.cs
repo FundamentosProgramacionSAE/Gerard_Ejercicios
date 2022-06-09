@@ -82,6 +82,8 @@ namespace Player.Manager
             inputHandler.InventoryInput = false;
             inputHandler.JumpInput = false;
             inputHandler.InteractInput = false;
+            inputHandler.PrimarySlotInput = false;
+            inputHandler.SecondarySlotInput = false;
             IsJumping = _playerAnimatorManager.Animator.GetBool("isJumping");
             _playerAnimatorManager.Animator.SetBool("isGrounded", IsGrounded);
         }

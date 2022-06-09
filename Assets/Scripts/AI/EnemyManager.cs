@@ -40,7 +40,7 @@ namespace AI.Manager
 
         [TitleGroup("AI Combat Settings")] 
         public bool AllowAIToPerformCombos;
-        public float ComboChance;
+        [PropertyRange(0,100)]public float ComboChance;
 
         
         private EnemyAnimatorManager _enemyAnimatorManager;

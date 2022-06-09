@@ -269,6 +269,22 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""PrimarySlot"",
+                    ""type"": ""Button"",
+                    ""id"": ""c736e099-62c7-4a7f-88c6-bd9df1db409a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SecondarySlot"",
+                    ""type"": ""Button"",
+                    ""id"": ""24d22ef7-a51d-4014-99eb-fe2ab89e6cda"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -414,6 +430,28 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Block"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b56b800b-e76e-4d25-8d71-7ac8b3593381"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PrimarySlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d4d977c8-e03d-49d5-a7bc-ec229e1f3acb"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SecondarySlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -438,6 +476,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_PlayerActions_LockOn = m_PlayerActions.FindAction("LockOn", throwIfNotFound: true);
         m_PlayerActions_Interact = m_PlayerActions.FindAction("Interact", throwIfNotFound: true);
         m_PlayerActions_Block = m_PlayerActions.FindAction("Block", throwIfNotFound: true);
+        m_PlayerActions_PrimarySlot = m_PlayerActions.FindAction("PrimarySlot", throwIfNotFound: true);
+        m_PlayerActions_SecondarySlot = m_PlayerActions.FindAction("SecondarySlot", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -540,6 +580,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerActions_LockOn;
     private readonly InputAction m_PlayerActions_Interact;
     private readonly InputAction m_PlayerActions_Block;
+    private readonly InputAction m_PlayerActions_PrimarySlot;
+    private readonly InputAction m_PlayerActions_SecondarySlot;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -556,6 +598,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @LockOn => m_Wrapper.m_PlayerActions_LockOn;
         public InputAction @Interact => m_Wrapper.m_PlayerActions_Interact;
         public InputAction @Block => m_Wrapper.m_PlayerActions_Block;
+        public InputAction @PrimarySlot => m_Wrapper.m_PlayerActions_PrimarySlot;
+        public InputAction @SecondarySlot => m_Wrapper.m_PlayerActions_SecondarySlot;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -601,6 +645,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Block.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnBlock;
                 @Block.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnBlock;
                 @Block.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnBlock;
+                @PrimarySlot.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnPrimarySlot;
+                @PrimarySlot.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnPrimarySlot;
+                @PrimarySlot.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnPrimarySlot;
+                @SecondarySlot.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSecondarySlot;
+                @SecondarySlot.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSecondarySlot;
+                @SecondarySlot.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSecondarySlot;
             }
             m_Wrapper.m_PlayerActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -641,6 +691,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Block.started += instance.OnBlock;
                 @Block.performed += instance.OnBlock;
                 @Block.canceled += instance.OnBlock;
+                @PrimarySlot.started += instance.OnPrimarySlot;
+                @PrimarySlot.performed += instance.OnPrimarySlot;
+                @PrimarySlot.canceled += instance.OnPrimarySlot;
+                @SecondarySlot.started += instance.OnSecondarySlot;
+                @SecondarySlot.performed += instance.OnSecondarySlot;
+                @SecondarySlot.canceled += instance.OnSecondarySlot;
             }
         }
     }
@@ -664,5 +720,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnLockOn(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnBlock(InputAction.CallbackContext context);
+        void OnPrimarySlot(InputAction.CallbackContext context);
+        void OnSecondarySlot(InputAction.CallbackContext context);
     }
 }

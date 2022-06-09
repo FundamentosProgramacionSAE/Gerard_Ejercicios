@@ -256,6 +256,22 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "PrimarySlot",
+                    "type": "Button",
+                    "id": "c736e099-62c7-4a7f-88c6-bd9df1db409a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "SecondarySlot",
+                    "type": "Button",
+                    "id": "24d22ef7-a51d-4014-99eb-fe2ab89e6cda",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -399,6 +415,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Block",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b56b800b-e76e-4d25-8d71-7ac8b3593381",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PrimarySlot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d4d977c8-e03d-49d5-a7bc-ec229e1f3acb",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SecondarySlot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

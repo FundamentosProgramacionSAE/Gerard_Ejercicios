@@ -15,16 +15,19 @@ namespace AI.Stats
     {
         private Animator animator;
         private EnemyManager _enemyManager;
+        private CanvasEnemyManager _canvasEnemyManager;
 
         private void Awake()
         {
             healthSystem = new HealthSystem(MaxHealth);
+            _canvasEnemyManager = GetComponentInChildren<CanvasEnemyManager>();
+            animator = GetComponentInChildren<Animator>();
+            _enemyManager = GetComponent<EnemyManager>();
         }
 
         private void Start()
         {
-            animator = GetComponentInChildren<Animator>();
-            _enemyManager = GetComponent<EnemyManager>();
+            _canvasEnemyManager.StartHealthValue(healthSystem.GetHealthNormalized());
         }
         
 
@@ -42,7 +45,7 @@ namespace AI.Stats
             animator.Play("Damage_01");
             print(healthSystem.CurrentHealth);
             if(!_enemyManager.CurrentTarget) _enemyManager.transform.LookAt(PlayerManager.Instance.transform);
-            
+            _canvasEnemyManager.UpdateHealthValue(healthSystem.GetHealthNormalized());
             if(healthSystem.IsDead()) OnDead();
             
         }

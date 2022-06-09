@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Ability.Manager;
 using Inventory;
+using Inventory.Item;
 using Player.CameraManager;
 using Player.Canvas;
 using Player.Locomotion;
@@ -41,6 +42,12 @@ namespace Player.Input
         public bool JumpInput;
         public bool LockOnInput;
         public bool InteractInput;
+        public bool PrimarySlotInput;
+        public bool SecondarySlotInput;
+        
+        [TitleGroup("Slots")]
+        public SlotFlasks PrimarySlot;
+        public SlotFlasks SecondarySlot;
 
 
 
@@ -103,6 +110,7 @@ namespace Player.Input
                 inputActions.PlayerActions.Roll.performed += i => RollInput = true;
                 
                 inputActions.PlayerActions.RB.performed += i => Rb_Input = true;
+                
                 inputActions.PlayerActions.Ability2.performed += i => SecondAbilityInput = true;
                 inputActions.PlayerActions.Ability3.performed += i => ThirdAbilityInput = true;
                 inputActions.PlayerActions.Ability4.performed += i => FourthAbilityInput = true;
@@ -113,6 +121,8 @@ namespace Player.Input
                 inputActions.PlayerActions.LockOn.performed += i => LockOnInput = true;
 
                 inputActions.PlayerActions.Interact.performed += i => InteractInput = true;
+                inputActions.PlayerActions.PrimarySlot.performed += i => PrimarySlotInput = true;
+                inputActions.PlayerActions.SecondarySlot.performed += i => SecondarySlotInput = true;
 
             }
             
@@ -136,7 +146,8 @@ namespace Player.Input
                 movementInput = Vector2.zero;
                 return;
             }
-
+            
+            HandleSlotInputs();
             HandleJumpingInput();
             MoveInput();
             HandleRollInput();
@@ -161,7 +172,6 @@ namespace Player.Input
             MouseY = cameraInput.y;
         }
         
-
         private void HandleRollInput()
         {
             if (RollInput)
@@ -252,8 +262,7 @@ namespace Player.Input
                 abilityManager.CanUseAbility4 = false;
             }
         }
-
-
+        
         private void SetWeaponDamageCollider()
         {
             if (_playerWeaponInventory.RightWeapon.IsDualWeapon)
@@ -358,9 +367,25 @@ namespace Player.Input
             
         }
 
-        private void HandleInteractInput()
+        private void HandleSlotInputs()
         {
-            
+            if (PrimarySlotInput && PrimarySlot.SlotItem)
+            {
+                if (PrimarySlot.SlotItem.IsUsingItem == false)
+                {
+                    PrimarySlot.SlotItem.ListPotions(PrimarySlot.SlotItem.ItemData as FlaskItem);
+                    EventSystem.Instance.OnHealPlayer(PrimarySlot.SlotItem.ItemData as FlaskItem);
+                }
+
+            }
+            if (SecondarySlotInput && SecondarySlot.SlotItem)
+            {
+                if (SecondarySlot.SlotItem.IsUsingItem == false)
+                {
+                    SecondarySlot.SlotItem.ListPotions(SecondarySlot.SlotItem.ItemData as FlaskItem);
+                    EventSystem.Instance.OnHealPlayer(SecondarySlot.SlotItem.ItemData as FlaskItem);
+                }
+            }
         }
 
         public void ClearCamera()

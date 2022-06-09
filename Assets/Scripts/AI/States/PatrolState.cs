@@ -42,7 +42,7 @@ namespace AI.States
         public override void UpdateState(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager)
         {
             // Movemos la Ia al punto del waypoint
-            HandleMoveToPosition(SetNewPosition(), 0.5f, enemyManager, enemyAnimatorManager);
+            if(WaypointSystem != null) HandleMoveToPosition(SetNewPosition(), 0.5f, enemyManager, enemyAnimatorManager);
             float distanceFromTarget = Vector3.Distance(_position,
                 enemyManager.transform.position);
             

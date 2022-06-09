@@ -20,7 +20,7 @@ using UnityEngine;
             
             if(!SlotFlask) return;
             
-            SetFlaskInventory(false, null,0);
+            SetFlaskInventory(false, null,0, null);
 
         }
 
@@ -34,14 +34,14 @@ using UnityEngine;
             
             if(!flask || !SlotFlask) return;
             
-            SetFlaskInventory(true, flask.Icon, SlotItem.Item.StackSize);
+            SetFlaskInventory(true, flask.Icon, SlotItem.Item.StackSize, flask);
             
         }
 
-        public void SetFlaskInventory(bool value, Sprite Icon, int StackSize)
+        public void SetFlaskInventory(bool value, Sprite Icon, int StackSize, FlaskItem flaskItem)
         {
             if(!SlotFlask) return;
-            SlotFlask.SetSlotFlask(value, Icon, StackSize);
+            SlotFlask.SetSlotFlask(value, Icon, StackSize, SlotItem);
         }
         
     }

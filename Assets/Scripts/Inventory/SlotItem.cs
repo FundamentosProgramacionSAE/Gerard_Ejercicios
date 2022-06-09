@@ -42,7 +42,7 @@ public class SlotItem : MonoBehaviour, IPointerClickHandler
         
         if (InventoryLayout != null)
         {
-            InventoryLayout.SetFlaskInventory(true, ItemData.Icon, Item.StackSize);
+            InventoryLayout.SetFlaskInventory(true, ItemData.Icon, Item.StackSize, Item.Data as FlaskItem);
         }
         
         if (item.StackSize <= 1)
@@ -98,14 +98,18 @@ public class SlotItem : MonoBehaviour, IPointerClickHandler
             {
                 if(IsUsingItem) return;
                 EventSystem.Instance.OnHealPlayer(flaskItem);
-                foreach (var item in _inventoryUI.Items)
-                {
-                    item.ResetConsumption(flaskItem.TimeToUse);
-                }
+                ListPotions(flaskItem);
             }
         }
     }
 
+    public void ListPotions(FlaskItem flaskItem)
+    {
+        foreach (var item in _inventoryUI.Items)
+        {
+            item.ResetConsumption(flaskItem.TimeToUse);
+        }
+    }
     private void ResetConsumption(float time)
     {
         if (ItemData as FlaskItem)

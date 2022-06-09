@@ -40,7 +40,7 @@ namespace AI.States
             // set out recovery timer to the attacks recovery time
             // return the combat state
             if(enemyManager.IsInteracting && enemyManager.CanDoCombo == false ) return;
-            else if (enemyManager.CanDoCombo && enemyManager.IsInteracting)
+            else if (enemyManager.IsInteracting && enemyManager.CanDoCombo)
             {
                 if(_willDoComboOnNext)
                 {
@@ -76,7 +76,11 @@ namespace AI.States
 
             if (CurrentAttack != null)
             {
-                if (distanceFromTarget < CurrentAttack.MaxDistanceToAttack)
+                if (distanceFromTarget < CurrentAttack.MinDistanceToAttack)
+                {
+                    return;
+                }
+                else if (distanceFromTarget < CurrentAttack.MaxDistanceToAttack)
                 {
                     if (viewableAngle <= CurrentAttack.MaxAttackAngle &&
                         viewableAngle >= CurrentAttack.MinAttackAngle)
@@ -87,7 +91,7 @@ namespace AI.States
                             enemyAnimatorManager.Animator.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
                             enemyAnimatorManager.PlayTargetAnimation(CurrentAttack.ActionAnimation, true);
                             enemyManager.IsPreformingAction = true;
-                            RollForComboChance();
+                            RollForComboChance(enemyManager);
 
 
                             if (CurrentAttack.CanCombo && _willDoComboOnNext)
@@ -214,11 +218,11 @@ namespace AI.States
 
         }
 
-        private void RollForComboChance()
+        private void RollForComboChance(EnemyManager enemyManager)
         {
             float comboChance = Random.Range(0, 100);
 
-            if (EnemyManager.AllowAIToPerformCombos && comboChance <= EnemyManager.ComboChance)
+            if (enemyManager.AllowAIToPerformCombos && comboChance <= enemyManager.ComboChance)
             {
                 _willDoComboOnNext = true;
             }

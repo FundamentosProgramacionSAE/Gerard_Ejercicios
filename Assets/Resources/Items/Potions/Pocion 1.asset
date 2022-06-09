@@ -20,9 +20,9 @@ MonoBehaviour:
     Min: 10
     Max: 10
   MaxAmount: 10
-  Position: 20
+  Position: -1
   HealthRecoverAmount:
     Min: 25
     Max: 35
   RecoverFX: {fileID: 8104252009654705145, guid: a34cfbf8aaa71d9459beff0739cfdc65, type: 3}
-  TimeToUse: 5
+  TimeToUse: 1
