@@ -12,13 +12,13 @@ namespace Inventory.Item
 {
     public class DamageCollider : MonoBehaviour
     {
-        private Collider damageCollider;
+        private CapsuleCollider damageCollider;
         public int WeaponDamage;
         public WeaponItem WeaponItem;
         
         private void Awake()
         {
-            damageCollider = GetComponent<Collider>();
+            damageCollider = GetComponent<CapsuleCollider>();
             damageCollider.gameObject.SetActive(true);
             damageCollider.isTrigger = true;
             damageCollider.enabled = false;

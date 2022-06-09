@@ -15,4 +15,4 @@ MonoBehaviour:
   PrefabStartParticles: {fileID: 0}
   PrefabHitParticles: {fileID: 0}
   SpriteImage: {fileID: 21300000, guid: c4c38d21d12cbfe4a9b7106dc153351a, type: 3}
-  Cooldown: 15
+  Cooldown: 1

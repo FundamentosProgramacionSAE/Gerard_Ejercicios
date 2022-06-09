@@ -27,6 +27,12 @@ public class InventorySystem : SerializedMonoBehaviour
     private PlayerWeaponInventory _playerWeaponInventory;
     private InventoryUI _inventoryUI;
 
+
+    public InventorySystem()
+    {
+        ItemsDictionary = new Dictionary<ItemData, InventoryItem>();
+    }
+    
     private void Awake()
     {
         Instance = this;

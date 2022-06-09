@@ -65,7 +65,7 @@ namespace Inventory
             
             foreach (var item in InventorySystem.ItemsDictionary)
             {
-                print(item.Key.DisplayName);
+
                 _weaponReferenceRight = item.Key as WeaponItem;
 
                 if (_weaponReferenceRight != null)
@@ -88,7 +88,7 @@ namespace Inventory
             {
                 foreach (var item in InventorySystem.ItemsDictionary)
                 {
-                    print(item.Key.DisplayName + "LEFT");
+
                     _weaponReferenceLeft = item.Key as WeaponItem;
 
                     if (_weaponReferenceLeft != null && _weaponReferenceLeft.IsShield)

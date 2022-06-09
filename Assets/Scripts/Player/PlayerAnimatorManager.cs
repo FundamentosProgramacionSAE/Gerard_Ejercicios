@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Inventory;
 using Managers;
+using MoreMountains.Tools;
 using Player.Input;
 using Player.Manager;
 using UnityEngine;
@@ -15,6 +17,7 @@ namespace Player.Locomotion
         private PlayerLocomotion playerLocomotion;
         private PlayerManager playerManager;
         private PlayerAttacker playerAttacker;
+        private WeaponSlotManager _slot;
         
         private int vertical;
         private int horizontal;
@@ -30,6 +33,7 @@ namespace Player.Locomotion
             inputHandler = GetComponentInParent<InputHandler>();
             playerLocomotion = GetComponentInParent<PlayerLocomotion>();
             playerAttacker = GetComponentInParent<PlayerAttacker>();
+            _slot = GetComponentInParent<WeaponSlotManager>();
             Animator = GetComponent<Animator>();
             vertical = Animator.StringToHash("Vertical");
             horizontal = Animator.StringToHash("Horizontal");
@@ -88,6 +92,19 @@ namespace Player.Locomotion
         public void DisableIsInvulnerable()
         {
             Animator.SetBool("IsInvulnerable", false);
+        }
+
+        public void VFX(GameObject vfx)
+        {
+
+            var _vfx = Instantiate(vfx, transform.position, playerManager.transform.rotation);
+
+            if (_vfx.TryGetComponent(out MMParentingOnStart parentingOnStart))
+            {
+                parentingOnStart.TargetParent = playerManager.transform;
+            }
+
+
         }
         private void OnAnimatorMove()
         {
