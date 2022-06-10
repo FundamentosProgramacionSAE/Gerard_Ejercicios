@@ -32,15 +32,7 @@ namespace Player.Stats
 
             PlayerCanvas.SetHPSlider(healthSystem.CurrentHealth);
         }
-
-
-        private void Update()
-        {
-            if (Keyboard.current[UnityEngine.InputSystem.Key.M].wasPressedThisFrame)
-            {
-                TakeDamage(10);
-            }
-        }
+        
 
         private int SetMaxHealthFromHealthLevel()
         {
@@ -55,7 +47,11 @@ namespace Player.Stats
             
             healthSystem.Damage(damageAmount);
             PlayerCanvas.SetCurrentHealth(healthSystem.CurrentHealth);
-            _playerAnimatorManager.PlayTargetAnimation(damageAnimation, true);
+            if (!_playerManager.IsInteracting)
+            {
+                _playerAnimatorManager.PlayTargetAnimation(damageAnimation, true);
+            }
+
             
             if(healthSystem.IsDead()) OnDead();
             

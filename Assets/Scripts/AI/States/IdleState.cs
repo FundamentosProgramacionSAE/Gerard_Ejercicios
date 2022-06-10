@@ -39,6 +39,7 @@ namespace AI.States
             enemyManager.TargetDetection(FSMStateType.CHASE);
             enemyManager.StopEnemy(); // Paramdos la animacion del enemigo
             
+            if(enemyManager.IsBoss) return;
             _currentTime += Time.deltaTime;
             // When current time arrived in TimeToNext. PATROL
             if (_currentTime > TimeToNext)

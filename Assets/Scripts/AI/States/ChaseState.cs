@@ -1,12 +1,15 @@
 ﻿using AI.Manager;
 using AI.Stats;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 
 namespace AI.States
 {
     public class ChaseState : State
     {
-        
+
+        public MMF_Player OnEnterWithBoss;
+        private bool _firstTime = true;
         public override void OnEnable()
         {
             base.OnEnable();
@@ -22,7 +25,19 @@ namespace AI.States
                 Debug.Log("ENTER CHASE STATE");
                 Agent.ResetPath();
                 Agent.speed = EnemyManager.RunSpeed;
-                EnemyManager.EnemyStats.SetBossCanvas(true);
+                if (EnemyManager.IsBoss)
+                {
+                    EnemyManager.EnemyStats.SetBossCanvas(true);
+
+                    if (_firstTime)
+                    {
+                        EnemyManager._enemyAnimatorManager.PlayTargetAnimation("Power Up", true);
+                        OnEnterWithBoss.PlayFeedbacks();
+                        _firstTime = false;
+                    }
+                    
+                }
+
 
             }
         

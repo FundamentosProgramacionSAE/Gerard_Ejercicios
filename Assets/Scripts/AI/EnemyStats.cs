@@ -77,7 +77,7 @@ namespace AI.Stats
         private void OnDead()
         {
             animator.Play("Dead_01");
-            SetBossCanvas(false);
+            if(_enemyManager.IsBoss) SetBossCanvas(false);
             Destroy(_enemyManager);
         }
     }

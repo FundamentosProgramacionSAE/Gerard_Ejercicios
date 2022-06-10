@@ -15,6 +15,11 @@ public class CinemachineFreeLookShake : MonoBehaviour
         _cinemachineFreeLook = GetComponent<CinemachineFreeLook>();
     }
 
+    public void ShakeBoss(float intensity)
+    {
+        ShakeCamera(intensity, .75f);
+    }
+
     public void ShakeCamera(float intensity, float time)
     {
         CinemachineBasicMultiChannelPerlin topRig =

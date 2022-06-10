@@ -45,7 +45,7 @@ namespace AI.Manager
 
         public EnemyStats EnemyStats => _enemyStats;
 
-        private EnemyAnimatorManager _enemyAnimatorManager;
+        internal EnemyAnimatorManager _enemyAnimatorManager;
         private EnemyStats _enemyStats;
         private Dictionary<FSMStateType, State> _statesDictionary;
 
