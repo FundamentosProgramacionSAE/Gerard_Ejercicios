@@ -20,18 +20,21 @@ MonoBehaviour:
     Min: 1
     Max: 1
   MaxAmount: 1
-  Position: -1
+  Position: 0
   ModelPrefab: {fileID: 789758267322978327, guid: aeeeaaa87cfec5240b74e43edb2b74fa, type: 3}
-  WeaponDamage: 50
+  WeaponDamage: 1
   DamageToAdd:
     Min: 5
     Max: 10
   CriticalDamageMultiplier: 1.5
   CriticalRate: 100
+  PhysicalDamageAbsorption:
+    Min: 0
+    Max: 0
   IsUnarmed: 0
   IsDualWeapon: 0
   IsShield: 0
-  IsUsed: 0
+  IsUsed: 1
   OHLightAttack1: OHLightAttack_01
   OHLightAttack2: OHLightAttack_02
   OHLightAttack3: OHLightAttack_03

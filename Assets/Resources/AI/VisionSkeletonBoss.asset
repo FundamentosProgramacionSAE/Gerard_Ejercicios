@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9780ffe6e9604a3788edb11b2cb5c47b, type: 3}
   m_Name: VisionSkeletonBoss
   m_EditorClassIdentifier: 
-  ViewRadius: 5
-  ViewAngle: 84
+  ViewRadius: 10
+  ViewAngle: 360
   Offset: 0
   targetMask:
     serializedVersion: 2
