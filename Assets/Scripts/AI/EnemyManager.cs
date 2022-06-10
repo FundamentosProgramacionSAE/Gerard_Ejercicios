@@ -41,8 +41,10 @@ namespace AI.Manager
         [TitleGroup("AI Combat Settings")] 
         public bool AllowAIToPerformCombos;
         [PropertyRange(0,100)]public float ComboChance;
+        public bool IsBoss;
 
-        
+        public EnemyStats EnemyStats => _enemyStats;
+
         private EnemyAnimatorManager _enemyAnimatorManager;
         private EnemyStats _enemyStats;
         private Dictionary<FSMStateType, State> _statesDictionary;

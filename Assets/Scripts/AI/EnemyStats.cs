@@ -16,18 +16,28 @@ namespace AI.Stats
         private Animator animator;
         private EnemyManager _enemyManager;
         private CanvasEnemyManager _canvasEnemyManager;
+        private CanvasBossManager _canvasBossManager;
 
         private void Awake()
         {
             healthSystem = new HealthSystem(MaxHealth);
-            _canvasEnemyManager = GetComponentInChildren<CanvasEnemyManager>();
             animator = GetComponentInChildren<Animator>();
             _enemyManager = GetComponent<EnemyManager>();
         }
 
         private void Start()
         {
-            _canvasEnemyManager.StartHealthValue(healthSystem.GetHealthNormalized());
+            if (_enemyManager.IsBoss)
+            {
+                _canvasBossManager = GetComponentInChildren<CanvasBossManager>();
+                _canvasBossManager.StartHealthValue(healthSystem.GetHealthNormalized());
+            }
+            else
+            {
+                _canvasEnemyManager = GetComponentInChildren<CanvasEnemyManager>();
+                _canvasEnemyManager.StartHealthValue(healthSystem.GetHealthNormalized());
+            }
+
         }
         
 
@@ -45,14 +55,29 @@ namespace AI.Stats
             animator.Play("Damage_01");
             print(healthSystem.CurrentHealth);
             if(!_enemyManager.CurrentTarget) _enemyManager.transform.LookAt(PlayerManager.Instance.transform);
-            _canvasEnemyManager.UpdateHealthValue(healthSystem.GetHealthNormalized());
+
+            if (_enemyManager.IsBoss)
+            {
+                _canvasBossManager.UpdateHealthValue(healthSystem.GetHealthNormalized());
+            }
+            else
+            {
+                _canvasEnemyManager.UpdateHealthValue(healthSystem.GetHealthNormalized());
+            }
+
             if(healthSystem.IsDead()) OnDead();
             
+        }
+
+        public void SetBossCanvas(bool value)
+        {
+            _canvasBossManager.SetHUDBossPanel(value);
         }
 
         private void OnDead()
         {
             animator.Play("Dead_01");
+            SetBossCanvas(false);
             Destroy(_enemyManager);
         }
     }

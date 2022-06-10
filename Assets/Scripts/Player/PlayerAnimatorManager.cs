@@ -12,6 +12,7 @@ namespace Player.Locomotion
 {
     public class PlayerAnimatorManager : AnimatorManager
     {
+        public CinemachineFreeLookShake Shake;
         
         private InputHandler inputHandler;
         private PlayerLocomotion playerLocomotion;
@@ -96,7 +97,6 @@ namespace Player.Locomotion
 
         public void VFX(GameObject vfx)
         {
-
             var _vfx = Instantiate(vfx, transform.position, playerManager.transform.rotation);
 
             if (_vfx.TryGetComponent(out MMParentingOnStart parentingOnStart))
@@ -105,6 +105,10 @@ namespace Player.Locomotion
             }
 
 
+        }
+        public void ShakeAnimation(AnimationEvent animationEvent)
+        {
+            Shake.ShakeCamera(animationEvent.intParameter,animationEvent.floatParameter);
         }
         private void OnAnimatorMove()
         {

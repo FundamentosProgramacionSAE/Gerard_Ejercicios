@@ -22,6 +22,7 @@ namespace AI.States
                 Debug.Log("ENTER CHASE STATE");
                 Agent.ResetPath();
                 Agent.speed = EnemyManager.RunSpeed;
+                EnemyManager.EnemyStats.SetBossCanvas(true);
 
             }
         
