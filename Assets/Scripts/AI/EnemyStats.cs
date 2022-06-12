@@ -16,6 +16,7 @@ namespace AI.Stats
         private Animator animator;
         private EnemyManager _enemyManager;
         private CanvasEnemyManager _canvasEnemyManager;
+        private EnemyAnimatorManager _enemyAnimatorManager;
         private CanvasBossManager _canvasBossManager;
 
         private void Awake()
@@ -23,6 +24,7 @@ namespace AI.Stats
             healthSystem = new HealthSystem(MaxHealth);
             animator = GetComponentInChildren<Animator>();
             _enemyManager = GetComponent<EnemyManager>();
+            _enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
         }
 
         private void Start()
@@ -52,7 +54,7 @@ namespace AI.Stats
             if(healthSystem.IsDead()) return;
             
             healthSystem.Damage(damageAmount);
-            animator.Play("Damage_01");
+            _enemyAnimatorManager.PlayTargetAnimation("Damage_01", true);
             print(healthSystem.CurrentHealth);
             if(!_enemyManager.CurrentTarget) _enemyManager.transform.LookAt(PlayerManager.Instance.transform);
 
@@ -76,7 +78,7 @@ namespace AI.Stats
 
         private void OnDead()
         {
-            animator.Play("Dead_01");
+            _enemyAnimatorManager.PlayTargetAnimation("Dead_01", true);
             if(_enemyManager.IsBoss) SetBossCanvas(false);
             Destroy(_enemyManager);
         }
