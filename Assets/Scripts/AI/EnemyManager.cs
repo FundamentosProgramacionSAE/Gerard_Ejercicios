@@ -33,6 +33,7 @@ namespace AI.Manager
         public float StoppingDistance = 0.5f;
         public float RotationSpeed;
         public float CurrentRecoveryTime = 0;
+        public float RangeAgro;
         public float MaxAttackRange = 1.5f;
         public float WalkSpeed;
         public float RunSpeed;

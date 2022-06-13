@@ -7,9 +7,9 @@ public struct MinMaxFloat
     public float Min;
     public float Max;
 
-    public float GetValueFromRatio(float ratio)
+    public float GetValueFromRatio()
     {
-        return Mathf.Lerp(Min, Max, ratio);
+        return Random.Range(Min, Max);
     }
 }
 
