@@ -62,7 +62,7 @@ namespace AI.States
             HandleMoveToTarget(enemyManager,enemyAnimatorManager);
 
             //Si la distancia es inferior al ataque maximo de rango, podra pasar al estado combate
-            if (distanceFromTarget <= enemyManager.RangeAgro)
+            if (distanceFromTarget < enemyManager.RangeAgro)
             {
                 enemyManager.EnterState(FSMStateType.COMBAT);
             }
@@ -86,6 +86,7 @@ namespace AI.States
             if (distanceFromTarget > enemyManager.MaxAttackRange)
             {
                 enemyAnimatorManager.Animator.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
+                enemyAnimatorManager.Animator.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
             }
 
             HandleRotateTowardsTarget(enemyManager,distanceFromTarget);

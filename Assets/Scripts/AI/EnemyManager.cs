@@ -14,6 +14,8 @@ namespace AI.Manager
 {
     public class EnemyManager : CharacterManager
     {
+        public static  EnemyManager Instance { get; private set; }
+        
         [TitleGroup("STATES")]
         public List<State> States;
         public State CurrentState;
@@ -52,6 +54,7 @@ namespace AI.Manager
 
         private void Awake()
         {
+            Instance = this;
             _enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
             _enemyStats = GetComponent<EnemyStats>();
             Agent = GetComponent<NavMeshAgent>();

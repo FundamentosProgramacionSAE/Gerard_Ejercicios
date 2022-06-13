@@ -54,7 +54,7 @@ namespace AI.Stats
             if(healthSystem.IsDead()) return;
             
             healthSystem.Damage(damageAmount);
-            _enemyAnimatorManager.PlayTargetAnimation("Damage_01", true);
+            _enemyAnimatorManager.PlayTargetAnimation(damageAnimation, true);
             print(healthSystem.CurrentHealth);
             if(!_enemyManager.CurrentTarget) _enemyManager.transform.LookAt(PlayerManager.Instance.transform);
 

@@ -7,8 +7,10 @@ namespace AI.States
     public class CombatBossState : State
     {
         public MinMaxFloat TimeStrafe;
+        public AttackBossState AttackBossState;
 
         private float _currentTime;
+        private int _randomValue;
         public override void OnEnable()
         {
             base.OnEnable();
@@ -24,6 +26,7 @@ namespace AI.States
                 Debug.Log("ENTER COMBAT STATE");
                 _currentTime = TimeStrafe.GetValueFromRatio();
                 Agent.StopNavMesh();
+                _randomValue = Random.Range(0, 2);
                 //EnemyManager.transform.LookAt(EnemyManager.CurrentTarget.transform);
 
             }
@@ -49,37 +52,63 @@ namespace AI.States
                 enemyAnimatorManager.Animator.SetFloat("Vertical", 0,0.1f, Time.deltaTime);
                 enemyAnimatorManager.Animator.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
             }
-
-
-            _currentTime -= Time.deltaTime;
-            if (_currentTime > 0)
-            {
-                enemyAnimatorManager.Animator.SetFloat("Vertical", .5f,0.1f, Time.deltaTime);
-                enemyAnimatorManager.Animator.SetFloat("Horizontal", .5f, 0.1f, Time.deltaTime);
-
-                enemyManager.transform.RotateAround(enemyManager.CurrentTarget.transform.position, Vector3.up, 20 * Time.deltaTime);
-            }
-            else
-            {
-                enemyAnimatorManager.Animator.SetFloat("Vertical", 1f,0.1f, Time.deltaTime);
-                enemyAnimatorManager.Animator.SetFloat("Horizontal", 0);
-                Agent.PlayNavMesh();
-                HandleRotateTowardsTarget(enemyManager, distanceFromTarget);
-                if (enemyManager.CurrentRecoveryTime <= 0 && distanceFromTarget <= enemyManager.MaxAttackRange)
-                {
-                    enemyManager.EnterState(FSMStateType.ATTACK);
-                }
-
-            }
             
-            if (distanceFromTarget > enemyManager.RangeAgro)
+            HandleRotateTowardsTarget(enemyManager, distanceFromTarget);
+
+            StrafeMovement(enemyManager, enemyAnimatorManager, distanceFromTarget);
+
+            if (AttackBossState.PhaseAttack != null &&
+                distanceFromTarget <= AttackBossState.PhaseAttack.MaxDistanceToAttack)
+            {
+                enemyManager.EnterState(FSMStateType.ATTACK);
+                return;
+            }
+            if (enemyManager.CurrentRecoveryTime <= 0 && distanceFromTarget <= enemyManager.MaxAttackRange)
+            {
+                enemyManager.EnterState(FSMStateType.ATTACK);
+            }
+            else if (distanceFromTarget > enemyManager.RangeAgro)
             {
                 enemyManager.EnterState(FSMStateType.CHASE);
             }
 
 
         }
-        
+
+        private void StrafeMovement(EnemyManager enemyManager, EnemyAnimatorManager enemyAnimatorManager,
+            float distanceFromTarget)
+        {
+            
+            if(enemyManager.IsPreformingAction) return;
+            
+            _currentTime -= Time.deltaTime;
+            
+            if (_currentTime > 0 && distanceFromTarget > enemyManager.MaxAttackRange)
+            {
+                enemyAnimatorManager.Animator.SetFloat("Vertical", .5f, 0.2f, Time.deltaTime);
+                enemyAnimatorManager.Animator.SetFloat("Horizontal", .5f, 0.2f, Time.deltaTime);
+
+                if (_randomValue == 0)
+                {
+                    enemyManager.transform.RotateAround(enemyManager.CurrentTarget.transform.position, Vector3.up,
+                        20 * Time.deltaTime);
+                }
+                else
+                {
+                    enemyManager.transform.RotateAround(enemyManager.CurrentTarget.transform.position, Vector3.up,
+                        -20 * Time.deltaTime);
+                }
+            }
+            else
+            {
+
+                enemyAnimatorManager.Animator.SetFloat("Vertical", 1f, 0.1f, Time.deltaTime);
+                enemyAnimatorManager.Animator.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
+                Agent.PlayNavMesh();
+
+            }
+        }
+
         private void HandleRotateTowardsTarget(EnemyManager enemyManager, float distanceFromTarget)
         {
             if (enemyManager.IsPreformingAction)
@@ -103,6 +132,7 @@ namespace AI.States
 
                 enemyManager.Agent.enabled = true;
                 enemyManager.Agent.SetDestination(enemyManager.CurrentTarget.transform.position);
+                    
 
                 float rotationToApplyToDynamicEnemy = Quaternion.Angle(enemyManager.transform.rotation,
                     Quaternion.LookRotation(enemyManager.Agent.desiredVelocity.normalized));

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1059f2776e6b4b7585927f8d93ae9c48, type: 3}
+  m_Name: Attack Action_1
+  m_EditorClassIdentifier: 
+  ActionAnimation: Frank_RPG_Warrior_Attack05
+  CanCombo: 1
+  ComboAction: {fileID: 11400000, guid: acc791e70073936409c90051d965034d, type: 2}
+  AttackScore: 3
+  RecoveryTime: 2
+  MaxAttackAngle: 35
+  MinAttackAngle: -35
+  MinDistanceToAttack: 0
+  MaxDistanceToAttack: 3

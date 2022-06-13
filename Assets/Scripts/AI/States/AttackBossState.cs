@@ -7,6 +7,7 @@ namespace AI.States
     public class AttackBossState : State
     {
         public EnemyAttackAction[] EnemyAttacks;
+        public EnemyAttackAction PhaseAttack;
         public EnemyAttackAction CurrentAttack;
 
 
@@ -39,6 +40,17 @@ namespace AI.States
             // If Attack is viable, stop our movement and attack our target
             // set out recovery timer to the attacks recovery time
             // return the combat state
+            
+            if (PhaseAttack != null && enemyManager.IsInteracting == false)
+            {
+                enemyAnimatorManager.Animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
+                enemyAnimatorManager.Animator.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
+                enemyAnimatorManager.PlayTargetAnimation(PhaseAttack.ActionAnimation, true);
+                enemyManager.CurrentRecoveryTime = PhaseAttack.RecoveryTime;
+                PhaseAttack = null;
+                return;
+            }
+            
             if(enemyManager.IsInteracting && enemyManager.CanDoCombo == false ) return;
             else if (enemyManager.IsInteracting && enemyManager.CanDoCombo)
             {
@@ -74,6 +86,7 @@ namespace AI.States
             {
                 enemyManager.EnterState(FSMStateType.COMBAT);
             }
+            
 
             if (CurrentAttack != null)
             {

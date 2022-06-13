@@ -36,6 +36,7 @@ namespace Player.Manager
         private PlayerAnimatorManager _playerAnimatorManager;
         private PlayerLocomotion playerLocomotion;
         private InteractableUI _interactableUI;
+        public PlayerStats PlayerStats { get; set; }
 
 
         private void Awake()
@@ -46,6 +47,7 @@ namespace Player.Manager
             playerLocomotion = GetComponent<PlayerLocomotion>();
             _playerAnimatorManager = GetComponentInChildren<PlayerAnimatorManager>();
             _interactableUI = GetComponentInChildren<InteractableUI>();
+            PlayerStats = GetComponent<PlayerStats>();
         }
         
 
