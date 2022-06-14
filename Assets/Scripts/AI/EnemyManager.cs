@@ -14,8 +14,7 @@ namespace AI.Manager
 {
     public class EnemyManager : CharacterManager
     {
-        public static  EnemyManager Instance { get; private set; }
-        
+
         [TitleGroup("STATES")]
         public List<State> States;
         public State CurrentState;
@@ -28,6 +27,8 @@ namespace AI.Manager
 
         [TitleGroup("Combat Flags")] 
         public bool CanDoCombo;
+        public bool IsInvulnerable;
+        public bool IsAreaDamage;
         
         [TitleGroup("VALUES")]
         public bool IsPreformingAction;
@@ -45,6 +46,7 @@ namespace AI.Manager
         public bool AllowAIToPerformCombos;
         [PropertyRange(0,100)]public float ComboChance;
         public bool IsBoss;
+        public EnemyAttackAction CurrentAttack;
 
         public EnemyStats EnemyStats => _enemyStats;
 
@@ -54,7 +56,6 @@ namespace AI.Manager
 
         private void Awake()
         {
-            Instance = this;
             _enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
             _enemyStats = GetComponent<EnemyStats>();
             Agent = GetComponent<NavMeshAgent>();
@@ -82,6 +83,8 @@ namespace AI.Manager
             HandleRecoveryTimer();
             IsInteracting = _enemyAnimatorManager.Animator.GetBool("isInteracting");
             CanDoCombo = _enemyAnimatorManager.Animator.GetBool("canCombo");
+            IsInvulnerable = _enemyAnimatorManager.Animator.GetBool("IsInvulnerable");
+            IsAreaDamage = _enemyAnimatorManager.Animator.GetBool("IsAreaDamage");
         }
 
         private void FixedUpdate()

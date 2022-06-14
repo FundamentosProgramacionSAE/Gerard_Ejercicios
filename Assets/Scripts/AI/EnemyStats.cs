@@ -51,7 +51,7 @@ namespace AI.Stats
 
         public void TakeDamage(int damageAmount, string damageAnimation = "Damage_01")
         {
-            if(healthSystem.IsDead()) return;
+            if(healthSystem.IsDead() && _enemyManager.IsInvulnerable) return;
             
             healthSystem.Damage(damageAmount);
             _enemyAnimatorManager.PlayTargetAnimation(damageAnimation, true);

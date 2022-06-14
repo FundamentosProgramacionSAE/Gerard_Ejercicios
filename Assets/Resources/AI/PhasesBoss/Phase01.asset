@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Phase01
   m_EditorClassIdentifier: 
   HealthPercent: 75
-  DamageAdded: 900
+  Cooldown: 10
+  DamageAdded: 10
   DefenseAdded: 900
   VelocityAdded: 0
   AnimationPhase: Power Up
   AttackAction: {fileID: 11400000, guid: f9ca47b46b48b134cb4ab7601279eba0, type: 2}
+  SpawnVFX: {fileID: 8104252009654705145, guid: a34cfbf8aaa71d9459beff0739cfdc65, type: 3}

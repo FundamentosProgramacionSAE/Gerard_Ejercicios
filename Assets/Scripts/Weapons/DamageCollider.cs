@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Ability.Manager;
 using AI.Manager;
 using AI.Stats;
 using Player.Manager;
@@ -13,6 +14,7 @@ namespace Inventory.Item
     public class DamageCollider : MonoBehaviour
     {
         private CapsuleCollider damageCollider;
+        public LayerMask CollisionMask;
         public int WeaponDamage;
         public WeaponItem WeaponItem;
         private string _currentDamageAnimation;
@@ -40,58 +42,103 @@ namespace Inventory.Item
         {
             if (collider.CompareTag("Player"))
             {
-                PlayerStats playerStats = collider.GetComponent<PlayerStats>();
-                CharacterManager enemyCharacterManager = collider.GetComponent<CharacterManager>();
-                var shield = playerStats.GetComponent<PlayerWeaponInventory>().LeftWeapon;
                 var enemy = GetComponentInParent<EnemyManager>();
-                
-                ApplyDamageAdded();
-                WeaponDamage += enemy.EnemyStats.DamageToAdd;
 
-                Vector3 directionEnemyToPlayer =
-                    (enemy.gameObject.transform.position - playerStats.gameObject.transform.position).normalized;
-                var angleHit = Vector3.Dot(playerStats.gameObject.transform.forward, directionEnemyToPlayer);
-                
-                if (enemyCharacterManager != null)
+                if (enemy.IsAreaDamage == false)
                 {
-                    if (enemyCharacterManager.IsBlocking && shield != null && angleHit>=0)
-                    {
-                        float physicalDamageAfterBlock =
-                            WeaponDamage - (WeaponDamage * shield.PhysicalDamageAbsorption.GetValueFromRatio()) / 100;
-
-                        if (playerStats != null)
-                        {
-                            playerStats.TakeDamage(Mathf.RoundToInt(physicalDamageAfterBlock), "Block Guard");
-                            return;
-                        }
-                    }
+                    if (ApplyDamageToPlayer(collider)) return;
                 }
-                
-                if(playerStats == null) return;
-                
-                float physicalDamageAfterDefense =   (WeaponDamage * WeaponDamage) / (WeaponDamage + playerStats.Defense);
-                playerStats.TakeDamage(Mathf.RoundToInt(physicalDamageAfterDefense));
+                else
+                {
+                    
+                }
+
             }
             if (collider.CompareTag("Enemy"))
             {
-                EnemyStats enemyStats = collider.GetComponent<EnemyStats>();
-                
-                float directionHitFrom = (Vector3.SignedAngle(PlayerManager.Instance.transform.forward,
-                    EnemyManager.Instance.transform.forward, Vector3.up));
-                ChooseWichDirectionDamage(directionHitFrom);
-                
-                if(enemyStats == null) return;
-
-
-                ApplyDamageAdded();
-                WeaponDamage += PlayerManager.Instance.PlayerStats.DamageToAdd;
-                float physicalDamageAfterDefense = (WeaponDamage * WeaponDamage) / (WeaponDamage + enemyStats.Defense);
-                Debug.LogError(physicalDamageAfterDefense + "/" + WeaponDamage);
-                enemyStats.TakeDamage(Mathf.RoundToInt(physicalDamageAfterDefense), _currentDamageAnimation);
+                ApplyDamageToEnemy(collider);
             }
         }
 
 
+
+        public void AreaDamage(int radius)
+        {
+            var colliders = Physics.OverlapSphere(transform.position, radius, CollisionMask);
+            
+            foreach (var character in colliders)
+            {
+                if (character != null)
+                {
+                    if (character.CompareTag("Player"))
+                    {
+                        if (ApplyDamageToPlayer(character.GetComponent<Collider>())) return;
+                    }
+                    
+                    if (character.CompareTag("Enemy"))
+                    {
+                        if (ApplyDamageToPlayer(character.GetComponent<Collider>())) return;
+                    }
+                }
+            }
+        }
+
+        private void ApplyDamageToEnemy(Collider collider) 
+        {
+            EnemyStats enemyStats = collider.GetComponent<EnemyStats>();
+
+            float directionHitFrom = (Vector3.SignedAngle(PlayerManager.Instance.transform.forward,
+                enemyStats.GetComponent<EnemyManager>().transform.forward, Vector3.up));
+            ChooseWichDirectionDamage(directionHitFrom);
+
+            if (enemyStats == null) return;
+
+
+            ApplyDamageAdded();
+            var damagePercentToAdd = (PlayerManager.Instance.GetComponent<AbilityManager>().CurrentAbility
+                .DamagePercentToAdd * WeaponDamage) / 100;
+            WeaponDamage += PlayerManager.Instance.PlayerStats.DamageToAdd + damagePercentToAdd;
+            float physicalDamageAfterDefense = (WeaponDamage * WeaponDamage) / (WeaponDamage + enemyStats.Defense);
+            //Debug.LogError(physicalDamageAfterDefense + "/" + WeaponDamage);
+            enemyStats.TakeDamage(Mathf.RoundToInt(physicalDamageAfterDefense), _currentDamageAnimation);
+        }
+        private bool ApplyDamageToPlayer(Collider collider) 
+        {
+            PlayerStats playerStats = collider.GetComponent<PlayerStats>();
+            CharacterManager enemyCharacterManager = collider.GetComponent<CharacterManager>();
+            var shield = playerStats.GetComponent<PlayerWeaponInventory>().LeftWeapon;
+            var enemy = GetComponentInParent<EnemyManager>();
+
+            ApplyDamageAdded();
+            var damagePercentToAdd = (enemy.CurrentAttack.DamagePercentToAdd * WeaponDamage) / 100;
+            WeaponDamage += enemy.EnemyStats.DamageToAdd + damagePercentToAdd;
+
+
+            Vector3 directionEnemyToPlayer =
+                (enemy.gameObject.transform.position - playerStats.gameObject.transform.position).normalized;
+            var angleHit = Vector3.Dot(playerStats.gameObject.transform.forward, directionEnemyToPlayer);
+
+            if (enemyCharacterManager != null)
+            {
+                if (enemyCharacterManager.IsBlocking && shield != null && angleHit >= 0)
+                {
+                    float physicalDamageAfterBlock =
+                        WeaponDamage - (WeaponDamage * shield.PhysicalDamageAbsorption.GetValueFromRatio()) / 100;
+
+                    if (playerStats != null)
+                    {
+                        playerStats.TakeDamage(Mathf.RoundToInt(physicalDamageAfterBlock), "Block Guard");
+                        return true;
+                    }
+                }
+            }
+
+            if (playerStats == null) return true;
+
+            float physicalDamageAfterDefense = (WeaponDamage * WeaponDamage) / (WeaponDamage + playerStats.Defense);
+            playerStats.TakeDamage(Mathf.RoundToInt(physicalDamageAfterDefense));
+            return false;
+        }
         private void ApplyDamageAdded()
         {
             WeaponDamage = WeaponItem.WeaponDamage + WeaponItem.DamageToAdd.GetValueFromRatio();

@@ -19,11 +19,6 @@ namespace AI
             _enemyStats = GetComponentInParent<EnemyStats>();
         }
 
-        private void Start()
-        {
-           //ResetCooldown();
-        }
-
         public void Update()
         {
             Debug.LogWarning(_enemyStats.healthSystem.PercentHealth());
@@ -38,6 +33,7 @@ namespace AI
                 if (_firstTime)
                 {
                     PhasesBossManager.SetupParameters(this);
+                    Instantiate(Phase.SpawnVFX, PhasesBossManager.transform.position, Quaternion.identity);
                     _firstTime = false;
                 }
                 

@@ -10,6 +10,7 @@ public class SlerpComp : MonoBehaviour
     public AnimationCurve AnimationCurve;
     public Transform EndPosition;
     public float Duration;
+    public LayerMask CollisionMask;
     
     private bool _return = true;
     private Vector3 _startPosition;
@@ -27,7 +28,12 @@ public class SlerpComp : MonoBehaviour
 
         if (Keyboard.current[Key.H].wasPressedThisFrame)
         {
-            print(Random.Range(0,2));
+            var colliders = Physics.OverlapSphere(transform.position, 50, CollisionMask);
+
+            foreach (var collider in colliders)
+            {
+                Debug.LogError(collider.name);
+            }
         }
     }
 

@@ -21,6 +21,8 @@ namespace Ability.Manager
 	    public AbilityType Ability3;
 	    public AbilityType Ability4;
 
+	    public AbilityType CurrentAbility;
+
 	    [TitleGroup("Uses")]
 	    public bool CanUseAbility2;
 	    public bool CanUseAbility3;

@@ -12,5 +12,6 @@ namespace AI
         public int VelocityAdded;
         public string AnimationPhase;
         public EnemyAttackAction AttackAction;
+        public GameObject SpawnVFX;
     }
 }

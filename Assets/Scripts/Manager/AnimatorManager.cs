@@ -16,5 +16,10 @@ namespace Managers
             Animator.SetBool("isInteracting", isInteracting);
             Animator.CrossFade(targetAnim, 0.2f);
         }
+        
+        public void EnableAreaDamage()
+        {
+            Animator.SetBool("IsAreaDamage", true);
+        }
     }
 }

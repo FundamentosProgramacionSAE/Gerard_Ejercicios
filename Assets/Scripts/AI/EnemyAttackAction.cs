@@ -11,6 +11,8 @@ namespace AI
         public int AttackScore = 3;
         public float RecoveryTime = 2;
 
+        public int DamagePercentToAdd;
+
         public float MaxAttackAngle = 35;
         public float MinAttackAngle = -35;
 

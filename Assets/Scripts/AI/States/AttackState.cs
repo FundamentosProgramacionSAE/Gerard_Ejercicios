@@ -46,6 +46,7 @@ namespace AI.States
                 {
                     _willDoComboOnNext = false;
                     enemyAnimatorManager.PlayTargetAnimation(CurrentAttack.ActionAnimation, true);
+                    enemyManager.CurrentAttack = CurrentAttack;
                 }
             }
             AttackTarget(enemyManager, enemyAnimatorManager);
@@ -90,6 +91,7 @@ namespace AI.States
                             enemyAnimatorManager.Animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
                             enemyAnimatorManager.Animator.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
                             enemyAnimatorManager.PlayTargetAnimation(CurrentAttack.ActionAnimation, true);
+                            enemyManager.CurrentAttack = CurrentAttack;
                             enemyManager.IsPreformingAction = true;
                             RollForComboChance(enemyManager);
 
@@ -97,6 +99,7 @@ namespace AI.States
                             if (CurrentAttack.CanCombo && _willDoComboOnNext)
                             {
                                 CurrentAttack = CurrentAttack.ComboAction;
+                                enemyManager.CurrentAttack = CurrentAttack;
                                 return;
                             }
                             else
@@ -159,6 +162,7 @@ namespace AI.States
                         if (temporaryScore > randomValue)
                         {
                             CurrentAttack = enemyAttack;
+                            enemyManager.CurrentAttack = CurrentAttack;
                         }
                     }
                 }

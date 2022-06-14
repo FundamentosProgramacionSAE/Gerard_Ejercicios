@@ -9,6 +9,7 @@ namespace Ability.Type
         public GameObject PrefabHitParticles;
         public Sprite SpriteImage;
         public float Cooldown;
+        public int DamagePercentToAdd;
     }
 }
 

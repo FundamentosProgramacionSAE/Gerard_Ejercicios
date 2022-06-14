@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Inventory;
+using Inventory.Item;
 using Managers;
 using MoreMountains.Tools;
 using Player.Input;
@@ -107,6 +108,16 @@ namespace Player.Locomotion
 
 
         }
+        
+        public void EnableAreaDamage()
+        {
+            Animator.SetBool("IsAreaDamage", true);
+        }
+        public void AreaDamage(int radius)
+        {
+            _slot.RightHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>().AreaDamage(radius);
+        }
+        
         public void ShakeAnimation(AnimationEvent animationEvent)
         {
             FreeLookShake.ShakeCamera(animationEvent.intParameter,animationEvent.floatParameter);

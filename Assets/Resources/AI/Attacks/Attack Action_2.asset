@@ -17,7 +17,8 @@ MonoBehaviour:
   ComboAction: {fileID: 0}
   AttackScore: 5
   RecoveryTime: 2
-  MaxAttackAngle: 35
-  MinAttackAngle: -35
+  DamagePercentToAdd: 100
+  MaxAttackAngle: 180
+  MinAttackAngle: -180
   MinDistanceToAttack: 1
   MaxDistanceToAttack: 5

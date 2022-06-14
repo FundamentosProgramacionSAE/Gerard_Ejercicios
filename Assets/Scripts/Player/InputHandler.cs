@@ -241,6 +241,7 @@ namespace Player.Input
                 HandleUnReposeWeapon();
                 SetWeaponDamageCollider();
                 playerAttacker.HandleAbilityAttack2(_playerWeaponInventory.RightWeapon);
+                abilityManager.CurrentAbility = abilityManager.Ability2;
                 abilityManager.RestartCooldownAbility2();
                 abilityManager.CanUseAbility2 = false;
             }
@@ -250,6 +251,7 @@ namespace Player.Input
                 HandleUnReposeWeapon();
                 SetWeaponDamageCollider();
                 playerAttacker.HandleAbilityAttack3(_playerWeaponInventory.RightWeapon);
+                abilityManager.CurrentAbility = abilityManager.Ability3;
                 abilityManager.RestartCooldownAbility3();
                 abilityManager.CanUseAbility3 = false;
             }
@@ -258,6 +260,7 @@ namespace Player.Input
                 HandleUnReposeWeapon();
                 SetWeaponDamageCollider();
                 playerAttacker.HandleAbilityAttack4(_playerWeaponInventory.RightWeapon);
+                abilityManager.CurrentAbility = abilityManager.Ability4;
                 abilityManager.RestartCooldownAbility4();
                 abilityManager.CanUseAbility4 = false;
             }

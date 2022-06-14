@@ -31,6 +31,7 @@ namespace Player.Manager
         public bool IsUsingRightHand;
         public bool IsUsingLeftHand;
         public bool IsInvulnerable;
+        public bool IsAreaDamage;
 
         private InputHandler inputHandler;
         private PlayerAnimatorManager _playerAnimatorManager;
@@ -60,6 +61,7 @@ namespace Player.Manager
             IsInvulnerable = _playerAnimatorManager.Animator.GetBool("IsInvulnerable");
             _playerAnimatorManager.CanRotate = _playerAnimatorManager.Animator.GetBool("canRotate");
             _playerAnimatorManager.Animator.SetBool("isBlocking", IsBlocking);
+            IsAreaDamage = _playerAnimatorManager.Animator.GetBool("IsAreaDamage");
             
             inputHandler.TickInput();
             CheckInteractable();

@@ -171,5 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fe18133a7417bc4f97b3d62351f3efa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CollisionMask:
+    serializedVersion: 2
+    m_Bits: 64
   WeaponDamage: 0
   WeaponItem: {fileID: 11400000, guid: 42f420f948ad2d540a3b2cb5a3eab32f, type: 2}

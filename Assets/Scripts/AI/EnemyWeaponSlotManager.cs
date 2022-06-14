@@ -13,7 +13,7 @@ namespace AI.Manager
         public WeaponItem RightHandWeapon;
         public WeaponItem LeftHandWeapon;
         
-        private WeaponHolderSlot _rightHandSlot;
+        internal WeaponHolderSlot _rightHandSlot;
         private WeaponHolderSlot _leftHandSlot;
 
         private DamageCollider _leftHandDamageCollider;
