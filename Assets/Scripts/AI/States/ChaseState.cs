@@ -8,8 +8,6 @@ namespace AI.States
     public class ChaseState : State
     {
 
-        public MMF_Player OnEnterWithBoss;
-        private bool _firstTime = true;
         public override void OnEnable()
         {
             base.OnEnable();
@@ -25,20 +23,6 @@ namespace AI.States
                 Debug.Log("ENTER CHASE STATE");
                 Agent.ResetPath();
                 Agent.speed = EnemyManager.RunSpeed;
-                if (EnemyManager.IsBoss)
-                {
-                    EnemyManager.EnemyStats.SetBossCanvas(true);
-
-                    if (_firstTime)
-                    {
-                        EnemyManager._enemyAnimatorManager.PlayTargetAnimation("Power Up", true);
-                        OnEnterWithBoss.PlayFeedbacks();
-                        _firstTime = false;
-                    }
-                    
-                }
-
-
             }
         
             return EnteredState;
@@ -46,14 +30,16 @@ namespace AI.States
         
         public override void UpdateState(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager)
         {
-            
-            if(enemyManager.IsInteracting) return;
-            
             float distanceFromTarget = Vector3.Distance(enemyManager.CurrentTarget.transform.position,
                 enemyManager.transform.position);
-
-
-            if (enemyManager.IsPreformingAction)
+            
+            //Si la distancia es inferior al ataque maximo de rango, podra pasar al estado combate
+            if (distanceFromTarget <= enemyManager.MaxAttackRange)
+            {
+                enemyManager.EnterState(FSMStateType.COMBAT);
+            }
+            
+            if (enemyManager.IsPreformingAction || enemyManager.IsInteracting)
             {
                 enemyManager.StopEnemy();
                 return;
@@ -62,11 +48,7 @@ namespace AI.States
             //Mueve la IA al target
             HandleMoveToTarget(enemyManager,enemyAnimatorManager);
 
-            //Si la distancia es inferior al ataque maximo de rango, podra pasar al estado combate
-            if (distanceFromTarget <= enemyManager.MaxAttackRange)
-            {
-                enemyManager.EnterState(FSMStateType.COMBAT);
-            }
+
 
         }
         

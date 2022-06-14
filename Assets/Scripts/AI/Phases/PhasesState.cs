@@ -21,7 +21,6 @@ namespace AI
 
         public void Update()
         {
-            Debug.LogWarning(_enemyStats.healthSystem.PercentHealth());
             if(_enemyStats.healthSystem.PercentHealth() > Phase.HealthPercent) return;
 
             _currentTime -= Time.deltaTime;

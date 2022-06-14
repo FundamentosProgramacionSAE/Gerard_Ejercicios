@@ -95,8 +95,13 @@ namespace Inventory.Item
 
 
             ApplyDamageAdded();
-            var damagePercentToAdd = (PlayerManager.Instance.GetComponent<AbilityManager>().CurrentAbility
-                .DamagePercentToAdd * WeaponDamage) / 100;
+            var damagePercentToAdd = 0;
+            if((PlayerManager.Instance.GetComponent<AbilityManager>().CurrentAbility != null))
+            {
+                damagePercentToAdd= (PlayerManager.Instance.GetComponent<AbilityManager>().CurrentAbility
+                    .DamagePercentToAdd * WeaponDamage) / 100;
+            }
+
             WeaponDamage += PlayerManager.Instance.PlayerStats.DamageToAdd + damagePercentToAdd;
             float physicalDamageAfterDefense = (WeaponDamage * WeaponDamage) / (WeaponDamage + enemyStats.Defense);
             //Debug.LogError(physicalDamageAfterDefense + "/" + WeaponDamage);
